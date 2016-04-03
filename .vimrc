@@ -10,25 +10,35 @@
 " see plugins for installed colors
 
 
-" " colorscheme tweaks
-" " ------------------
-" " configured for wumbly-inverted on OSX El-Capitan Terminal
+" colorscheme tweaks
+" ------------------
+" configured for wumbly on OSX El-Capitan Terminal
 
 
-" highlight search/hls/search text distinction
-hi search ctermbg=none ctermfg=none cterm=reverse
+" highlight search/hls/search and text distinction
+hi Search ctermfg=3 ctermbg=0 cterm=reverse
 
-" " Visual/selection cursor distinction
+" Visual/selection and cursor distinction
 hi MatchParen ctermbg=0 ctermfg=4
+" text distinction
+hi Visual ctermbg=4 ctermfg=0
 
-" " make wildmenu look like airline
-hi Statusline ctermbg=85 ctermfg=234
-hi WildMenu ctermfg=18 ctermbg=190
+" make wildmenu look like airline
+hi Statusline cterm=none ctermbg=8 ctermfg=2
+hi WildMenu cterm=none ctermbg=7 ctermfg=0
 
 " make errors more distinct
 hi Error ctermfg=0 ctermbg=3
 
-" 
+
+" vimdiff colors
+" --------------
+
+hi DiffAdd    cterm=none ctermbg=10 ctermfg=0
+hi DiffChange cterm=none ctermbg=14 ctermfg=0
+hi DiffDelete cterm=none ctermbg=11 ctermfg=0
+hi DiffText   cterm=none ctermbg=13 ctermfg=0
+
 
 " other color settings
 " --------------------
@@ -36,7 +46,7 @@ hi Error ctermfg=0 ctermbg=3
 " enable syntax highlighting
 syntax on
 " fix unknown error that makes Statement brown
-hi Statement ctermfg=magenta
+hi Statement ctermfg=3
 
 
 
@@ -50,10 +60,18 @@ hi Statement ctermfg=magenta
 
 au BufNewFile,BufRead *.vifm,*.vimp,.vimperatorrc,vifmrc set filetype=vim
 
+
 " detect implicit json files
 " --------------------------
 
+
 au BufNewFile,BufRead .eslintrc set filetype=json
+
+
+" indentation tweaks
+" ------------------
+
+au Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2
 
 
 " filetype based plugin settings
@@ -113,11 +131,29 @@ nno <leader>mu :MundoToggle<CR>
 nno <leader>sn :edit ~/.vim/plugged/vim-snippets/snippets<CR>
 
 " easy align bindings
-
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" fugitive (git) keybindings
+nno <leader>gb :Gblame<CR>
+nno <leader>gc :Gcommit<CR>
+nno <leader>gd :Gdiff<CR>
+nno <leader>ge :Gedit 
+nno <leader>gf :Gfetch 
+nno <leader>gg :Git 
+nno <leader>gl :Glog 
+nno <leader>gm :Gmerge 
+nno <leader>gp :botright 10new \| e term://fish<CR>igit pu
+nno <leader>gq :Gpull<CR>
+nno <leader>gr :Ggrep 
+nno <leader>gs :Gstatus<CR>
+nno <leader>gt :Gsplit 
+nno <leader>gv :Gvsplit 
+nno <leader>gw :Gbrowse 
+
+
 " neovim
+" ------
 " see neovim/keybindings
 
 
@@ -245,8 +281,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'
     " enable unicode
     let g:airline_powerline_fonts = 1
-    " enable tab-bar 
+    " enable tab-bar
     let g:airline#extensions#tabline#enabled = 1
+    " themes
+    Plug 'vim-airline/vim-airline-themes'
+    " colors
+    let g:airline_theme='jellybeans'
 
     " automatic closing pairs
     Plug 'Raimondi/delimitMate'
@@ -257,10 +297,19 @@ call plug#begin('~/.vim/plugged')
     " better highlighting
     Plug 'othree/yajs'
 
+    " git integration
+    Plug 'tpope/vim-fugitive'
+    " prevent excessive buffers
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+    " bitbucket support
+    Plug 'tommcdo/vim-fubitive'
+
     " neovim plugins
     if has ('nvim')
         " use vifm instead of netrw
         Plug 'rbong/neovim-vifm'
+        " allow changing the directory live with vifm
+        let g:vifmLiveCwd = 1
 
         " autocompletion
         Plug 'Shougo/deoplete.nvim'
@@ -276,6 +325,9 @@ call plug#begin('~/.vim/plugged')
         " to try out later
         " Plug 'critiqjo/lldb.nvim'
     endif
+
+    " keybindings
+    " see keybindings/plugins
 call plug#end()
 
 
