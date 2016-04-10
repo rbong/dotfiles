@@ -321,9 +321,6 @@ call plug#begin('~/.vim/plugged')
         autocmd! BufWritePost * Neomake
         " javascript/jsx
         let g:neomake_javascript_enabled_makers = ['eslint']
-
-        " to try out later
-        " Plug 'critiqjo/lldb.nvim'
     endif
 
     " keybindings
