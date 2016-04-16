@@ -175,7 +175,7 @@ nno <leader>j mzo<ESC>0D`z
 nno <leader>k mzO<ESC>0D`z
 
 " toggle wrapping long lines visually
-nno <leader>r :se wrap!<CR>:se wrap?<CR>
+nno <leader>re :se wrap!<CR>:se wrap?<CR>
 
 " toggle wrapping long lines physically
 "
@@ -195,7 +195,7 @@ function! AutoWrapToggle()
     endif
 endfunction
 autocmd BufNewFile,BufRead * call AutoWrapOn()
-nno <leader>tw :call AutoWrapToggle()<CR>
+nno <leader>rt :call AutoWrapToggle()<CR>
 
 
 " search keybindings
