@@ -217,6 +217,14 @@ nno <BS> <C-w>h
 nno <C-l> <C-w>l
 
 
+" movement keybindings
+" --------------------
+
+" jump to the last occurance of the f/F/t/T search
+nno <leader>; $;,
+nno <leader>, 0,;
+
+
 
 """"""""
 " Neovim
