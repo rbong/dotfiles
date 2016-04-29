@@ -151,6 +151,8 @@ nno <leader>gt :Gsplit
 nno <leader>gv :Gvsplit 
 nno <leader>gw :Gbrowse 
 
+" taglist bindings
+nno <leader>tl :TlistToggle<CR>
 
 " neovim
 " ------
@@ -311,6 +313,9 @@ call plug#begin('~/.vim/plugged')
     autocmd BufReadPost fugitive://* set bufhidden=delete
     " bitbucket support
     Plug 'tommcdo/vim-fubitive'
+
+    " tag browser
+    Plug 'vim-scripts/taglist.vim'
 
     " neovim plugins
     if has ('nvim')
