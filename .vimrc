@@ -47,6 +47,8 @@ hi DiffText   cterm=none ctermbg=13 ctermfg=0
 syntax on
 " fix unknown error that makes Statement brown
 hi Statement ctermfg=3
+" fold color
+hi Folded ctermbg=8
 
 
 
@@ -154,6 +156,9 @@ nno <leader>gw :Gbrowse
 " taglist bindings
 nno <leader>tl :TlistToggle<CR>
 
+" bufexplorder bindings
+nno <leader>be :BufExplorer<CR>
+
 " neovim
 " ------
 " see neovim/keybindings
@@ -248,6 +253,7 @@ if has ('nvim')
 
     " open vifm (file manager)
     nno <leader>fm :Vifm .<CR>
+    nno <leader>fd :let g:vifmLiveCwd=!g:vifmLiveCwd<CR>:let g:vifmLiveCwd<CR>
 
     " open terminal
     nno <leader>sh :botright 10new \| terminal<CR>
@@ -316,6 +322,11 @@ call plug#begin('~/.vim/plugged')
 
     " tag browser
     Plug 'vim-scripts/taglist.vim'
+    " increase default width of pane
+    let Tlist_WinWidth = 40
+
+    " buffer browser
+    Plug 'jlanzarotta/bufexplorer'
 
     " neovim plugins
     if has ('nvim')
