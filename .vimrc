@@ -74,6 +74,7 @@ au BufNewFile,BufRead .eslintrc set filetype=json
 " ------------------
 
 au Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2
+au Filetype javascript set suffixesadd+=.js
 
 
 " filetype based plugin settings
