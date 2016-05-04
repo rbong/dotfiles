@@ -327,6 +327,21 @@ nmap <f7> :mkdir<space>
 nmap <f8> :delete<cr>
 nmap ~ :cd ~<cr>
 nmap ` :cd %D<cr>
+nno s :!fish<CR>
+set vicmd="nvim"
+set vifminfo=bookmarks,tui,state,cs,savedirs,dhistory,chistory,shistory,phistory,fhistory,dirstack,registers
+set incsearch
+" toggle search selecting matches
+nno <leader>h set hlsearch!
+set nohlsearch
+set smartcase
+set ignorecase
+set wildmenu
+nno cc cw<C-u>
+colorscheme Solarized
+set dotdirs=none
+" let <C-i> work as normal
+set cpoptions-=t
 
 com dupdir :!export f=%D; mkdir "${f##*/}"
 com mfoura :!for i in *.m4a; do m4a2mp3 "$i" %D; done
