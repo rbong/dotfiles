@@ -103,7 +103,7 @@ let mapleader=" "
 nno <leader>bd :bd!<CR>
 
 " delete all buffers
-nno <leader>ba :1,$bd<CR>
+nno <leader>ba :silent! 1,$bd<CR>
 
 
 " file/folder keybindings
