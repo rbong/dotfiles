@@ -257,7 +257,18 @@ if has ('nvim')
     nno <leader>fd :let g:vifmLiveCwd=!g:vifmLiveCwd<CR>:let g:vifmLiveCwd<CR>
 
     " open terminal
-    nno <leader>sh :botright 10new \| terminal<CR>
+    " nno <leader>sh :botright 10new \| terminal<CR>
+    function! GetTerm()
+        Topen
+        Tclose
+        Topen
+        999wincmd j
+        set wfw
+        set nobuflisted
+        set bufhidden=delete
+        startinsert
+    endfunction
+    nno <leader>sh :call GetTerm()<CR>
 endif
 
 
@@ -344,6 +355,11 @@ call plug#begin('~/.vim/plugged')
         Plug 'benekastah/neomake'
         " run neomake automatically
         autocmd! BufWritePost * Neomake
+
+        " single terminal
+        Plug 'kassio/neoterm'
+        let g:neoterm_size=10
+
         " javascript/jsx
         let g:neomake_javascript_enabled_makers = ['eslint']
     endif
