@@ -269,6 +269,8 @@ if has ('nvim')
         startinsert
     endfunction
     nno <leader>sh :call GetTerm()<CR>
+    nno <leader>sd :Tclose<CR>
+    nno <leader>ss :Topen<CR>
 endif
 
 
