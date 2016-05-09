@@ -263,7 +263,7 @@ if has ('nvim')
         Tclose
         Topen
         999wincmd j
-        set wfw
+        set wfh
         set nobuflisted
         set bufhidden=delete
         startinsert
