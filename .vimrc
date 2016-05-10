@@ -259,18 +259,19 @@ if has ('nvim')
     " open terminal
     " nno <leader>sh :botright 10new \| terminal<CR>
     function! GetTerm()
-        Topen
-        Tclose
-        Topen
+        botright 10new
         999wincmd j
+        e term://fish
         set wfh
         set nobuflisted
         set bufhidden=delete
         startinsert
     endfunction
     nno <leader>sh :call GetTerm()<CR>
-    nno <leader>sd :Tclose<CR>
-    nno <leader>ss :Topen<CR>
+    " nno <leader>ss :Ttoggle<CR>
+    " nno <leader>sk :let g:neoterm_size+=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
+    " nno <leader>sj :let g:neoterm_size-=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
+    " nno <leader>sl :let g:neoterm_size=20<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
 endif
 
 
@@ -331,6 +332,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-fugitive'
     " prevent excessive buffers
     autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd Filetype gitcommit set bufhidden=delete
+    " do not list the buffer
+    autocmd BufWinEnter fugitive://* set nobuflisted
+    autocmd Filetype gitcommit set nobuflisted
+    " fix the buffer height
+    autocmd BufWinEnter fugitive://* set wfh
+    autocmd Filetype gitcommit set wfh
     " bitbucket support
     Plug 'tommcdo/vim-fubitive'
 
@@ -357,10 +365,6 @@ call plug#begin('~/.vim/plugged')
         Plug 'benekastah/neomake'
         " run neomake automatically
         autocmd! BufWritePost * Neomake
-
-        " single terminal
-        Plug 'kassio/neoterm'
-        let g:neoterm_size=10
 
         " javascript/jsx
         let g:neomake_javascript_enabled_makers = ['eslint']
