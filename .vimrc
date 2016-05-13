@@ -350,6 +350,10 @@ call plug#begin('~/.vim/plugged')
     " buffer browser
     Plug 'jlanzarotta/bufexplorer'
 
+    " jsx highlighting and indentation
+    Plug 'mxw/vim-jsx'
+    let g:jsx_ext_required = 0
+
     " neovim plugins
     if has ('nvim')
         " use vifm instead of netrw
