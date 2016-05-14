@@ -303,7 +303,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
     " javascript ES6 standard plugins (to be replaced)
-    Plug 'isRuslan/vim-es6'
+    " Plug 'isRuslan/vim-es6'
 
     " alignment
     Plug 'junegunn/vim-easy-align'
@@ -326,7 +326,7 @@ call plug#begin('~/.vim/plugged')
 
     " javascript plugins
     " better highlighting
-    Plug 'othree/yajs'
+    " Plug 'othree/yajs'
 
     " git integration
     Plug 'tpope/vim-fugitive'
@@ -351,8 +351,29 @@ call plug#begin('~/.vim/plugged')
     Plug 'jlanzarotta/bufexplorer'
 
     " jsx highlighting and indentation
+    " dependency
+    Plug 'pangloss/vim-javascript'
+    let g:javascript_enable_domhtmlcss = 1
+    " the good stuff
     Plug 'mxw/vim-jsx'
+    " enable js files
     let g:jsx_ext_required = 0
+    " nicer highlighting
+    hi def link jsBraces               Function
+    hi def link jsFuncBraces           Function
+    hi def link jsFuncParens           Special
+    hi def link jsParens               Special
+
+    " grow/shrink selection
+    Plug 'terryma/vim-expand-region'
+
+    " lines indicating indent
+    Plug 'Yggdroot/indentLine'
+    nno <leader>il :IndentLinesToggle<CR>
+    nno <leader>ir :IndentLinesReset<CR>
+
+    " text object
+    Plug 'coderifous/textobj-word-column.vim'
 
     " neovim plugins
     if has ('nvim')
@@ -377,6 +398,9 @@ call plug#begin('~/.vim/plugged')
     " keybindings
     " see keybindings/plugins
 call plug#end()
+call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
+vmap K <Plug>(expand_region_expand)
+vmap J <Plug>(expand_region_shrink)
 
 
 
