@@ -30,6 +30,12 @@ hi WildMenu cterm=none ctermbg=7 ctermfg=0
 " make errors more distinct
 hi Error ctermfg=0 ctermbg=3
 
+" line numbers
+hi LineNr ctermfg=7
+hi CursorLineNr ctermfg=7
+" show line numbers TODO: move this
+set rnu
+
 
 " vimdiff colors
 " --------------
@@ -75,6 +81,7 @@ au BufNewFile,BufRead .eslintrc set filetype=json
 
 au Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2
 au Filetype javascript set suffixesadd+=.js
+au Filetype scss setlocal expandtab tabstop=2 shiftwidth=2
 
 
 " filetype based plugin settings
@@ -115,6 +122,9 @@ nno <leader>w :w<CR>
 " change directory to the current file's directory
 nno <leader>cd :cd %:h<CR>
 
+" for deep file searching
+nno <leader>e :e **/
+
 
 " register keybindings
 " --------------------
@@ -136,6 +146,7 @@ nno <leader>sn :edit ~/.vim/plugged/vim-snippets/snippets<CR>
 " easy align bindings
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
 
 " fugitive (git) keybindings
 nno <leader>gb :Gblame<CR>
@@ -169,10 +180,10 @@ nno <leader>be :BufExplorer<CR>
 " --------------------
 
 " allow easy use of the clipboard and null registers
-nno + "+
-vno + "+
-nno - "_
-vno - "_
+nno \ "+
+vno \ "+
+nno _ "_
+vno _ "_
 
 
 " spacing keybindings
@@ -231,6 +242,20 @@ nno <C-l> <C-w>l
 " jump to the last occurance of the f/F/t/T search
 nno <leader>; $;,
 nno <leader>, 0,;
+
+" put searches in the jump list
+nno / m`/
+nno ? m`?
+nno q/ m`q/
+nno q? m`q?
+
+
+" insert keybindings
+" ------------------
+
+" allow for undoing after every line
+" TODO: fix this with autocompletionc
+" ino <CR> <C-g>u<CR>
 
 
 
@@ -335,7 +360,7 @@ call plug#begin('~/.vim/plugged')
     autocmd Filetype gitcommit set bufhidden=delete
     " do not list the buffer
     autocmd BufWinEnter fugitive://* set nobuflisted
-    autocmd Filetype gitcommit set nobuflisted
+    autocmd BufWritePre fugitive://* set buflisted
     " fix the buffer height
     autocmd BufWinEnter fugitive://* set wfh
     autocmd Filetype gitcommit set wfh
@@ -359,8 +384,8 @@ call plug#begin('~/.vim/plugged')
     " enable js files
     let g:jsx_ext_required = 0
     " nicer highlighting
-    hi def link jsBraces               Function
-    hi def link jsFuncBraces           Function
+    hi def link jsBraces               Special
+    hi def link jsFuncBraces           Special
     hi def link jsFuncParens           Special
     hi def link jsParens               Special
 
@@ -369,11 +394,36 @@ call plug#begin('~/.vim/plugged')
 
     " lines indicating indent
     Plug 'Yggdroot/indentLine'
-    nno <leader>il :IndentLinesToggle<CR>
+    nno <leader>it :IndentLinesToggle<CR>
     nno <leader>ir :IndentLinesReset<CR>
 
-    " text object
+    " text objects
+    " columns
     Plug 'coderifous/textobj-word-column.vim'
+    Plug 'michaeljsmith/vim-indent-object'
+    Plug 'bkad/CamelCaseMotion'
+    omap <silent> iw <Plug>CamelCaseMotion_iw
+    xmap <silent> iw <Plug>CamelCaseMotion_iw
+
+    Plug 'rbong/neovim-vifm'
+    Plug 'rbong/vim-vertical'
+
+    nno <silent> - :Vertical b<CR>
+    nno <silent> + :Vertical f<CR>
+    vno <silent> - mz:<C-U>call Vertical('v', 'b', 1)<CR>
+    vno <silent> + mz:<C-U>call Vertical('v', 'f', 1)<CR>
+    vno <silent> 2- mz:<C-U>call Vertical('v', 'b', 2)<CR>
+    vno <silent> 2+ mz:<C-U>call Vertical('v', 'f', 2)<CR>
+    vno <silent> 3- mz:<C-U>call Vertical('v', 'b', 3)<CR>
+    vno <silent> 3+ mz:<C-U>call Vertical('v', 'f', 3)<CR>
+    vno <silent> 4- mz:<C-U>call Vertical('v', 'b', 4)<CR>
+    vno <silent> 4+ mz:<C-U>call Vertical('v', 'f', 4)<CR>
+    vno <silent> 5- mz:<C-U>call Vertical('v', 'b', 5)<CR>
+    vno <silent> 5+ mz:<C-U>call Vertical('v', 'f', 5)<CR>
+
+    " fuzzy file matching
+    Plug 'ctrlpvim/ctrlp.vim'
+    se wig+=*.git/*,*/node_modules/*,*/esdoc/*,*/apidoc/*,*/doc/*
 
     " neovim plugins
     if has ('nvim')
@@ -448,6 +498,11 @@ set nocindent
 set nosmartindent
 set autoindent
 filetype plugin indent on
+
+" cursor spacing
+" --------------
+
+set scrolloff=5
 
 
 
