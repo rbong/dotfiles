@@ -1,0 +1,33 @@
+colorscheme wumbly
+nmap -builtin K gt
+nmap -builtin J gT
+nmap -builtin j 3j
+nmap -builtin k 3k
+nmap -builtin <C-j> j
+nmap -builtin <C-k> k
+nmap -builtin < :tabmove! -1<CR>
+nmap -builtin > :tabmove! +1<CR>
+set editor="urxvt -e nvim"
+nmap -builtin / :set hlfind<CR>/
+nmap -builtin ? :set hlfind<CR>?
+nmap -builtin n :set hlfind<CR>n
+nmap -builtin N :set hlfind<CR>N
+nmap -builtin <leader>u :set um!<CR>
+set urlseparator=","
+nmap -builtin $ :tablast<CR>
+nmap -builtin 0 :tabfirst<CR>
+nmap -builtin <C-f> /
+nmap -builtin <M-f> /
+se guioptions-=rb
+se defsearch=g
+autocmd LocationChange docs.google.com :normal! <ESC>
+
+" jump to the first unpinned tab
+nmap -builtin ^ :execute 'normal ' + String(tabs.allTabs.findIndex(function(tab) { return !tab.pinned; }) + 1 || 1) + 'gt'<CR>
+
+" 4chan bindings
+group chans -locations 4chan.org,lainchan.org
+imap -group chans <C-c> [code][/code]<left><left><left><left><left><left><left>
+
+group slack -locations slack.com
+imap -group slack <C-c> ```<S-CR><S-CR>```<up>

@@ -35,6 +35,7 @@ hi LineNr ctermfg=7
 hi CursorLineNr ctermfg=7
 " show line numbers TODO: move this
 set rnu
+set nu
 
 
 " vimdiff colors
@@ -66,22 +67,26 @@ hi Folded ctermbg=8
 " detect vim-like files as vim
 " ----------------------------
 
-au BufNewFile,BufRead *.vifm,*.vimp,.vimperatorrc,vifmrc set filetype=vim
+au BufNewFile,BufRead *.vifm,*.vimp,.vimperatorrc,*.penta,.pentadactylrc,vifmrc set filetype=vim
 
 
 " detect implicit json files
 " --------------------------
 
 
-au BufNewFile,BufRead .eslintrc set filetype=json
+au BufNewFile,BufRead .eslintrc,.babelrc set filetype=json
 
 
-" indentation tweaks
-" ------------------
+" detect Opengl Shader Language files as C
+" ----------------------------------------
 
-au Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.glsl set filetype=c
+
+
+" allow using .js extension for javascript imports
+" ------------------------------------------------
+
 au Filetype javascript set suffixesadd+=.js
-au Filetype scss setlocal expandtab tabstop=2 shiftwidth=2
 
 
 " filetype based plugin settings
@@ -118,6 +123,8 @@ nno <leader>ba :silent! 1,$bd<CR>
 
 " write the current file
 nno <leader>w :w<CR>
+" write with sudo
+nno <leader>sw :w !sudo tee %<CR>
 
 " change directory to the current file's directory
 nno <leader>cd :cd %:h<CR>
@@ -154,10 +161,11 @@ nno <leader>gc :Gcommit<CR>
 nno <leader>gd :Gdiff<CR>
 nno <leader>ge :Gedit 
 nno <leader>gf :Gfetch 
-nno <leader>gg :Git 
+nno <leader>gg :Git! 
+nno <leader>gk :Gitv --all<CR>
 nno <leader>gl :Glog 
 nno <leader>gm :Gmerge 
-nno <leader>gp :botright 10new \| e term://fish<CR>igit pu
+nno <leader>gp :botright 10new \| e term://zsh<CR>igit pu
 nno <leader>gq :Gpull<CR>
 nno <leader>gr :Ggrep 
 nno <leader>gs :Gstatus<CR>
@@ -217,6 +225,7 @@ autocmd BufNewFile,BufRead * call AutoWrapOn()
 nno <leader>rt :call AutoWrapToggle()<CR>
 
 
+
 " search keybindings
 " ------------------
 
@@ -246,9 +255,10 @@ nno <leader>, 0,;
 " put searches in the jump list
 nno / m`/
 nno ? m`?
-nno q/ m`q/
-nno q? m`q?
 
+" append searches
+nno <leader>/ /<C-r>/\\|
+nno <leader>? ?<C-r>/\\|
 
 " insert keybindings
 " ------------------
@@ -266,10 +276,10 @@ nno q? m`q?
 
 if has ('nvim')
     " allow double escape to exit to normal mode
-    tnoremap <Esc><Esc> <C-\><C-n>
+    tnoremap <C-\><C-\> <C-\><C-n>
 
-    " change shell to fish
-    set shell=fish
+    " change shell to zsh
+    set shell=zsh
 
     " plugins
     " see plugins/neovim
@@ -284,9 +294,9 @@ if has ('nvim')
     " open terminal
     " nno <leader>sh :botright 10new \| terminal<CR>
     function! GetTerm()
-        botright 10new
+        botright 20new
         999wincmd j
-        e term://fish
+        e term://zsh
         set wfh
         set nobuflisted
         set bufhidden=delete
@@ -324,11 +334,10 @@ call plug#begin('~/.vim/plugged')
     " adds . to tpope plugins
     Plug 'tpope/vim-repeat'
 
-    " snippets (chunks of automatic code)
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-    " javascript ES6 standard plugins (to be replaced)
-    " Plug 'isRuslan/vim-es6'
+    if !exists ('rlwrap')
+        " snippets (chunks of automatic code)
+        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    endif
 
     " alignment
     Plug 'junegunn/vim-easy-align'
@@ -342,30 +351,48 @@ call plug#begin('~/.vim/plugged')
     " themes
     Plug 'vim-airline/vim-airline-themes'
     " colors
-    let g:airline_theme='jellybeans'
+    let g:airline_theme='wumbly'
+    " symbols (fix for unicode problems, even with powerline fonts)
+    augroup au_airline_symbols
+        autocmd VimEnter * let g:airline_symbols.maxlinenr = 'M' |
+                    \ let g:airline_symbols.notexists = 'N' |
+                    \ let g:airline_symbols.crypt = 'C' |
+                    \ let g:airline_symbols.whitespace = 'W'
+    augroup end
 
     " automatic closing pairs
-    Plug 'Raimondi/delimitMate'
+    " Plug 'Raimondi/delimitMate'
     " expand return into two lines
-    let delimitMate_expand_cr = 1
-
-    " javascript plugins
-    " better highlighting
-    " Plug 'othree/yajs'
+    " let delimitMate_expand_cr = 1
 
     " git integration
     Plug 'tpope/vim-fugitive'
     " prevent excessive buffers
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-    autocmd Filetype gitcommit set bufhidden=delete
+    " autocmd BufReadPost fugitive://* set bufhidden=delete
+    " autocmd Filetype gitcommit set bufhidden=delete
     " do not list the buffer
-    autocmd BufWinEnter fugitive://* set nobuflisted
-    autocmd BufWritePre fugitive://* set buflisted
+    " autocmd BufWinEnter fugitive://* set nobuflisted
+    " autocmd BufWritePre fugitive://* set buflisted
     " fix the buffer height
     autocmd BufWinEnter fugitive://* set wfh
     autocmd Filetype gitcommit set wfh
     " bitbucket support
     Plug 'tommcdo/vim-fubitive'
+
+    " branch management in fugitive
+    Plug 'gregsexton/gitv'
+    let g:Gitv_DoNotMapCtrlKey = 1
+    autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
+    autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+
+    " allow quick diff operations
+    nno <leader>du :diffupdate<CR>
+    nno <leader>dg :diffget 
+    nno <leader>dp :diffput 
+    " get ours
+    nno <leader>do :diffget //3<CR>
+    " get theirs
+    nno <leader>dt :diffget //2<CR>
 
     " tag browser
     Plug 'vim-scripts/taglist.vim'
@@ -421,9 +448,19 @@ call plug#begin('~/.vim/plugged')
     vno <silent> 5- mz:<C-U>call Vertical('v', 'b', 5)<CR>
     vno <silent> 5+ mz:<C-U>call Vertical('v', 'f', 5)<CR>
 
+    " " slack integration
+    " Plug 'mattn/webapi-vim'
+    " Plug 'heavenshell/vim-slack'
+
     " fuzzy file matching
     Plug 'ctrlpvim/ctrlp.vim'
-    se wig+=*.git/*,*/node_modules/*,*/esdoc/*,*/apidoc/*,*/doc/*
+    se wig+=*/node_modules/*,*/esdoc/*,*/apidoc/*,*/doc/*
+    let g:ctrlp_custom_ignore = '\.git$'
+    let g:ctrlp_switch_buffer = 'et'
+    let g:ctrp_show_hidden = 1
+
+    " terminal color escape sequences
+    Plug 'vim-scripts/AnsiEsc.vim'
 
     " neovim plugins
     if has ('nvim')
@@ -431,15 +468,19 @@ call plug#begin('~/.vim/plugged')
         Plug 'rbong/neovim-vifm'
         " allow changing the directory live with vifm
         let g:vifmLiveCwd = 1
+        let g:vifmSplitWidth = 50
 
-        " autocompletion
-        Plug 'Shougo/deoplete.nvim'
-        let g:deoplete#enable_at_startup = 1
+        if !exists('rlwrap')
+            " autocompletion
+            Plug 'Shougo/deoplete.nvim'
+            let g:deoplete#enable_at_startup = 1
+        endif
 
         " asynchronous make
         Plug 'benekastah/neomake'
         " run neomake automatically
         autocmd! BufWritePost * Neomake
+        let g:neomake_error_sign = { 'text': 'x' }
 
         " javascript/jsx
         let g:neomake_javascript_enabled_makers = ['eslint']
@@ -474,7 +515,7 @@ set ignorecase smartcase
 " turn one tab into multiple spaces
 " ---------------------------------
 
-set expandtab tabstop=4 shiftwidth=4
+set expandtab tabstop=2 shiftwidth=2
 
 
 " limit the document width
@@ -514,3 +555,11 @@ set scrolloff=5
 "" enable persistence
 set undofile
 set undodir=~/.vim/undo
+
+
+
+
+nno <leader>ll :let win = winnr()<CR>:lw<CR>:execute win.'wincmd w'<CR>
+nno <leader>lc :lclose<CR>
+nno <leader>qq :let win = winnr()<CR>:cw<CR>:execute win.'wincmd w'<CR>
+nno <leader>qc :cclose<CR>
