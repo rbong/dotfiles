@@ -88,6 +88,11 @@ au BufNewFile,BufRead *.glsl set filetype=c
 
 au Filetype javascript set suffixesadd+=.js
 
+" show json quotes
+" ----------------
+
+au Filetype json set conceallevel=0
+
 
 " filetype based plugin settings
 " ------------------------------
@@ -296,8 +301,10 @@ if has ('nvim')
     function! GetTerm()
         botright 20new
         999wincmd j
+        999wincmd l
+        se wfh
+        wincmd J
         e term://zsh
-        set wfh
         set nobuflisted
         set bufhidden=delete
         startinsert
@@ -374,7 +381,7 @@ call plug#begin('~/.vim/plugged')
     " autocmd BufWinEnter fugitive://* set nobuflisted
     " autocmd BufWritePre fugitive://* set buflisted
     " fix the buffer height
-    autocmd BufWinEnter fugitive://* set wfh
+    " autocmd BufWinEnter fugitive://* set wfh
     autocmd Filetype gitcommit set wfh
     " bitbucket support
     Plug 'tommcdo/vim-fubitive'
@@ -459,8 +466,8 @@ call plug#begin('~/.vim/plugged')
     let g:ctrlp_switch_buffer = 'et'
     let g:ctrp_show_hidden = 1
 
-    " terminal color escape sequences
-    Plug 'vim-scripts/AnsiEsc.vim'
+    " Additional text objects
+    Plug 'wellle/targets.vim'
 
     " neovim plugins
     if has ('nvim')
