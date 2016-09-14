@@ -91,7 +91,10 @@ au Filetype javascript set suffixesadd+=.js
 " show json quotes
 " ----------------
 
-au Filetype json set conceallevel=0
+" cannot use conceallevel because of indentlines
+au Filetype json syn region  jsonKeyword matchgroup=jsonQuote start=/"/  end=/"\ze[[:blank:]\r\n]*\:/ contained
+au Filetype json syn region  jsonString oneline matchgroup=jsonQuote start=/"/  skip=/\\\\\|\\"/  end=/"/ contains=jsonEscape contained
+
 
 
 " filetype based plugin settings
@@ -117,10 +120,12 @@ let mapleader=" "
 " ------------------
 
 " delete the current buffer
-nno <leader>bd :bd!<CR>
+nno <leader>bd :Bd<CR>
+nno <leader>bD :bd!<CR>
+nno <leader>bc :Bd<CR>
 
 " delete all buffers
-nno <leader>ba :silent! 1,$bd<CR>
+nno <silent> <leader>ba :silent! bd <C-A><CR>
 
 
 " file/folder keybindings
@@ -129,14 +134,12 @@ nno <leader>ba :silent! 1,$bd<CR>
 " write the current file
 nno <leader>w :w<CR>
 " write with sudo
-nno <leader>sw :w !sudo tee %<CR>
+nno <leader>ws :w !sudo tee %<CR>
 
 " change directory to the current file's directory
 nno <leader>cd :cd %:h<CR>
-
-" for deep file searching
-nno <leader>e :e **/
-
+" print the relative filename
+nno <silent> <leader>cr :redir @f \| echo system('python -c "import os.path; print (os.path.relpath(' . "'" . expand("%:p") . "'" . ','."'"."$(pwd)"."'".'))"') \| redir END<CR>
 
 " register keybindings
 " --------------------
@@ -150,10 +153,9 @@ nno gp `[v`]
 
 " map Mundo to an old Gundo key combo
 nno <leader>gu :MundoToggle<CR>
-nno <leader>mu :MundoToggle<CR>
 
 " open the snippets directory
-nno <leader>sn :edit ~/.vim/plugged/vim-snippets/snippets<CR>
+nno <leader>osn :edit ~/.vim/plugged/vim-snippets/snippets<CR>
 
 " easy align bindings
 xmap ga <Plug>(EasyAlign)
@@ -161,16 +163,27 @@ nmap ga <Plug>(EasyAlign)
 
 
 " fugitive (git) keybindings
+nno <leader>ga :Git commit --amend --no-edit
 nno <leader>gb :Gblame<CR>
 nno <leader>gc :Gcommit<CR>
+nno <leader>gC :Gcommit --no-edit<CR>
 nno <leader>gd :Gdiff<CR>
 nno <leader>ge :Gedit 
 nno <leader>gf :Gfetch 
+nno <leader>ghh :Git! stash list<CR>
+nno <leader>ghl :Git! stash list<CR>
+nno <leader>gha :Git stash apply stash@{
+nno <leader>ghs :Git stash save ""<Left>
+nno <leader>ghS :Git stash save -k ""<Left>
 nno <leader>gg :Git! 
-nno <leader>gk :Gitv --all<CR>
+nno <leader>gk :Gitv<CR>
 nno <leader>gl :Glog 
 nno <leader>gm :Gmerge 
-nno <leader>gp :botright 10new \| e term://zsh<CR>igit pu
+" make sure airline has the latest branch
+au BufWinEnter * AirlineRefresh
+nno <leader>go :Git checkout 
+nno <leader>gO :Git checkout -b 
+nno <leader>gp :Gpush<CR>
 nno <leader>gq :Gpull<CR>
 nno <leader>gr :Ggrep 
 nno <leader>gs :Gstatus<CR>
@@ -178,11 +191,25 @@ nno <leader>gt :Gsplit
 nno <leader>gv :Gvsplit 
 nno <leader>gw :Gbrowse 
 
+" list keybindings
+nno <leader>ll :let win = winnr()<CR>:lw<CR>:if winnr() != win \| wincmd J \| endif<CR>:execute win.'wincmd w'<CR>
+nno <leader>lc :lclose<CR>
+nno <leader>qq :let win = winnr()<CR>:cw<CR>:if winnr() != win \| wincmd J \| endif<CR>:execute win.'wincmd w'<CR>
+nno <leader>qo :copen<CR>
+nno <leader>qg :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrep" \| endif<CR>
+nno <leader>qv :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrepV" \| endif<CR>
+nno <leader>qr :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFRestore" \| endif<CR>
+nno <leader>qc :cclose<CR>
+
 " taglist bindings
 nno <leader>tl :TlistToggle<CR>
 
 " bufexplorder bindings
 nno <leader>be :BufExplorer<CR>
+
+" session keybindings
+nno <silent> <leader>sm :<C-U> exe "mksession! ~/session" . v:count1 . ".vim"<CR>
+nno <silent> <leader>sl :<C-U> exe "silent! bufdo bd \| source ~/session" .v:count1 . ".vim"<CR>
 
 " neovim
 " ------
@@ -199,8 +226,21 @@ nno _ "_
 vno _ "_
 
 
+" text object bindings
+" --------------------
+
+" redefine c as curly braces
+vno ic iB
+vno ac aB
+omap ic iB
+omap ac aB
+
+
 " spacing keybindings
 " --------------------
+
+" faster formatting
+nno <leader>e =
 
 " place a space after/before the current line
 nno <leader>j mzo<ESC>0D`z
@@ -265,6 +305,16 @@ nno ? m`?
 nno <leader>/ /<C-r>/\\|
 nno <leader>? ?<C-r>/\\|
 
+" shortcut for %
+nno <leader>5 %
+omap <leader>5 %
+vno <leader>5 %
+
+" shortcut for $
+nno <leader>4 $
+omap <leader>4 $
+vno <leader>4 $
+
 " insert keybindings
 " ------------------
 
@@ -321,6 +371,37 @@ endif
 """""""""
 " Plugins
 """""""""
+
+" access plugin private APIs
+" --------------------------
+
+" http://stackoverflow.com/questions/24027506/get-a-vim-scripts-snr
+func! GetScriptNumber(script_name)
+    " Return the <SNR> of a script.
+    "
+    " Args:
+    "   script_name : (str) The name of a sourced script.
+    "
+    " Return:
+    "   (int) The <SNR> of the script; if the script isn't found, -1.
+
+    redir => scriptnames
+    silent! scriptnames
+    redir END
+
+    for script in split(l:scriptnames, "\n")
+        if l:script =~ a:script_name
+            return str2nr(split(l:script, ":")[0])
+        endif
+    endfor
+
+    return -1
+endfunc
+
+func! CallScriptFunc(script_name, func)
+  return eval(printf("<SNR>%d_" . a:func, GetScriptNumber("gitv.vim")))
+endfunc
+
 
 " plugins using vim-plug
 " ----------------------
@@ -387,19 +468,24 @@ call plug#begin('~/.vim/plugged')
     Plug 'tommcdo/vim-fubitive'
 
     " branch management in fugitive
-    Plug 'gregsexton/gitv'
+    Plug 'rbong/gitv'
     let g:Gitv_DoNotMapCtrlKey = 1
     autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
     autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
+    " branch management extensions
+    " Plug 'rbong/gitv-ext'
+
+    Plug 'rbong/galvanize.vim'
+
     " allow quick diff operations
     nno <leader>du :diffupdate<CR>
-    nno <leader>dg :diffget 
-    nno <leader>dp :diffput 
+    nno <leader>dg :diffget<CR>
+    nno <leader>dp :diffput<CR>
     " get ours
-    nno <leader>do :diffget //3<CR>
+    nno <leader>d3 :diffget //3<CR>
     " get theirs
-    nno <leader>dt :diffget //2<CR>
+    nno <leader>d2 :diffget //2<CR>
 
     " tag browser
     Plug 'vim-scripts/taglist.vim'
@@ -424,7 +510,7 @@ call plug#begin('~/.vim/plugged')
     hi def link jsParens               Special
 
     " grow/shrink selection
-    Plug 'terryma/vim-expand-region'
+    " Plug 'terryma/vim-expand-region'
 
     " lines indicating indent
     Plug 'Yggdroot/indentLine'
@@ -434,10 +520,14 @@ call plug#begin('~/.vim/plugged')
     " text objects
     " columns
     Plug 'coderifous/textobj-word-column.vim'
+    " framework
+    Plug 'kana/vim-textobj-user'
+    " functions
+    Plug 'kana/vim-textobj-function'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'bkad/CamelCaseMotion'
-    omap <silent> iw <Plug>CamelCaseMotion_iw
-    xmap <silent> iw <Plug>CamelCaseMotion_iw
+    " Plug 'bkad/CamelCaseMotion'
+    " omap <silent> iw <Plug>CamelCaseMotion_iw
+    " xmap <silent> iw <Plug>CamelCaseMotion_iw
 
     Plug 'rbong/neovim-vifm'
     Plug 'rbong/vim-vertical'
@@ -465,9 +555,20 @@ call plug#begin('~/.vim/plugged')
     let g:ctrlp_custom_ignore = '\.git$'
     let g:ctrlp_switch_buffer = 'et'
     let g:ctrp_show_hidden = 1
+    nno <C-b> :CtrlPBuffer<CR>
+    nno <C-f> :CtrlPMRUFiles<CR>
 
     " Additional text objects
     Plug 'wellle/targets.vim'
+
+    " Filter quickfix list
+    Plug 'sk1418/QFGrep'
+
+    " Close buffer, not window
+    Plug 'moll/vim-bbye'
+
+    " Testing Plugins
+    Plug 'junegunn/vader.vim'
 
     " neovim plugins
     if has ('nvim')
@@ -496,9 +597,9 @@ call plug#begin('~/.vim/plugged')
     " keybindings
     " see keybindings/plugins
 call plug#end()
-call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
-vmap K <Plug>(expand_region_expand)
-vmap J <Plug>(expand_region_shrink)
+" call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
+" vmap K <Plug>(expand_region_expand)
+" vmap J <Plug>(expand_region_shrink)
 
 
 
@@ -562,11 +663,3 @@ set scrolloff=5
 "" enable persistence
 set undofile
 set undodir=~/.vim/undo
-
-
-
-
-nno <leader>ll :let win = winnr()<CR>:lw<CR>:execute win.'wincmd w'<CR>
-nno <leader>lc :lclose<CR>
-nno <leader>qq :let win = winnr()<CR>:cw<CR>:execute win.'wincmd w'<CR>
-nno <leader>qc :cclose<CR>

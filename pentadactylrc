@@ -1,3 +1,4 @@
+map <space> <Leader>
 colorscheme wumbly
 nmap -builtin K gt
 nmap -builtin J gT
@@ -22,6 +23,8 @@ se guioptions-=rb
 se defsearch=g
 autocmd LocationChange docs.google.com :normal! <ESC>
 
+nno <C-w> d
+
 " jump to the first unpinned tab
 nmap -builtin ^ :execute 'normal ' + String(tabs.allTabs.findIndex(function(tab) { return !tab.pinned; }) + 1 || 1) + 'gt'<CR>
 
@@ -31,3 +34,9 @@ imap -group chans <C-c> [code][/code]<left><left><left><left><left><left><left>
 
 group slack -locations slack.com
 imap -group slack <C-c> ```<S-CR><S-CR>```<up>
+imap -group slack -builtin <Esc> <pass-next-key><Esc><Esc>
+map -group slack <C-p> 2gi<C-k>
+imap -group slack <C-p> <C-k>
+set passkeys+='slack.com':<C-k>
+
+silent extenable LeechBlock
