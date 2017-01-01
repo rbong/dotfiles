@@ -1,5 +1,5 @@
 " ==========================
-" .vimrc - Roger Bogers 2016
+" .vimrc - Roger Bogers 2017
 " ==========================
 
 
@@ -12,7 +12,6 @@
 
 " colorscheme tweaks
 " ------------------
-" configured for wumbly on OSX El-Capitan Terminal
 
 
 " highlight search/hls/search and text distinction
@@ -120,8 +119,8 @@ let mapleader=" "
 " ------------------
 
 " delete the current buffer
-nno <leader>bd :Bd<CR>
-nno <leader>bD :bd!<CR>
+nno <leader>wd :Bd<CR>
+nno <leader>bd :bd!<CR>
 nno <leader>bc :Bd<CR>
 
 " delete all buffers
@@ -133,13 +132,17 @@ nno <silent> <leader>ba :silent! bd <C-A><CR>
 
 " write the current file
 nno <leader>w :w<CR>
+nno <leader>ww :w<CR>
 " write with sudo
 nno <leader>ws :w !sudo tee %<CR>
+" write with git
+nno <leader>wg :Gw<CR>
+nno <leader>wG :Gw!<CR>
 
 " change directory to the current file's directory
 nno <leader>cd :cd %:h<CR>
 " print the relative filename
-nno <silent> <leader>cr :redir @f \| echo system('python -c "import os.path; print (os.path.relpath(' . "'" . expand("%:p") . "'" . ','."'"."$(pwd)"."'".'))"') \| redir END<CR>
+nno <silent> <leader>cr :call setreg('f', system('echo -n $(python -c "import os.path; print (os.path.relpath(' . "'" . expand("%:p") . "'" . ','."'"."$(pwd)"."'".'))")'))<CR>
 
 " register keybindings
 " --------------------
@@ -163,7 +166,7 @@ nmap ga <Plug>(EasyAlign)
 
 
 " fugitive (git) keybindings
-nno <leader>ga :Git commit --amend --no-edit
+nno <leader>ga :Gcommit --amend --no-edit
 nno <leader>gb :Gblame<CR>
 nno <leader>gc :Gcommit<CR>
 nno <leader>gC :Gcommit --no-edit<CR>
@@ -173,10 +176,12 @@ nno <leader>gf :Gfetch
 nno <leader>ghh :Git! stash list<CR>
 nno <leader>ghl :Git! stash list<CR>
 nno <leader>gha :Git stash apply stash@{
+nno <leader>ghA :Git stash pop
 nno <leader>ghs :Git stash save ""<Left>
 nno <leader>ghS :Git stash save -k ""<Left>
 nno <leader>gg :Git! 
 nno <leader>gk :Gitv<CR>
+nno <leader>gK :Gitv!<CR>
 nno <leader>gl :Glog 
 nno <leader>gm :Gmerge 
 " make sure airline has the latest branch
@@ -437,7 +442,7 @@ call plug#begin('~/.vim/plugged')
     " enable tab-bar
     let g:airline#extensions#tabline#enabled = 1
     " themes
-    Plug 'vim-airline/vim-airline-themes'
+    Plug 'rbong/vim-airline-themes'
     " colors
     let g:airline_theme='wumbly'
     " symbols (fix for unicode problems, even with powerline fonts)
@@ -454,7 +459,7 @@ call plug#begin('~/.vim/plugged')
     " let delimitMate_expand_cr = 1
 
     " git integration
-    Plug 'tpope/vim-fugitive'
+    Plug 'rbong/vim-fugitive'
     " prevent excessive buffers
     " autocmd BufReadPost fugitive://* set bufhidden=delete
     " autocmd Filetype gitcommit set bufhidden=delete
@@ -468,8 +473,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tommcdo/vim-fubitive'
 
     " branch management in fugitive
-    Plug 'rbong/gitv'
+    Plug 'gregsexton/gitv'
     let g:Gitv_DoNotMapCtrlKey = 1
+    let g:Gitv_TruncateCommitSubjects = 1
     autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
     autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
@@ -503,11 +509,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'mxw/vim-jsx'
     " enable js files
     let g:jsx_ext_required = 0
-    " nicer highlighting
-    hi def link jsBraces               Special
-    hi def link jsFuncBraces           Special
-    hi def link jsFuncParens           Special
-    hi def link jsParens               Special
+
+    " GraphQL support
+    Plug 'jparise/vim-graphql'
 
     " grow/shrink selection
     " Plug 'terryma/vim-expand-region'
@@ -551,7 +555,7 @@ call plug#begin('~/.vim/plugged')
 
     " fuzzy file matching
     Plug 'ctrlpvim/ctrlp.vim'
-    se wig+=*/node_modules/*,*/esdoc/*,*/apidoc/*,*/doc/*
+    se wig+=*/node_modules/*,*/coverage/*,*/esdoc/*,*/apidoc/*,*/doc/*
     let g:ctrlp_custom_ignore = '\.git$'
     let g:ctrlp_switch_buffer = 'et'
     let g:ctrp_show_hidden = 1
@@ -663,3 +667,5 @@ set scrolloff=5
 "" enable persistence
 set undofile
 set undodir=~/.vim/undo
+
+nno <C-\> :wincmd \|<CR>

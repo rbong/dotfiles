@@ -1,3 +1,5 @@
+set rnu
+
 set trash
 set history=100
 set followlinks
@@ -52,7 +54,7 @@ filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a
 fileviewer *.mp3 mp3info
 " Video
 filextype *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.webm,*.mov
-        \ vlc %f &> /dev/null &,
+        \ mplayer %f &> /dev/null &,
 fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.web,*.mov
          \ ffprobe -show_files -pretty %f 2> /dev/null
 " Web
@@ -144,7 +146,7 @@ nmap <f7> :mkdir<space>
 nmap <f8> :delete<cr>
 nmap ~ :cd ~<cr>
 nmap ` :cd %D<cr>
-nno s :!fish<CR>
+nno s :!zsh<CR>
 set vicmd="nvim"
 set vifminfo=bookmarks,tui,state,cs,savedirs,dhistory,chistory,shistory,phistory,fhistory,dirstack,registers
 set incsearch
