@@ -14,7 +14,7 @@ cp vifmrc ~/.vifm/vifmrc
 echo done moving dotfiles.
 
 echo linking vim to neovim...
-mkdir -p ~/.config
+mkdir -p ~/.config/nvim
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 echo done linking.
