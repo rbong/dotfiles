@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo setting up dependencies...
 echo installing plugged...
 # https://github.com/junegunn/vim-plug
@@ -7,7 +8,7 @@ nvim -c "PlugInstall | qa"
 echo done setting up dependencies.
 
 echo moving dotfiles...
-cp .vimrc .pentadactylrc ~
+cp .zshrc .vimrc .pentadactylrc ~
 mkdir -p ~/.vifm
 cp vifmrc ~/.vifm/vifmrc
 echo done moving dotfiles.
