@@ -135,6 +135,7 @@ nno <leader>w :w<CR>
 nno <leader>ww :w<CR>
 " write with sudo
 nno <leader>ws :w !sudo tee %<CR>
+nno <leader>wt :exec 'sav' tempname()<CR>
 " write with git
 nno <leader>wg :Gw<CR>
 nno <leader>wG :Gw!<CR>
@@ -167,13 +168,14 @@ nmap ga <Plug>(EasyAlign)
 
 " fugitive (git) keybindings
 nno <leader>ga :Gcommit --amend --no-edit
+nno <leader>gA :Gcommit --amend
 nno <leader>gb :Gblame<CR>
 nno <leader>gc :Gcommit<CR>
 nno <leader>gC :Gcommit --no-edit<CR>
 nno <leader>gd :Gdiff<CR>
 nno <leader>ge :Gedit 
 nno <leader>gf :Gfetch 
-nno <leader>ghh :Git! stash list<CR>
+nno <leader>ghh :Git! stash show -p stash@{
 nno <leader>ghl :Git! stash list<CR>
 nno <leader>gha :Git stash apply stash@{
 nno <leader>ghA :Git stash pop
@@ -184,17 +186,18 @@ nno <leader>gk :Gitv<CR>
 nno <leader>gK :Gitv!<CR>
 nno <leader>gl :Glog 
 nno <leader>gm :Gmerge 
-" make sure airline has the latest branch
-au BufWinEnter * AirlineRefresh
 nno <leader>go :Git checkout 
 nno <leader>gO :Git checkout -b 
 nno <leader>gp :Gpush<CR>
+nno <leader>gP :Gpush --no-verify
 nno <leader>gq :Gpull<CR>
 nno <leader>gr :Ggrep 
 nno <leader>gs :Gstatus<CR>
 nno <leader>gt :Gsplit 
 nno <leader>gv :Gvsplit 
 nno <leader>gw :Gbrowse 
+" make sure airline has the latest branch
+au BufWinEnter * AirlineRefresh
 
 " list keybindings
 nno <leader>ll :let win = winnr()<CR>:lw<CR>:if winnr() != win \| wincmd J \| endif<CR>:execute win.'wincmd w'<CR>
@@ -203,7 +206,7 @@ nno <leader>qq :let win = winnr()<CR>:cw<CR>:if winnr() != win \| wincmd J \| en
 nno <leader>qo :copen<CR>
 nno <leader>qg :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrep" \| endif<CR>
 nno <leader>qv :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrepV" \| endif<CR>
-nno <leader>qr :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFRestore" \| endif<CR>
+nno <leader>qr :copen \| wincmd J \| exec "QFRestore"<CR>
 nno <leader>qc :cclose<CR>
 
 " taglist bindings
@@ -213,8 +216,8 @@ nno <leader>tl :TlistToggle<CR>
 nno <leader>be :BufExplorer<CR>
 
 " session keybindings
-nno <silent> <leader>sm :<C-U> exe "mksession! ~/session" . v:count1 . ".vim"<CR>
-nno <silent> <leader>sl :<C-U> exe "silent! bufdo bd \| source ~/session" .v:count1 . ".vim"<CR>
+" nno <silent> <leader>sm :<C-U> exe "mksession! ~/session" . v:count1 . ".vim"<CR>
+" nno <silent> <leader>sl :<C-U> exe "silent! bufdo bd \| source ~/session" .v:count1 . ".vim"<CR>
 
 " neovim
 " ------
@@ -293,6 +296,7 @@ nno <C-h> <C-w>h
 " fix for OSX
 nno <BS> <C-w>h
 nno <C-l> <C-w>l
+nno <C-A-\> :wincmd \|<CR>
 
 
 " movement keybindings
@@ -353,18 +357,27 @@ if has ('nvim')
 
     " open terminal
     " nno <leader>sh :botright 10new \| terminal<CR>
-    function! GetTerm()
-        botright 20new
+    function! GetTerm(prog)
         999wincmd j
         999wincmd l
-        se wfh
-        wincmd J
-        e term://zsh
-        set nobuflisted
-        set bufhidden=delete
+        if &buftype == "terminal"
+          vs
+          wincmd l
+          setlocal wfh
+        else
+          botright 20new
+          999wincmd j
+          999wincmd l
+          setlocal wfh
+          wincmd J
+        endif
+        exe 'e term://' . a:prog
+        setlocal nobuflisted
+        setlocal bufhidden=delete
         startinsert
     endfunction
-    nno <leader>sh :call GetTerm()<CR>
+    nno <leader>zh :call GetTerm('zsh')<CR>
+    nno <leader>zn :call GetTerm('node')<CR>
     " nno <leader>ss :Ttoggle<CR>
     " nno <leader>sk :let g:neoterm_size+=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
     " nno <leader>sj :let g:neoterm_size-=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
@@ -482,8 +495,6 @@ call plug#begin('~/.vim/plugged')
     " branch management extensions
     " Plug 'rbong/gitv-ext'
 
-    Plug 'rbong/galvanize.vim'
-
     " allow quick diff operations
     nno <leader>du :diffupdate<CR>
     nno <leader>dg :diffget<CR>
@@ -509,6 +520,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'mxw/vim-jsx'
     " enable js files
     let g:jsx_ext_required = 0
+    autocmd BufRead *.es6 set filetype=javascript
 
     " GraphQL support
     Plug 'jparise/vim-graphql'
@@ -535,6 +547,8 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'rbong/neovim-vifm'
     Plug 'rbong/vim-vertical'
+
+    " Plug 'rbong/vim-kite'
 
     nno <silent> - :Vertical b<CR>
     nno <silent> + :Vertical f<CR>
@@ -572,10 +586,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'moll/vim-bbye'
 
     " Testing Plugins
-    Plug 'junegunn/vader.vim'
+    " Plug 'junegunn/vader.vim'
 
     " neovim plugins
     if has ('nvim')
+        Plug 'rbong/galvanize.vim'
+
         " use vifm instead of netrw
         Plug 'rbong/neovim-vifm'
         " allow changing the directory live with vifm
@@ -604,6 +620,20 @@ call plug#end()
 " call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
 " vmap K <Plug>(expand_region_expand)
 " vmap J <Plug>(expand_region_shrink)
+
+
+
+""""""""""""
+" Scratchpad
+""""""""""""
+
+
+nno <leader>ss :Vifm ~/scratch<CR>
+
+augroup Scratchpad
+  autocmd BufWrite,VimLeave /home/dork/scratch/* mkview
+  autocmd BufRead           /home/dork/scratch/* loadview
+augroup END
 
 
 
@@ -668,4 +698,3 @@ set scrolloff=5
 set undofile
 set undodir=~/.vim/undo
 
-nno <C-\> :wincmd \|<CR>

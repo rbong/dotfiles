@@ -29,8 +29,7 @@ fi
 
 # export TEST_REPORTER=nyan
 
-which nvm &> /dev/null
-if [[ $? -eq 0 ]]; then
+if [[ -f /usr/share/nvm/init-nvm.sh ]]; then
   source /usr/share/nvm/init-nvm.sh
 fi
 
@@ -98,3 +97,10 @@ alias voms='cd ~/programs/stc; pkill -9 node; pkill -9 redis-server; npm run dev
 alias iq='cd ~/programs/stc; pkill -9 node; pkill -9 redis-server; npm run dev-interop'
 alias afix='cd ~/programs/stc; pkill -9 node; pkill -9 redis-server; npm run dev-afix'
 alias dashboard='cd ~/programs/stc; pkill -9 node; pkill -9 redis-server; npm run dev-dashboard'
+alias tests='cd ~/programs/stc; export COVERAGE_DISABLED=1; npm run test'
+
+export EDITOR=nvim
+export VISUAL=nvim
+
+export SONAR_SCANNER_HOME="/opt/sonar-scanner"
+export PATH="${PATH}:${SONAR_SCANNER_HOME}/bin"
