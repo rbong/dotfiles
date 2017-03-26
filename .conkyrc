@@ -1,0 +1,9 @@
+out_to_console yes
+out_to_x no
+background no
+update_interval 2
+total_run_times 0
+use_spacer none
+
+TEXT
+c ${cpu cpu1}% / ${cpu cpu2}% m $memperc% :: t ${acpitemp}c :: w ${wireless_essid wlp4s0} ${wireless_link_qual_perc wlp4s0}% :: v ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f6} :: b ${battery} :: t ${time %a %b %d %I:%M%P}
