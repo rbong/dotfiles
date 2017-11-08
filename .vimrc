@@ -4,60 +4,6 @@
 
 
 
-""""""""
-" Colors
-""""""""
-" see plugins for installed colors
-
-
-" colorscheme tweaks
-" ------------------
-
-
-" highlight search/hls/search and text distinction
-hi Search ctermfg=3 ctermbg=0 cterm=reverse
-
-" Visual/selection and cursor distinction
-hi MatchParen ctermbg=0 ctermfg=4
-" text distinction
-hi Visual ctermbg=4 ctermfg=0
-
-" make wildmenu look like airline
-hi Statusline cterm=none ctermbg=8 ctermfg=2
-hi WildMenu cterm=none ctermbg=7 ctermfg=0
-
-" make errors more distinct
-hi Error ctermfg=0 ctermbg=3
-
-" line numbers
-hi LineNr ctermfg=7
-hi CursorLineNr ctermfg=7
-" show line numbers TODO: move this
-set rnu
-set nu
-
-
-" vimdiff colors
-" --------------
-
-hi DiffAdd    cterm=none ctermbg=10 ctermfg=0
-hi DiffChange cterm=none ctermbg=14 ctermfg=0
-hi DiffDelete cterm=none ctermbg=11 ctermfg=0
-hi DiffText   cterm=none ctermbg=13 ctermfg=0
-
-
-" other color settings
-" --------------------
-
-" enable syntax highlighting
-syntax on
-" fix unknown error that makes Statement brown
-hi Statement ctermfg=3
-" fold color
-hi Folded ctermbg=8
-
-
-
 """"""""""
 " Filetype
 """"""""""
@@ -86,6 +32,19 @@ au BufNewFile,BufRead *.glsl set filetype=c
 " ------------------------------------------------
 
 au Filetype javascript set suffixesadd+=.js
+
+" allow alias for javascript
+" --------------------------
+
+func! SetPath()
+  let nodepath=systemlist('cd ' . expand('%:h') . ' && npm prefix')[0]
+  if v:shell_error != 0
+    return
+  endif
+  exec 'setlocal path='.nodepath
+endfunc
+
+au Filetype javascript call SetPath()
 
 " show json quotes
 " ----------------
@@ -132,16 +91,18 @@ nno <silent> <leader>ba :silent! bd <C-A><CR>
 
 " write the current file
 nno <leader>w :w<CR>
-nno <leader>ww :w<CR>
+nno <leader>ss :w<CR>
 " write with sudo
-nno <leader>ws :w !sudo tee %<CR>
-nno <leader>wt :exec 'sav' tempname()<CR>
+nno <leader>su :w !sudo tee %<CR>
+nno <leader>st :exec 'sav' tempname()<CR>
 " write with git
-nno <leader>wg :Gw<CR>
-nno <leader>wG :Gw!<CR>
+nno <leader>sg :Gw<CR>
+nno <leader>sG :Gw!<CR>
 
 " change directory to the current file's directory
 nno <leader>cd :cd %:h<CR>
+" go up one directory
+nno <leader>cc :cd ..<CR>
 " print the relative filename
 nno <silent> <leader>cr :call setreg('f', system('echo -n $(python -c "import os.path; print (os.path.relpath(' . "'" . expand("%:p") . "'" . ','."'"."$(pwd)"."'".'))")'))<CR>
 
@@ -156,14 +117,18 @@ nno gp `[v`]
 " ------------------
 
 " map Mundo to an old Gundo key combo
-nno <leader>gu :MundoToggle<CR>
+nno <leader>mm :MundoToggle<CR>
 
-" open the snippets directory
-nno <leader>osn :edit ~/.vim/plugged/vim-snippets/snippets<CR>
+" open snippets
+nno <leader>uu :UltiSnipsEdit<CR>
 
 " easy align bindings
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+xmap gaa <Plug>(EasyAlign)
+nmap gaa <Plug>(EasyAlign)
+xmap gae <Plug>(LiveEasyAlign)
+nmap gae <Plug>(LiveEasyAlign)
 
 
 " fugitive (git) keybindings
@@ -175,27 +140,31 @@ nno <leader>gC :Gcommit --no-edit<CR>
 nno <leader>gd :Gdiff<CR>
 nno <leader>ge :Gedit 
 nno <leader>gf :Gfetch 
+nno <leader>gg :Git! 
 nno <leader>ghh :Git! stash show -p stash@{
 nno <leader>ghl :Git! stash list<CR>
 nno <leader>gha :Git stash apply stash@{
 nno <leader>ghA :Git stash pop
 nno <leader>ghs :Git stash save ""<Left>
 nno <leader>ghS :Git stash save -k ""<Left>
-nno <leader>gg :Git! 
 nno <leader>gk :Gitv<CR>
 nno <leader>gK :Gitv!<CR>
 nno <leader>gl :Glog 
 nno <leader>gm :Gmerge 
+nno <leader>gn :Gcd<CR>:edit package.json<CR>
 nno <leader>go :Git checkout 
 nno <leader>gO :Git checkout -b 
 nno <leader>gp :Gpush<CR>
 nno <leader>gP :Gpush --no-verify
 nno <leader>gq :Gpull<CR>
 nno <leader>gr :Ggrep 
+nno <leader>gR :Ggrep "<C-R>/"<CR>
 nno <leader>gs :Gstatus<CR>
 nno <leader>gt :Gsplit 
+nno <leader>gu :Gpush -u origin<Space>
 nno <leader>gv :Gvsplit 
 nno <leader>gw :Gbrowse 
+nno <leader>gz :Gcd 
 " make sure airline has the latest branch
 au BufWinEnter * AirlineRefresh
 
@@ -297,14 +266,11 @@ nno <C-h> <C-w>h
 nno <BS> <C-w>h
 nno <C-l> <C-w>l
 nno <C-A-\> :wincmd \|<CR>
+nno <C-_> :wincmd _<CR>
 
 
 " movement keybindings
 " --------------------
-
-" jump to the last occurance of the f/F/t/T search
-nno <leader>; $;,
-nno <leader>, 0,;
 
 " put searches in the jump list
 nno / m`/
@@ -357,6 +323,12 @@ if has ('nvim')
 
     " open terminal
     " nno <leader>sh :botright 10new \| terminal<CR>
+    function! EditTerm(prog)
+      exe 'e term://' . a:prog
+      setlocal nobuflisted
+      setlocal bufhidden=delete
+			startinsert
+    endfunction
     function! GetTerm(prog)
         999wincmd j
         999wincmd l
@@ -371,13 +343,23 @@ if has ('nvim')
           setlocal wfh
           wincmd J
         endif
-        exe 'e term://' . a:prog
-        setlocal nobuflisted
-        setlocal bufhidden=delete
-        startinsert
+        call EditTerm(a:prog)
+    endfunction
+    function! FixTerm()
+      let curwin = winnr()
+      999 wincmd j
+      999 wincmd l
+      if &buftype == "terminal"
+        resize 20
+        setlocal wfh
+      endif
+      exe curwin.'wincmd w'
     endfunction
     nno <leader>zh :call GetTerm('zsh')<CR>
+    nno <leader>zH :call EditTerm('zsh')<CR>
     nno <leader>zn :call GetTerm('node')<CR>
+    nno <leader>zN :call EditTerm('node')<CR>
+    nno <leader>zz :call FixTerm()<CR>
     " nno <leader>ss :Ttoggle<CR>
     " nno <leader>sk :let g:neoterm_size+=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
     " nno <leader>sj :let g:neoterm_size-=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
@@ -430,6 +412,11 @@ call plug#begin('~/.vim/plugged')
 
     " surrounding keybindings
     Plug 'tpope/vim-surround'
+    " cause SR to surround in a regex group
+    let g:surround_82 = "\\(\r\\)"
+    " Surround in newlines
+    command! -range T <line1>,<line2>s/ \+$\|$/
+    vmap gs gS  gv=..gv:T`<j^
 
     " remappings of *next and *prev commands
     Plug 'tpope/vim-unimpaired'
@@ -441,6 +428,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-repeat'
 
     if !exists ('rlwrap')
+        let g:UltiSnipsExpandTrigger =  '<c-e>'
+        " https://github.com/SirVer/ultisnips/issues/303
+        let g:UltiSnipsSnippetDirectories=["/home/dork/UltiSnips", "UltiSnips"]
         " snippets (chunks of automatic code)
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     endif
@@ -465,6 +455,20 @@ call plug#begin('~/.vim/plugged')
                     \ let g:airline_symbols.crypt = 'C' |
                     \ let g:airline_symbols.whitespace = 'W'
     augroup end
+    Plug 'Zuckonit/pimodoro'
+    let g:pim#taskfile = '~/vimwiki/Pimodoro.wiki'
+    function! OnPimWorkFinish()
+      call system('notify-send "Pimodoro" "Work is done"')
+      call jobstart('mplayer ~/sounds/notifications/001.mp3')
+    endfunction
+    function! OnPimBreakFinish()
+      call system('notify-send "Pimodoro" "Break is over"')
+      call jobstart('mplayer ~/sounds/notifications/001.mp3')
+    endfunction
+    function! PingAirline(job_id, data, event)
+      AirlineRefresh
+    endfunction
+		call jobstart('while true; do echo; sleep 60; done', { 'on_stdout': 'PingAirline' })
 
     " automatic closing pairs
     " Plug 'Raimondi/delimitMate'
@@ -489,8 +493,33 @@ call plug#begin('~/.vim/plugged')
     Plug 'gregsexton/gitv'
     let g:Gitv_DoNotMapCtrlKey = 1
     let g:Gitv_TruncateCommitSubjects = 1
-    autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
-    autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+    " autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
+    " autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+    let g:Gitv_CustomMappings = {
+      \'nextRef': ']r',
+      \'prevRef': '[r',
+      \'nextBranch': ']b',
+      \'prevBranch': '[b',
+      \'nextCommit': ['<C-p>', 'K'],
+      \'prevCommit': ['<C-n>', 'J'],
+      \'merge': 'gm',
+      \'vmerge': 'gm',
+      \'checkout': 'gc',
+      \'cherryPick': 'gp',
+      \'vcherryPick': 'gp',
+      \'reset': 'ghb',
+      \'vreset': 'ghb',
+      \'resetSoft': 'ghs',
+      \'vresetSoft': 'ghs',
+      \'resetHard': 'ghh',
+      \'vresetHard': 'ghh',
+      \'revert': 'gu',
+      \'vrevert': 'gu',
+      \'delete': 'gd',
+      \'vdelete': 'gd',
+      \'head': 'gh',
+      \'parent': 'ga'
+    \}
 
     " branch management extensions
     " Plug 'rbong/gitv-ext'
@@ -516,14 +545,16 @@ call plug#begin('~/.vim/plugged')
     " dependency
     Plug 'pangloss/vim-javascript'
     let g:javascript_enable_domhtmlcss = 1
+    let g:javascript_plugin_jsdoc = 1
+    let g:javascript_plugin_flow = 1
     " the good stuff
     Plug 'mxw/vim-jsx'
     " enable js files
     let g:jsx_ext_required = 0
     autocmd BufRead *.es6 set filetype=javascript
 
-    " GraphQL support
-    Plug 'jparise/vim-graphql'
+    " " GraphQL support
+    " Plug 'jparise/vim-graphql'
 
     " grow/shrink selection
     " Plug 'terryma/vim-expand-region'
@@ -547,6 +578,9 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'rbong/neovim-vifm'
     Plug 'rbong/vim-vertical'
+
+    " Easily replace multiple variants of a word
+    Plug 'tpope/vim-abolish'
 
     " Plug 'rbong/vim-kite'
 
@@ -588,6 +622,10 @@ call plug#begin('~/.vim/plugged')
     " Testing Plugins
     " Plug 'junegunn/vader.vim'
 
+    " " Automatic Markdown preview
+    " Plug 'euclio/vim-markdown-composer'
+    " let g:markdown_composer_browser='firefox'
+
     " neovim plugins
     if has ('nvim')
         Plug 'rbong/galvanize.vim'
@@ -598,21 +636,48 @@ call plug#begin('~/.vim/plugged')
         let g:vifmLiveCwd = 1
         let g:vifmSplitWidth = 50
 
-        if !exists('rlwrap')
-            " autocompletion
-            Plug 'Shougo/deoplete.nvim'
-            let g:deoplete#enable_at_startup = 1
-        endif
+        " Hog
+        " if !exists('rlwrap')
+        "     " autocompletion
+        "     Plug 'Shougo/deoplete.nvim'
+        "     let g:deoplete#enable_at_startup = 1
+        " endif
 
         " asynchronous make
         Plug 'benekastah/neomake'
         " run neomake automatically
-        autocmd! BufWritePost * Neomake
+        autocmd! BufWritePost *.js,*.jsx Neomake
         let g:neomake_error_sign = { 'text': 'x' }
-
+        let g:neomake_javascript_eslint_maker = {
+              \ 'exe': 'bash',
+              \ 'args': ['-c', 'cd $(npm prefix) && eslint -f compact %:p'],
+              \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+              \ '%W%f: line %l\, col %c\, Warning - %m'
+              \ }
         " javascript/jsx
-        let g:neomake_javascript_enabled_makers = ['eslint']
+        let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
     endif
+
+    " personal wiki
+    Plug 'vimwiki/vimwiki'
+    let g:vimwiki_use_calendar = 1
+
+    " personal calendar
+    Plug 'itchyny/calendar.vim'
+    let g:calendar_google_calendar = 1
+    let g:calendar_google_task = 1
+    nno <leader>tt :Calendar<CR>
+    func! DiaryForDay()
+      let day = b:calendar.day()
+      call vimwiki#diary#calendar_action(day.get_day(), day.get_month(), day.get_year(), -1, 'V')
+    endfunc
+
+    au Filetype calendar nno <leader>tw :call DiaryForDay()<CR>
+
+    Plug 'baverman/vial'
+    Plug 'baverman/vial-http'
+
+    Plug 'AndrewRadev/splitjoin.vim'
 
     " keybindings
     " see keybindings/plugins
@@ -620,20 +685,6 @@ call plug#end()
 " call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
 " vmap K <Plug>(expand_region_expand)
 " vmap J <Plug>(expand_region_shrink)
-
-
-
-""""""""""""
-" Scratchpad
-""""""""""""
-
-
-nno <leader>ss :Vifm ~/scratch<CR>
-
-augroup Scratchpad
-  autocmd BufWrite,VimLeave /home/dork/scratch/* mkview
-  autocmd BufRead           /home/dork/scratch/* loadview
-augroup END
 
 
 
@@ -658,6 +709,7 @@ set ignorecase smartcase
 " ---------------------------------
 
 set expandtab tabstop=2 shiftwidth=2
+autocmd Filetype python set expandtab tabstop=2 shiftwidth=2
 
 
 " limit the document width
@@ -698,3 +750,73 @@ set scrolloff=5
 set undofile
 set undodir=~/.vim/undo
 
+
+""""""""
+" Colors
+""""""""
+" see plugins for installed colors
+
+
+" colorscheme tweaks
+" ------------------
+
+
+" highlight search/hls/search and text distinction
+hi Search ctermfg=3 ctermbg=0 cterm=reverse
+
+" Visual/selection and cursor distinction
+hi MatchParen ctermbg=0 ctermfg=4
+" text distinction
+hi Visual ctermbg=4 ctermfg=0
+
+" make wildmenu look like airline
+hi Statusline cterm=none ctermbg=8 ctermfg=2
+hi WildMenu cterm=none ctermbg=7 ctermfg=0
+
+" make errors more distinct
+hi Error ctermfg=0 ctermbg=3
+
+" line numbers
+hi LineNr ctermfg=7
+hi CursorLineNr ctermfg=7
+" show line numbers TODO: move this
+set rnu
+set nu
+
+
+" vimdiff colors
+" --------------
+
+hi DiffAdd    cterm=none ctermbg=10 ctermfg=0
+hi DiffChange cterm=none ctermbg=14 ctermfg=0
+hi DiffDelete cterm=none ctermbg=11 ctermfg=0
+hi DiffText   cterm=none ctermbg=13 ctermfg=0
+
+
+" other color settings
+" --------------------
+
+" enable syntax hi3265ghlighting
+syntax on
+" fix unknown error that makes Statement brown
+hi Statement ctermfg=3
+" fold color
+hi Folded ctermbg=8
+
+
+
+"""""""""""""
+" UNORGANIZED
+"""""""""""""
+
+func! B(character)
+	normal V
+	redraw
+  exec 's/' . a:character . '\zs \+/\r/g'
+	normal V'<=gv=gv=
+endfunc
+
+"" Break up an array
+command! -nargs=1 B :call B(<q-args>)
+nno gbb :call B(",")
+nno gb :call B(nr2char(getchar()))
