@@ -70,8 +70,7 @@ set cpoptions-=t
 " automatically hide filenames on entering a directory
 autocmd DirEnter * :filter
 
-" use colors that look nice with base16-xresources and base16-vim
-colorscheme base16
+colorscheme dracula
 
 
 """ Bookmarks

@@ -225,8 +225,8 @@ call plug#begin('~/.vim/plugged')
     " shortcuts
     nno <leader>fm :Vifm .<CR>
 
-    " base16 colors
-    Plug 'chriskempson/base16-vim'
+    " dracula color scheme
+    Plug 'dracula/vim'
 
     " better javascript compatibility
     Plug 'pangloss/vim-javascript', {'for':'javascript'}
@@ -261,5 +261,5 @@ augroup mybugfixes
     
     " on startup setting the scheme causes errors so do it in a hook instead
     " no way to check if we can actually do this, so silence errors
-    autocmd VimEnter * silent! colorscheme base16-default-dark
+    autocmd VimEnter * silent! colorscheme dracula
 augroup END

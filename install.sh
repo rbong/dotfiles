@@ -3,7 +3,7 @@ echo moving dotfiles...
 cp .zshrc .vimrc
 mkdir -p ~/.vifm/colors
 cp vifmrc ~/.vifm/vifmrc
-cp base16.vifm ~/.vifm/colors
+cp dracula.vifm ~/.vifm/colors
 echo done moving dotfiles.
 
 echo creating ~/.vim
