@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo moving dotfiles...
-cp .zshrc .vimrc .pentadactylrc ~
+cp .zshrc .vimrc
 mkdir -p ~/.vifm
 cp vifmrc ~/.vifm/vifmrc
 echo done moving dotfiles.
