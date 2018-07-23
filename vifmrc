@@ -1,67 +1,146 @@
+""" Settings
+
+" show relative line numbers
 set rnu
 
+" use trash
 set trash
+
+" keep 100 lines of history
 set history=100
+
+" follow links
 set followlinks
+
+" make partial commands work
 set fastrun
+
+" sort versions naturally
 set sortnumbers
+
+" allow up to 100 undos
 set undolevels=100
-set novimhelp
+
+" use vim-style help
+set vimhelp
+
+" do not run executable files on open
 set norunexec
+
+" do not print human readable filesizes, I am a robot
 set noiec
-colorscheme elflord2
-set fusehome=/tmp/vifm_FUSE
-set timefmt=%m/%d\ %H:%M
-set wildmenu
-set ignorecase
-set smartcase
-set nohlsearch
-set incsearch
-set scrolloff=4
+
+" directory for root mounts
+set fusehome="/home/dork/vifm/fuse/"
+
+" mounting options that are too slow
 set slowfs=curlftpfs
+
+" timeformat template
+set timefmt=" %m/%d %H:%M"
+
+" use popup autocompletion
+set wildmenu
+
+" ignore case when searching unless caps are included
+set ignorecase smartcase
+
+" do not automatically select search items
+" different from vim, still does highlighting
+set nohlsearch
+
+" search from current position
+set incsearch
+
+" lines to keep around the cursor
+set scrolloff=4
+
+" status line template
 set statusline="  %t%= %A %10u:%-7g %15s %20d  "
-mark b ~/bin/
+
+" save everything in $VIFM/vifminfo
+set vifminfo=bookmarks,tui,state,cs,savedirs,dhistory,chistory,shistory,phistory,fhistory,dirstack,registers
+
+" do not show ../
+set dotdirs=none
+
+" use tab to switch active pane (legacy behaviour)
+set cpoptions-=t
+
+" automatically hide filenames on entering a directory
+autocmd DirEnter * :filter
+
+" use colors that look nice with base16-xresources and base16-vim
+colorscheme base16
+
+
+""" Bookmarks
+
+
+mark b /usr/local/bin/
 mark d ~/Downloads
-mark f ~/Documents
+" mnemonic: files
+mark f ~/doc
 mark F ~/.vifm
-mark p ~/programs
-mark i ~/Images
-mark m ~/Music
-mark V ~/Videos
+mark p ~/prog
+mark i ~/img
+mark m ~/music
 mark v ~/.vim
+mark V ~/Videos
+" mnemonic: home
 mark h ~/
+" mnemonic: root
 mark r /
-command df df -h %m 2> /dev/null
-command diff vim -d %f %F
-command zip zip -r %f.zip %f
-command run !! ./%f
-command make !!make
-command vgrep vim "+grep %a"
-" Pdf
+
+
+""" Commands
+
+
+" sorry nothing
+
+
+""" Mappings
+
+
+" open a shell
+nmap s :shell<cr>
+
+" change sort method
+nmap S :sort<cr>
+
+" view the current file using the extension-specific file viewer
+nmap w :view<cr>
+
+" alternative for jumping to bookmarks (picked this up from vimperator)
+nmap go '
+
+" change the full filename
+nmap cc cw<c-u>
+
+" go to home
+nmap ~ :cd ~<cr>
+
+
+""" Filetypes
+
+
+" pdf
 filetype *.pdf apvlv %f &> /dev/null &
-" Torrent
-filetype *.torrent ktorrent %f &> /dev/null &
-" PostScript
-filextype *.ps,*.ps.gz gv %c %i &
-" Djvu
-filextype *.djvu djview %f &> /dev/null &
-" Audio
-filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a
-       \ {Play using ffplay}
-       \ ffplay %c,
-       \ {Play using MPlayer}
-       \ play_music %f,
+
+" audio
+filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a ffmpeg %f
 fileviewer *.mp3 mp3info
-" Video
+
+" video
 filextype *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.webm,*.mov
         \ mplayer %f &> /dev/null &,
 fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.web,*.mov
          \ ffprobe -show_files -pretty %f 2> /dev/null
-" Web
+
+" web
 filetype *.html,*.htm links,mozilla,firefox %f %i &
-" Object
-filetype *.o nm %f | less
-" Image
+
+" image
 filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ {View in sxiv}
         \ iv %c &> /dev/null &,
@@ -70,101 +149,9 @@ filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ {View in feh}
         \ feh
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm convert -identify %f -verbose /dev/null
-" MD5
-filetype *.md5
-       \ {Check MD5 hash sum}
-       \ md5sum -c %f,
 
-" FuseZipMount
-filetype *.zip,*.jar,*.war,*.ear
-       \ {Mount with fuse-zip}
-       \ FUSE_MOUNT|fuse-zip %SOURCE_FILE %DESTINATION_DIR,
-       \ {View contents}
-       \ zip -sf %c | less,
-       \ tar -xf %c,
-fileviewer *.zip,*.jar,*.war,*.ear zip -sf %c
-" ArchiveMount
-filetype *.tar.bz2,*.tbz2,*.tgz,*.tar.gz
-       \ {Mount with archivemount}
-       \ FUSE_MOUNT|archivemount %SOURCE_FILE %DESTINATION_DIR,
-fileviewer *.tgz,*.tar.gz tar -tzf %c
-fileviewer *.tar.bz2,*.tbz2 tar -tjf %c
-" Rar2FsMount
-filetype *.rar
-       \ {Mount with rar2fs}
-       \ FUSE_MOUNT|rar2fs %SOURCE_FILE %DESTINATION_DIR,
-" IsoMount
-filetype *.iso
-       \ {Mount with fuseiso}
-       \ FUSE_MOUNT|fuseiso %SOURCE_FILE %DESTINATION_DIR,
-" SshMount
-filetype *.ssh
-       \ {Mount with sshfs}
-       \ FUSE_MOUNT2|sshfs %PARAM %DESTINATION_DIR,
-" FtpMount
-filetype *.ftp
-       \ {Mount with curlftpfs}
-       \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR,
-" Fuse7z
-filetype *.7z
-       \ {Mount with fuse-7z}
-       \ FUSE_MOUNT|fuse-7z %SOURCE_FILE %DESTINATION_DIR,
-" Office files
+" office files
 filextype *.rtf,*.doc,*.docx,*.xls,*.xlsx libreoffice %f &
-fileview *.docx, docx2txt.pl %f -
-" Qt projects
-filextype *.pro qtcreator %f &
-" Directories
-filextype */
-        \ {View in thunar}
-        \ Thunar %f &,
-fileview */ tree %f
-set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
-    \phistory,dirstack,registers,bookmarks
-nmap s :shell<cr>
-nmap S :sort<cr>
-nmap w :view<cr>
-nmap o :!vim --remote-tab-silent %f<cr>
-nmap O :!vim %f<cr>
-nmap go '
-nmap gb :file &<cr>l
-nmap yd :!echo %d | xclip %i<cr>
-nmap yf :!echo %c:p | xclip %i<cr>
-nmap I cw<c-a>
-nmap cc cw<c-u>
-nmap A cw<c-w>
-nmap \t :!xterm &<cr>
-nmap \c :execute ':!vim $MYVIFMRC' | restart<cr>
-nmap \C :!vim --remote-tab-silent $MYVIFMRC &<cr>
-nmap \w :set wrap!<cr>
-nmap <f1> :help<cr>
-nmap <f3> :!less %f<cr>
-nmap <f4> :edit<cr>
-nmap <f5> :copy<cr>
-nmap <f6> :move<cr>
-nmap <f7> :mkdir<space>
-nmap <f8> :delete<cr>
-nmap ~ :cd ~<cr>
-nmap ` :cd %D<cr>
-nno s :!zsh<CR>
-set vicmd="nvim"
-set vifminfo=bookmarks,tui,state,cs,savedirs,dhistory,chistory,shistory,phistory,fhistory,dirstack,registers
-set incsearch
-nno <leader>h set hlsearch!
-set nohlsearch
-set smartcase
-set ignorecase
-set wildmenu
-nno cc cw<C-u>
-colorscheme Solarized
-set dotdirs=none
-set cpoptions-=t
 
-com dupdir :!export f=%D; mkdir "${f##*/}"
-com mfoura :!for i in *.m4a; do m4a2mp3 "$i" %D; done
-com flac :!for i in *.flac; do flac2mp3 "$i" %D; done
-com wav :!for i in *.wav; do flac2mp3 "$i" %D; done
-com wma :!for i in *.wma; do wma2mp3 "$i" %D; done
-com donemsg :!st -e dialog --msgbox "Completed operation." 0 0 & &
-com cueape :!apecuesplit; rm 00\ pregap.mp3; mv *.mp3 %D
-com cueflac :!flaccuesplit; rm 00\ pregap.mp3; mv *.mp3 %D
+" directory
+fileview */ tree %f

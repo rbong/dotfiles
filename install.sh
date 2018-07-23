@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 echo moving dotfiles...
 cp .zshrc .vimrc
-mkdir -p ~/.vifm
+mkdir -p ~/.vifm/colors
 cp vifmrc ~/.vifm/vifmrc
+cp base16.vifm ~/.vifm/colors
 echo done moving dotfiles.
 
 echo creating ~/.vim
