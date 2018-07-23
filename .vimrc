@@ -1,822 +1,264 @@
-" ==========================
-" .vimrc - Roger Bogers 2017
-" ==========================
+""" Settings
 
 
+" syntax highlighting
+syntax on
 
-""""""""""
-" Filetype
-""""""""""
+" persistence
+set undofile
+set undodir=~/.vim/undo
 
+" indentation behaviour (see :help)
+set nocindent nosmartindent autoindent
+filetype plugin indent on
 
-" detect vim-like files as vim
-" ----------------------------
+" default indentation of four spaces
+set expandtab tabstop=4 shiftwidth=4
 
-au BufNewFile,BufRead *.vifm,*.vimp,.vimperatorrc,*.penta,.pentadactylrc,vifmrc set filetype=vim
+" ignore search case in search unless if uppercase letters are included
+set ignorecase smartcase
 
+" show relative line numbers
+set relativenumber
+" show the actual number for the current line
+set number
 
-" detect implicit json files
-" --------------------------
+" highlight searches
+set hlsearch
 
-
-au BufNewFile,BufRead .eslintrc,.babelrc set filetype=json
-
-
-" detect Opengl Shader Language files as C
-" ----------------------------------------
-
-au BufNewFile,BufRead *.glsl set filetype=c
-
-
-" allow using .js extension for javascript imports
-" ------------------------------------------------
-
-au Filetype javascript set suffixesadd+=.js
-
-" allow alias for javascript
-" --------------------------
-
-func! SetPath()
-  let nodepath=systemlist('cd ' . expand('%:h') . ' && npm prefix')[0]
-  if v:shell_error != 0
-    return
-  endif
-  exec 'setlocal path='.nodepath
-endfunc
-
-au Filetype javascript call SetPath()
-
-" show json quotes
-" ----------------
-
-" cannot use conceallevel because of indentlines
-au Filetype json syn region  jsonKeyword matchgroup=jsonQuote start=/"/  end=/"\ze[[:blank:]\r\n]*\:/ contained
-au Filetype json syn region  jsonString oneline matchgroup=jsonQuote start=/"/  skip=/\\\\\|\\"/  end=/"/ contains=jsonEscape contained
+augroup myfilesettings
+    if has('terminal')
+        " no numbers in the terminal
+        " do not list the terminal buffer
+        au TerminalOpen * setlocal nornu nonu nobuflisted
+    endif
+    " vim syntax highlighting for vifm
+    au BufNewFile,BufRead *.vifmrc set filetype=vim
+augroup END
 
 
-
-" filetype based plugin settings
-" ------------------------------
-" see Plugins/various
+""" Commands
 
 
+function! DelAllBufs()
+    silent! bd <c-a><cr>
+endfunction
+command! -nargs=0 DelAllBufs :call DelAllBufs()<cr>
 
-"""""""""""""
-" Keybindings
-"""""""""""""
+" start or attach to a terminal on the bottom right
+function! PopupTerm()
+    999 wincmd j
+    if &buftype ==? 'terminal'
+        normal! a
+    else
+        bot term ++rows=20
+        setlocal winfixheight
+    endif
+endfunction
+" split or start a terminal on the bottom right
+function! PopupSplitTerm()
+    999 wincmd j
+    if &buftype ==? 'terminal'
+        vs
+        wincmd l
+        term ++curwin
+        setlocal winfixheight
+    else
+        call PopupTerm()
+    endif
+endfunction
 
 
-" meta keybindings
-" ----------------
-"  must go first
-
-" set the leader key (key used to prefix custom commands)
-let mapleader=" "
+""" Keys
 
 
-" buffer keybindings
-" ------------------
+let g:mapleader = ' '
 
-" delete the current buffer
-nno <leader>wd :Bd<CR>
-nno <leader>bd :bd!<CR>
-nno <leader>bc :Bd<CR>
+" open a terminal on the bottom right
+nno <leader>zz :call PopupTerm()<cr>
+nno <leader>zv :call PopupSplitTerm()<cr>
 
-" delete all buffers
-nno <silent> <leader>ba :silent! bd <C-A><CR>
-
-
-" file/folder keybindings
-" -----------------------
-
-" write the current file
-nno <leader>w :w<CR>
-nno <leader>ss :w<CR>
-" write with sudo
-nno <leader>su :w !sudo tee %<CR>
-nno <leader>st :exec 'sav' tempname()<CR>
-" write with git
-nno <leader>sg :Gw<CR>
-nno <leader>sG :Gw!<CR>
-
-" change directory to the current file's directory
-nno <leader>cd :cd %:h<CR>
-" go up one directory
-nno <leader>cc :cd ..<CR>
-" print the relative filename
-nno <silent> <leader>cr :call setreg('f', system('echo -n $(python -c "import os.path; print (os.path.relpath(' . "'" . expand("%:p") . "'" . ','."'"."$(pwd)"."'".'))")'))<CR>
-
-" register keybindings
-" --------------------
+" cd to the current file directory
+nno <leader>cd :cd %:h<cr>
+" copy the path of the current directory
+nno <leader>cr ;let @+ = expand('%;h:p')<cr>
 
 " select the last pasted command
 nno gp `[v`]
 
-
-" plugin keybindings
-" ------------------
-
-" map Mundo to an old Gundo key combo
-nno <leader>mm :MundoToggle<CR>
-
-" open snippets
-nno <leader>uu :UltiSnipsEdit<CR>
-
-" easy align bindings
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-xmap gaa <Plug>(EasyAlign)
-nmap gaa <Plug>(EasyAlign)
-xmap gae <Plug>(LiveEasyAlign)
-nmap gae <Plug>(LiveEasyAlign)
-
-
-" fugitive (git) keybindings
-nno <leader>ga :Gcommit --amend --no-edit
-nno <leader>gA :Gcommit --amend
-nno <leader>gb :Gblame<CR>
-nno <leader>gc :Gcommit<CR>
-nno <leader>gC :Gcommit --no-edit<CR>
-nno <leader>gd :Gdiff<CR>
-nno <leader>ge :Gedit 
-nno <leader>gf :Gfetch 
-nno <leader>gg :Git! 
-nno <leader>ghh :Git! stash show -p stash@{
-nno <leader>ghl :Git! stash list<CR>
-nno <leader>gha :Git stash apply stash@{
-nno <leader>ghA :Git stash pop
-nno <leader>ghs :Git stash save ""<Left>
-nno <leader>ghS :Git stash save -k ""<Left>
-nno <leader>gk :Gitv<CR>
-nno <leader>gK :Gitv!<CR>
-nno <leader>gl :Glog 
-nno <leader>gm :Gmerge 
-nno <leader>gn :Gcd<CR>:edit package.json<CR>
-nno <leader>go :Git checkout 
-nno <leader>gO :Git checkout -b 
-nno <leader>gp :Gpush<CR>
-nno <leader>gP :Gpush --no-verify
-nno <leader>gq :Gpull<CR>
-nno <leader>gr :Ggrep 
-nno <leader>gR :Ggrep "<C-R>/"<CR>
-nno <leader>gs :Gstatus<CR>
-nno <leader>gt :Gsplit 
-nno <leader>gu :Gpush -u origin<Space>
-nno <leader>gv :Gvsplit 
-nno <leader>gw :Gbrowse 
-nno <leader>gz :Gcd 
-" make sure airline has the latest branch
-au BufWinEnter * AirlineRefresh
-
-" list keybindings
-nno <leader>ll :let win = winnr()<CR>:lw<CR>:if winnr() != win \| wincmd J \| endif<CR>:execute win.'wincmd w'<CR>
-nno <leader>lc :lclose<CR>
-nno <leader>qq :let win = winnr()<CR>:cw<CR>:if winnr() != win \| wincmd J \| endif<CR>:execute win.'wincmd w'<CR>
-nno <leader>qo :copen<CR>
-nno <leader>qg :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrep" \| endif<CR>
-nno <leader>qv :if len(getqflist()) > 0 \| copen \| wincmd J \| exec "QFGrepV" \| endif<CR>
-nno <leader>qr :copen \| wincmd J \| exec "QFRestore"<CR>
-nno <leader>qc :cclose<CR>
-
-" taglist bindings
-nno <leader>tl :TlistToggle<CR>
-
-" bufexplorder bindings
-nno <leader>be :BufExplorer<CR>
-
-" session keybindings
-" nno <silent> <leader>sm :<C-U> exe "mksession! ~/session" . v:count1 . ".vim"<CR>
-" nno <silent> <leader>sl :<C-U> exe "silent! bufdo bd \| source ~/session" .v:count1 . ".vim"<CR>
-
-" neovim
-" ------
-" see neovim/keybindings
-
-
-" register keybindings
-" --------------------
-
-" allow easy use of the clipboard and null registers
-nno \ "+
-vno \ "+
-nno _ "_
-vno _ "_
-
-
-" text object bindings
-" --------------------
-
-" redefine c as curly braces
-vno ic iB
-vno ac aB
-omap ic iB
-omap ac aB
-
-
-" spacing keybindings
-" --------------------
-
-" faster formatting
-nno <leader>e =
-
-" place a space after/before the current line
-nno <leader>j mzo<ESC>0D`z
-nno <leader>k mzO<ESC>0D`z
-
-" toggle wrapping long lines visually
-nno <leader>re :se wrap!<CR>:se wrap?<CR>
-
-" toggle wrapping long lines physically
-"
-" http://vim.wikia.com/wiki/Toggle_auto-wrap
-function! AutoWrapOn()
-        set fo+=tc
-        " colorcolumn default color
-        hi ColorColumn ctermbg=15 ctermfg=0
-endfunction
-function! AutoWrapToggle()
-    if &formatoptions =~ 't'
-        set fo-=tc
-        " colorcolumn off color
-        hi ColorColumn ctermbg=7 ctermfg=0
-    else
-        call AutoWrapOn()
-    endif
-endfunction
-autocmd BufNewFile,BufRead * call AutoWrapOn()
-nno <leader>rt :call AutoWrapToggle()<CR>
-
-
-
-" search keybindings
-" ------------------
-
-" allow escape to clear search highlighting until the next search
-nno <ESC> :noh<CR><ESC>
-
-
-" window navigation keybindings
-" -----------------------------
-
-" allow switching window without pressing <C-w>
-nno <C-j> <C-w>j
-nno <C-k> <C-w>k
-nno <C-h> <C-w>h
-" fix for OSX
-nno <BS> <C-w>h
-nno <C-l> <C-w>l
-nno <C-A-\> :wincmd \|<CR>
-nno <C-_> :wincmd _<CR>
-
-
-" movement keybindings
-" --------------------
+" allow switching window without pressing <c-w>
+nno <c-j> <c-w>j
+nno <c-k> <c-w>k
+nno <c-h> <c-w>h
+nno <c-l> <c-w>l
 
 " put searches in the jump list
 nno / m`/
 nno ? m`?
 
-" append searches
-nno <leader>/ /<C-r>/\\|
-nno <leader>? ?<C-r>/\\|
+" allow quick diff operations
+nno <leader>du :diffupdate<cr>
+nno <leader>dg :diffget<cr>
+nno <leader>dp :diffput<cr>
+" get ours
+nno <leader>d3 :diffget //3<cr>
+" get theirs
+nno <leader>d2 :diffget //2<cr>
 
-" shortcut for %
-nno <leader>5 %
-omap <leader>5 %
-vno <leader>5 %
+" escape clears search
+nno <esc><esc> :nohlsearch<cr>
 
-" shortcut for $
-nno <leader>4 $
-omap <leader>4 $
-vno <leader>4 $
-
-" insert keybindings
-" ------------------
-
-" allow for undoing after every line
-" TODO: fix this with autocompletionc
-" ino <CR> <C-g>u<CR>
+" quick pasting of the main register in the terminal
+tmap <c-w>p <c-w>""
+" use <c-r> like in insert mode in the terminal
+tmap <c-w><c-r> <c-w>"
 
 
+""" Plugins
 
-""""""""
-" Neovim
-""""""""
-
-
-if has ('nvim')
-    " allow double escape to exit to normal mode
-    tnoremap <C-\><C-\> <C-\><C-n>
-
-    " change shell to zsh
-    set shell=zsh
-
-    " plugins
-    " see plugins/neovim
-
-    " prevent terminals from throwing an exit message
-    au TermClose * call feedkeys('<cr>')
-
-    " open vifm (file manager)
-    nno <leader>fm :Vifm .<CR>
-    nno <leader>fd :let g:vifmLiveCwd=!g:vifmLiveCwd<CR>:let g:vifmLiveCwd<CR>
-
-    " open terminal
-    " nno <leader>sh :botright 10new \| terminal<CR>
-    function! EditTerm(prog)
-      exe 'e term://' . a:prog
-      setlocal nobuflisted
-      setlocal bufhidden=delete
-			startinsert
-    endfunction
-    function! GetTerm(prog)
-        999wincmd j
-        999wincmd l
-        if &buftype == "terminal"
-          vs
-          wincmd l
-          setlocal wfh
-        else
-          botright 20new
-          999wincmd j
-          999wincmd l
-          setlocal wfh
-          wincmd J
-        endif
-        call EditTerm(a:prog)
-    endfunction
-    function! FixTerm()
-      let curwin = winnr()
-      999 wincmd j
-      999 wincmd l
-      if &buftype == "terminal"
-        resize 20
-        setlocal wfh
-      endif
-      exe curwin.'wincmd w'
-    endfunction
-    nno <leader>zh :call GetTerm('zsh')<CR>
-    nno <leader>zH :call EditTerm('zsh')<CR>
-    nno <leader>zn :call GetTerm('node')<CR>
-    nno <leader>zN :call EditTerm('node')<CR>
-    nno <leader>zz :call FixTerm()<CR>
-    " nno <leader>ss :Ttoggle<CR>
-    " nno <leader>sk :let g:neoterm_size+=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
-    " nno <leader>sj :let g:neoterm_size-=10<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
-    " nno <leader>sl :let g:neoterm_size=20<CR>:Topen<CR>:Tclose<CR>:Topen<CR>
-endif
-
-
-
-"""""""""
-" Plugins
-"""""""""
-
-" access plugin private APIs
-" --------------------------
-
-" http://stackoverflow.com/questions/24027506/get-a-vim-scripts-snr
-func! GetScriptNumber(script_name)
-    " Return the <SNR> of a script.
-    "
-    " Args:
-    "   script_name : (str) The name of a sourced script.
-    "
-    " Return:
-    "   (int) The <SNR> of the script; if the script isn't found, -1.
-
-    redir => scriptnames
-    silent! scriptnames
-    redir END
-
-    for script in split(l:scriptnames, "\n")
-        if l:script =~ a:script_name
-            return str2nr(split(l:script, ":")[0])
-        endif
-    endfor
-
-    return -1
-endfunc
-
-func! CallScriptFunc(script_name, func)
-  return eval(printf("<SNR>%d_" . a:func, GetScriptNumber("gitv.vim")))
-endfunc
-
-
-" plugins using vim-plug
-" ----------------------
 
 call plug#begin('~/.vim/plugged')
+
     " visual undo trees
     Plug 'simnalamburt/vim-mundo'
 
+    " sensible default settings
+    Plug 'tpope/vim-sensible'
+
     " surrounding keybindings
     Plug 'tpope/vim-surround'
-    " cause SR to surround in a regex group
+    " SR surrounds in regex group
     let g:surround_82 = "\\(\r\\)"
-    " Surround in newlines
-    command! -range T <line1>,<line2>s/ \+$\|$/
-    vmap gs gS  gv=..gv:T`<j^
-
-    " remappings of *next and *prev commands
-    Plug 'tpope/vim-unimpaired'
 
     " commenting toggling
     Plug 'tpope/vim-commentary'
 
-    " adds . to tpope plugins
-    Plug 'tpope/vim-repeat'
-
-    if !exists ('rlwrap')
-        let g:UltiSnipsExpandTrigger =  '<c-e>'
-        " https://github.com/SirVer/ultisnips/issues/303
-        let g:UltiSnipsSnippetDirectories=["/home/dork/UltiSnips", "UltiSnips"]
-        " snippets (chunks of automatic code)
-        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-    endif
-
-    " alignment
-    Plug 'junegunn/vim-easy-align'
-
-    " fancy statusline/tab-bar
-    Plug 'vim-airline/vim-airline'
-    " enable unicode
-    let g:airline_powerline_fonts = 1
-    " enable tab-bar
-    let g:airline#extensions#tabline#enabled = 1
-    " themes
-    Plug 'rbong/vim-airline-themes'
-    " colors
-    let g:airline_theme='wumbly'
-    " symbols (fix for unicode problems, even with powerline fonts)
-    augroup au_airline_symbols
-        autocmd VimEnter * let g:airline_symbols.maxlinenr = 'M' |
-                    \ let g:airline_symbols.notexists = 'N' |
-                    \ let g:airline_symbols.crypt = 'C' |
-                    \ let g:airline_symbols.whitespace = 'W'
-    augroup end
-    Plug 'Zuckonit/pimodoro'
-    let g:pim#taskfile = '~/vimwiki/Pimodoro.wiki'
-    function! OnPimWorkFinish()
-      call system('notify-send "Pimodoro" "Work is done"')
-      call jobstart('mplayer ~/sounds/notifications/001.mp3')
-    endfunction
-    function! OnPimBreakFinish()
-      call system('notify-send "Pimodoro" "Break is over"')
-      call jobstart('mplayer ~/sounds/notifications/001.mp3')
-    endfunction
-    function! PingAirline(job_id, data, event)
-      AirlineRefresh
-    endfunction
-		call jobstart('while true; do echo; sleep 60; done', { 'on_stdout': 'PingAirline' })
-
-    " automatic closing pairs
-    " Plug 'Raimondi/delimitMate'
-    " expand return into two lines
-    " let delimitMate_expand_cr = 1
+    " more next and previous commands
+    Plug 'tpope/vim-unimpaired'
 
     " git integration
-    Plug 'rbong/vim-fugitive'
-    " prevent excessive buffers
-    " autocmd BufReadPost fugitive://* set bufhidden=delete
-    " autocmd Filetype gitcommit set bufhidden=delete
-    " do not list the buffer
-    " autocmd BufWinEnter fugitive://* set nobuflisted
-    " autocmd BufWritePre fugitive://* set buflisted
-    " fix the buffer height
-    " autocmd BufWinEnter fugitive://* set wfh
-    autocmd Filetype gitcommit set wfh
-    " bitbucket support
-    Plug 'tommcdo/vim-fubitive'
+    Plug 'tpope/vim-fugitive'
+    " fugitive bindings
+    nno <leader>ga :Gcommit --amend --no-edit
+    nno <leader>gA :Gcommit --amend
+    nno <leader>gb :Gblame<cr>
+    nno <leader>gc :Gcommit<cr>
+    nno <leader>gC :Gcommit --no-edit<cr>
+    nno <leader>gd :Gdiff<cr>
+    nno <leader>ge :Gedit 
+    nno <leader>gf :Gfetch 
+    nno <leader>gg :Git! 
+    nno <leader>ghh :Git! stash show -p stash@{
+    nno <leader>ghl :Git! stash list<cr>
+    nno <leader>gha :Git stash apply stash@{
+    nno <leader>ghp :Git stash pop
+    nno <leader>ghs :Git stash save ""<left>
+    nno <leader>ghk :Git stash save -k ""<left>
+    nno <leader>gl :Glog 
+    nno <leader>gm :Gmerge 
+    nno <leader>go :Git checkout 
+    nno <leader>goo :Git checkout 
+    nno <leader>gob :Git checkout -b 
+    nno <leader>got :Git checkout -t origin/
+    nno <leader>gp :Gpush<cr>
+    nno <leader>gq :Gpull<cr>
+    nno <leader>gr :Ggrep 
+    nno <leader>g/ :Ggrep "<c-r>/"<cr>
+    nno <leader>gs :Gstatus<cr>
+    nno <leader>gu :Gpush -u origin<space>
+    nno <leader>gw :Gbrowse 
+    nno <leader>gz :Gcd 
 
-    " branch management in fugitive
-    Plug 'gregsexton/gitv'
-    let g:Gitv_DoNotMapCtrlKey = 1
-    let g:Gitv_TruncateCommitSubjects = 1
-    " autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
-    " autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
-    let g:Gitv_CustomMappings = {
-      \'nextRef': ']r',
-      \'prevRef': '[r',
-      \'nextBranch': ']b',
-      \'prevBranch': '[b',
-      \'nextCommit': ['<C-p>', 'K'],
-      \'prevCommit': ['<C-n>', 'J'],
-      \'merge': 'gm',
-      \'vmerge': 'gm',
-      \'checkout': 'gc',
-      \'cherryPick': 'gp',
-      \'vcherryPick': 'gp',
-      \'reset': 'ghb',
-      \'vreset': 'ghb',
-      \'resetSoft': 'ghs',
-      \'vresetSoft': 'ghs',
-      \'resetHard': 'ghh',
-      \'vresetHard': 'ghh',
-      \'revert': 'gu',
-      \'vrevert': 'gu',
-      \'delete': 'gd',
-      \'vdelete': 'gd',
-      \'head': 'gh',
-      \'parent': 'ga'
-    \}
+    " align text
+    Plug 'junegunn/vim-easy-align'
+    " easy align bindings
+    xmap ga <plug>(EasyAlign)
+    nmap ga <plug>(EasyAlign)
+    xmap gA <plug>(LiveEasyAlign)
+    nmap gA <plug>(LiveEasyAlign)
 
-    " branch management extensions
-    " Plug 'rbong/gitv-ext'
+    " light status line
+    Plug 'vim-airline/vim-airline'
+    " enable special fonts
+    let g:airline_powerline_fonts = 1
+    " enable tabline
+    let g:airline#extensions#tabline#enabled = 1
+    " airline colors
+    Plug 'vim-airline/vim-airline-themes'
+    let g:airline_theme='base16'
 
-    " allow quick diff operations
-    nno <leader>du :diffupdate<CR>
-    nno <leader>dg :diffget<CR>
-    nno <leader>dp :diffput<CR>
-    " get ours
-    nno <leader>d3 :diffget //3<CR>
-    " get theirs
-    nno <leader>d2 :diffget //2<CR>
-
-    " tag browser
-    Plug 'vim-scripts/taglist.vim'
-    " increase default width of pane
-    let Tlist_WinWidth = 40
-
-    " buffer browser
-    Plug 'jlanzarotta/bufexplorer'
-
-    " jsx highlighting and indentation
-    " dependency
-    Plug 'pangloss/vim-javascript'
-    let g:javascript_enable_domhtmlcss = 1
-    let g:javascript_plugin_jsdoc = 1
-    let g:javascript_plugin_flow = 1
-    " the good stuff
-    Plug 'mxw/vim-jsx'
-    " enable js files
-    let g:jsx_ext_required = 0
-    autocmd BufRead *.es6 set filetype=javascript
-
-    " " GraphQL support
-    " Plug 'jparise/vim-graphql'
-
-    " grow/shrink selection
-    " Plug 'terryma/vim-expand-region'
-
-    " lines indicating indent
-    Plug 'Yggdroot/indentLine'
-    nno <leader>it :IndentLinesToggle<CR>
-    nno <leader>ir :IndentLinesReset<CR>
-
-    " text objects
-    " columns
-    Plug 'coderifous/textobj-word-column.vim'
-    " framework
-    Plug 'kana/vim-textobj-user'
-    " functions
-    Plug 'kana/vim-textobj-function'
-    Plug 'michaeljsmith/vim-indent-object'
-    " Plug 'bkad/CamelCaseMotion'
-    " omap <silent> iw <Plug>CamelCaseMotion_iw
-    " xmap <silent> iw <Plug>CamelCaseMotion_iw
-
-    Plug 'rbong/neovim-vifm'
-    Plug 'rbong/vim-vertical'
-
-    " Easily replace multiple variants of a word
-    Plug 'tpope/vim-abolish'
-
-    " Plug 'rbong/vim-kite'
-
-    nno <silent> - :Vertical b<CR>
-    nno <silent> + :Vertical f<CR>
-    vno <silent> - mz:<C-U>call Vertical('v', 'b', 1)<CR>
-    vno <silent> + mz:<C-U>call Vertical('v', 'f', 1)<CR>
-    vno <silent> 2- mz:<C-U>call Vertical('v', 'b', 2)<CR>
-    vno <silent> 2+ mz:<C-U>call Vertical('v', 'f', 2)<CR>
-    vno <silent> 3- mz:<C-U>call Vertical('v', 'b', 3)<CR>
-    vno <silent> 3+ mz:<C-U>call Vertical('v', 'f', 3)<CR>
-    vno <silent> 4- mz:<C-U>call Vertical('v', 'b', 4)<CR>
-    vno <silent> 4+ mz:<C-U>call Vertical('v', 'f', 4)<CR>
-    vno <silent> 5- mz:<C-U>call Vertical('v', 'b', 5)<CR>
-    vno <silent> 5+ mz:<C-U>call Vertical('v', 'f', 5)<CR>
-
-    " " slack integration
-    " Plug 'mattn/webapi-vim'
-    " Plug 'heavenshell/vim-slack'
-
-    " fuzzy file matching
+    " fuzzy finding
     Plug 'ctrlpvim/ctrlp.vim'
-    se wig+=*/node_modules/*,*/coverage/*,*/esdoc/*,*/apidoc/*,*/doc/*
+    " ignore git
     let g:ctrlp_custom_ignore = '\.git$'
+    " jump to buffers in the current window or tab
     let g:ctrlp_switch_buffer = 'et'
-    let g:ctrp_show_hidden = 1
-    nno <C-b> :CtrlPBuffer<CR>
-    nno <C-f> :CtrlPMRUFiles<CR>
+    " open buffer view quicker
+    nno <c-b> :CtrlPBuffer<cr>
+    " open file view quicker
+    nno <c-f> :CtrlPMRUFiles<cr>
 
-    " Additional text objects
-    Plug 'wellle/targets.vim'
-
-    " Filter quickfix list
+    " filter quickfix list
     Plug 'sk1418/QFGrep'
 
-    " Close buffer, not window
-    Plug 'moll/vim-bbye'
-
-    " Testing Plugins
-    " Plug 'junegunn/vader.vim'
-
-    " " Automatic Markdown preview
-    " Plug 'euclio/vim-markdown-composer'
-    " let g:markdown_composer_browser='firefox'
-
-    " neovim plugins
-    if has ('nvim')
-        Plug 'rbong/galvanize.vim'
-
-        " use vifm instead of netrw
-        Plug 'rbong/neovim-vifm'
-        " allow changing the directory live with vifm
-        let g:vifmLiveCwd = 1
-        let g:vifmSplitWidth = 50
-
-        " Hog
-        " if !exists('rlwrap')
-        "     " autocompletion
-        "     Plug 'Shougo/deoplete.nvim'
-        "     let g:deoplete#enable_at_startup = 1
-        " endif
-
-        " asynchronous make
-        Plug 'benekastah/neomake'
-        " run neomake automatically
-        autocmd! BufWritePost *.js,*.jsx Neomake
-        let g:neomake_error_sign = { 'text': 'x' }
-        let g:neomake_javascript_eslint_maker = {
-              \ 'exe': 'bash',
-              \ 'args': ['-c', 'cd $(npm prefix) && eslint -f compact %:p'],
-              \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-              \ '%W%f: line %l\, col %c\, Warning - %m'
-              \ }
-        " javascript/jsx
-        let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
-    endif
+    " async linting
+    Plug 'w0rp/ale'
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
-    let g:vimwiki_use_calendar = 1
 
-    " personal calendar
-    Plug 'itchyny/calendar.vim'
-    let g:calendar_google_calendar = 1
-    let g:calendar_google_task = 1
-    nno <leader>tt :Calendar<CR>
-    func! DiaryForDay()
-      let day = b:calendar.day()
-      call vimwiki#diary#calendar_action(day.get_day(), day.get_month(), day.get_year(), -1, 'V')
-    endfunc
+    " snippet capabilities
+    Plug 'SirVer/ultisnips'
+    " extra snippets
+    Plug 'honza/vim-snippets'
+    let g:UltiSnipsSnippetDirectories=['/home/dork/UltiSnips', 'UltiSnips']
+    let g:UltiSnipsExpandTrigger =  '<c-e>'
 
-    au Filetype calendar nno <leader>tw :call DiaryForDay()<CR>
+    " edit registers as buffers
+    Plug 'rbong/vim-regbuf'
 
-    Plug 'baverman/vial'
-    Plug 'baverman/vial-http'
+    " vi file manager inside vim
+    Plug 'rbong/neovim-vifm'
+    " live directory switching
+    let g:vifmLiveCwd=1
+    " shortcuts
+    nno <leader>fm :Vifm .<CR>
 
-    Plug 'AndrewRadev/splitjoin.vim'
+    " base16 colors
+    Plug 'chriskempson/base16-vim'
 
-    " keybindings
-    " see keybindings/plugins
+    " better javascript compatibility
+    Plug 'pangloss/vim-javascript', {'for':'javascript'}
+
 call plug#end()
-" call expand_region#custom_text_objects({'it':1, 'ip':1, 'at':2, 'ap':2})
-" vmap K <Plug>(expand_region_expand)
-" vmap J <Plug>(expand_region_shrink)
 
 
-
-"""""""""""
-" Searching
-"""""""""""
+""" Bugfixes
 
 
-" ignore uppercase letters except explicitly
-" ------------------------------------------
+if has('terminal')
+    " default shell in case system defaults aren't picked up
+    set shell=zsh
 
-set ignorecase smartcase
+    " ensure terminals are colored correctly
+    " unfortunately makes the color turn pink when ALE sets highlights
+    set term=xterm-256color
+    " prevent the cursor from turning pink
+    let g:ale_set_highlights=0
+endif
 
-
-
-"""""""""
-" Spacing
-"""""""""
-
-
-" turn one tab into multiple spaces
-" ---------------------------------
-
-set expandtab tabstop=2 shiftwidth=2
-autocmd Filetype python set expandtab tabstop=2 shiftwidth=2
-
-
-" limit the document width
-" ------------------------
-
-" the document width
-set tw=79
-
-" enable wrapping
-" see Keybindings/spacing/enable wrapping
-
-" show a line at the colorcolumn
-set colorcolumn=80
-
-
-" indentation based on filetype
-" -----------------------------
-" cindent/smartindent cannot be set at the same time as filetype indent
-
-set nocindent
-set nosmartindent
-set autoindent
-filetype plugin indent on
-
-" cursor spacing
-" --------------
-
-set scrolloff=5
-
-
-
-"""""""""
-" Undoing
-"""""""""
-
-
-"" enable persistence
-set undofile
-set undodir=~/.vim/undo
-
-
-""""""""
-" Colors
-""""""""
-" see plugins for installed colors
-
-
-" colorscheme tweaks
-" ------------------
-
-
-" highlight search/hls/search and text distinction
-hi Search ctermfg=3 ctermbg=0 cterm=reverse
-
-" Visual/selection and cursor distinction
-hi MatchParen ctermbg=0 ctermfg=4
-" text distinction
-hi Visual ctermbg=4 ctermfg=0
-
-" make wildmenu look like airline
-hi Statusline cterm=none ctermbg=8 ctermfg=2
-hi WildMenu cterm=none ctermbg=7 ctermfg=0
-
-" make errors more distinct
-hi Error ctermfg=0 ctermbg=3
-
-" line numbers
-hi LineNr ctermfg=7
-hi CursorLineNr ctermfg=7
-" show line numbers TODO: move this
-set rnu
-set nu
-
-
-" vimdiff colors
-" --------------
-
-hi DiffAdd    cterm=none ctermbg=10 ctermfg=0
-hi DiffChange cterm=none ctermbg=14 ctermfg=0
-hi DiffDelete cterm=none ctermbg=11 ctermfg=0
-hi DiffText   cterm=none ctermbg=13 ctermfg=0
-
-
-" other color settings
-" --------------------
-
-" enable syntax hi3265ghlighting
-syntax on
-" fix unknown error that makes Statement brown
-hi Statement ctermfg=3
-" fold color
-hi Folded ctermbg=8
-
-
-
-"""""""""""""
-" UNORGANIZED
-"""""""""""""
-
-func! B(character)
-	normal V
-	redraw
-  exec 's/' . a:character . '\zs \+/\r/g'
-	normal V'<=gv=gv=
-endfunc
-
-"" Break up an array
-command! -nargs=1 B :call B(<q-args>)
-nno gbb :call B(",")
-nno gb :call B(nr2char(getchar()))
+augroup mybugfixes
+    if has('terminal')
+        " fix terminal drawing errors
+        au Terminalopen * redraw!
+    endif
+    if has('terminal')
+        " make sure airline is up to date
+        " must be silent or having a terminal open sometimes causes errors
+        au BufWinEnter * silent! AirlineRefresh
+    endif
+    
+    " on startup setting the scheme causes errors so do it in a hook instead
+    " no way to check if we can actually do this, so silence errors
+    autocmd VimEnter * silent! colorscheme base16-default-dark
+augroup END
