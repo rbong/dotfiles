@@ -233,6 +233,9 @@ call plug#begin('~/.vim/plugged')
     " better javascript compatibility
     Plug 'pangloss/vim-javascript', {'for':'javascript'}
 
+    " lots of new text objects for vim
+    Plug 'wellle/targets.vim'
+
 call plug#end()
 
 
