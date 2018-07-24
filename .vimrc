@@ -8,6 +8,9 @@ syntax on
 set undofile
 set undodir=~/.vim/undo
 
+" store swapfiles somewhere else
+set directory=~/.vim/swap
+
 " indentation behaviour (see :help)
 set nocindent nosmartindent autoindent
 filetype plugin indent on
