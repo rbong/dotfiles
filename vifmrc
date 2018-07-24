@@ -1,5 +1,6 @@
 """ Settings
 
+
 " show relative line numbers
 set rnu
 
