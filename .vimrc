@@ -12,9 +12,6 @@ set undodir=~/.vim/undo
 set nocindent nosmartindent autoindent
 filetype plugin indent on
 
-" default indentation of four spaces
-set expandtab tabstop=4 shiftwidth=4
-
 " ignore search case in search unless if uppercase letters are included
 set ignorecase smartcase
 
@@ -26,12 +23,7 @@ set number
 " highlight searches
 set hlsearch
 
-augroup myfilesettings
-    if has('terminal')
-        " no numbers in the terminal
-        " do not list the terminal buffer
-        au TerminalOpen * setlocal nornu nonu nobuflisted
-    endif
+augroup MyFileSettings
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
 augroup END
@@ -43,30 +35,7 @@ augroup END
 function! DelAllBufs()
     silent! bd <c-a><cr>
 endfunction
-command! -nargs=0 DelAllBufs :call DelAllBufs()<cr>
-
-" start or attach to a terminal on the bottom right
-function! PopupTerm()
-    999 wincmd j
-    if &buftype ==? 'terminal'
-        normal! a
-    else
-        bot term ++rows=20
-        setlocal winfixheight
-    endif
-endfunction
-" split or start a terminal on the bottom right
-function! PopupSplitTerm()
-    999 wincmd j
-    if &buftype ==? 'terminal'
-        vs
-        wincmd l
-        term ++curwin
-        setlocal winfixheight
-    else
-        call PopupTerm()
-    endif
-endfunction
+command! -nargs=0 DelAllBufs :call DelAllBufs()
 
 
 """ Keys
@@ -75,8 +44,8 @@ endfunction
 let g:mapleader = ' '
 
 " open a terminal on the bottom right
-nno <leader>zz :call PopupTerm()<cr>
-nno <leader>zv :call PopupSplitTerm()<cr>
+nno <leader>zz :ButterPopup<cr>
+nno <leader>zv :ButterSplit<cr>
 
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
@@ -229,6 +198,10 @@ call plug#begin('~/.vim/plugged')
     " shortcuts
     nno <leader>fm :Vifm .<CR>
 
+    " smooth terminal
+    Plug 'rbong/vim-butter'
+    let g:butter_fixes_color_ale = 1
+
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
     let g:dracula_colorterm=0
@@ -245,28 +218,7 @@ call plug#end()
 """ Bugfixes
 
 
-if has('terminal')
-    " default shell in case system defaults aren't picked up
-    set shell=zsh
-
-    " ensure terminals are colored correctly
-    " unfortunately makes the color turn pink when ALE sets highlights
-    set term=xterm-256color
-    " prevent the cursor from turning pink
-    let g:ale_set_highlights=0
-endif
-
-augroup mybugfixes
-    if has('terminal')
-        " fix terminal drawing errors
-        au Terminalopen * redraw!
-    endif
-    if has('terminal')
-        " make sure airline is up to date
-        " must be silent or having a terminal open sometimes causes errors
-        au BufWinEnter * silent! AirlineRefresh
-    endif
-    
+augroup MyBugFixes
     " on startup setting the scheme causes errors so do it in a hook instead
     " no way to check if we can actually do this, so silence errors
     autocmd VimEnter * silent! colorscheme dracula
