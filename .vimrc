@@ -36,7 +36,7 @@ augroup END
 
 
 function! DelAllBufs()
-    silent! bd <c-a><cr>
+    silent! bufdo bd
 endfunction
 command! -nargs=0 DelAllBufs :call DelAllBufs()
 
