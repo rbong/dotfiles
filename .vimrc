@@ -136,6 +136,12 @@ call plug#begin('~/.vim/plugged')
     " more next and previous commands
     Plug 'tpope/vim-unimpaired'
 
+    " better replacement
+    Plug 'tpope/vim-abolish'
+
+    " more repeating motions for tpope plugins
+    Plug 'tpope/vim-repeat'
+
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
