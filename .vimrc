@@ -33,7 +33,7 @@ augroup myfilesettings
         au TerminalOpen * setlocal nornu nonu nobuflisted
     endif
     " vim syntax highlighting for vifm
-    au BufNewFile,BufRead *.vifmrc set filetype=vim
+    au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
 augroup END
 
 
@@ -171,12 +171,8 @@ call plug#begin('~/.vim/plugged')
     nno <leader>gz :Gcd 
 
     " align text
-    Plug 'junegunn/vim-easy-align'
-    " easy align bindings
-    xmap ga <plug>(EasyAlign)
-    nmap ga <plug>(EasyAlign)
-    xmap gA <plug>(LiveEasyAlign)
-    nmap gA <plug>(LiveEasyAlign)
+    Plug 'godlygeek/tabular'
+    nno ga :Tabular /
 
     " light status line
     Plug 'vim-airline/vim-airline'
@@ -186,7 +182,6 @@ call plug#begin('~/.vim/plugged')
     let g:airline#extensions#tabline#enabled = 1
     " airline colors
     Plug 'vim-airline/vim-airline-themes'
-    let g:airline_theme='base16'
 
     " fuzzy finding
     Plug 'ctrlpvim/ctrlp.vim'
@@ -226,7 +221,8 @@ call plug#begin('~/.vim/plugged')
     nno <leader>fm :Vifm .<CR>
 
     " dracula color scheme
-    Plug 'dracula/vim'
+    Plug 'dracula/vim', {'as':'dracula'}
+    let g:dracula_colorterm=0
 
     " better javascript compatibility
     Plug 'pangloss/vim-javascript', {'for':'javascript'}
@@ -262,4 +258,6 @@ augroup mybugfixes
     " on startup setting the scheme causes errors so do it in a hook instead
     " no way to check if we can actually do this, so silence errors
     autocmd VimEnter * silent! colorscheme dracula
+    " this also seems to fail if done outside of VimEnter
+    autocmd VimEnter * silent! AirlineTheme dracula
 augroup END
