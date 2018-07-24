@@ -142,6 +142,9 @@ call plug#begin('~/.vim/plugged')
     " more repeating motions for tpope plugins
     Plug 'tpope/vim-repeat'
 
+    " automatic indent detection
+    Plug 'tpope/vim-sleuth'
+
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
