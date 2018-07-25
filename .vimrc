@@ -46,10 +46,6 @@ command! -nargs=0 DelAllBufs :call DelAllBufs()
 
 let g:mapleader = ' '
 
-" open a terminal on the bottom right
-nno <leader>zz :ButterPopup<cr>
-nno <leader>zv :ButterSplit<cr>
-
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
 " copy the path of the current directory
@@ -204,6 +200,9 @@ call plug#begin('~/.vim/plugged')
     " smooth terminal
     Plug 'rbong/vim-butter'
     let g:butter_fixes_color_ale = 1
+    " butter keybindings
+    nno <leader>zz :ButterPopup<cr>
+    nno <leader>zv :ButterSplit<cr>
 
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
