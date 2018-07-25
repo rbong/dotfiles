@@ -210,8 +210,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'dracula/vim', {'as':'dracula'}
     let g:dracula_colorterm=0
 
-    " better javascript compatibility
-    Plug 'pangloss/vim-javascript', {'for':'javascript'}
+    " automatically handle language plugins
+    Plug 'sheerun/vim-polyglot'
 
     " lots of new text objects for vim
     Plug 'wellle/targets.vim'
