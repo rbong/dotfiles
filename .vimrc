@@ -49,7 +49,9 @@ let g:mapleader = ' '
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
 " copy the path of the current directory
-nno <leader>cr ;let @+ = expand('%;h:p')<cr>
+nno <leader>cf :let @" = expand('%:h:p')<cr>
+" go up in the directory structure
+nno <leader>cc :cd ..<cr>
 
 " select the last pasted command
 nno gp `[v`]
