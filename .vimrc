@@ -190,7 +190,9 @@ call plug#begin('~/.vim/plugged')
     let g:UltiSnipsExpandTrigger =  '<c-e>'
 
     " edit registers as buffers
-    Plug 'rbong/vim-regbuf'
+    Plug 'rbong/vim-buffest'
+    nno c,q :Qflistsplit filename lnum vcol type valid text<cr>
+    nno c,l :Loclistsplit filename lnum vcol type valid text<cr>
 
     " vi file manager inside vim
     Plug 'rbong/neovim-vifm'
