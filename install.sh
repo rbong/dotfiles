@@ -9,6 +9,9 @@ echo done moving dotfiles.
 echo creating ~/.vim
 mkdir -p ~/.vim
 
+echo copying snippets to ~/.vim/UltiSnips
+cp -R UltiSnips ~/.vim/UltiSnips
+
 echo setting up dependencies...
 echo installing plugged...
 # https://github.com/junegunn/vim-plug

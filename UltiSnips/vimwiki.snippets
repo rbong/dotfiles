@@ -1,0 +1,26 @@
+global !p
+def fileday():
+	import datetime
+	return datetime.datetime.strptime(snip.fn.split('.')[0], '%Y-%m-%d')
+def daymath(day, delta):
+	import datetime
+	now = day + datetime.timedelta(days=delta)
+	return now.strftime('%F')
+def dayheader():
+	return fileday().strftime('%F')
+def dayfooter():
+	return '[[' + daymath(fileday(), -1) + '|Previous]] - [[' + daymath(fileday(), +1) + '|Next]]'
+endglobal
+snippet day
+= `!p snip.rv = dayheader()` =
+
+== Meetings ==
+
+	- 
+
+== Checklist ==
+
+	- [ ] 
+
+`!p snip.rv = dayfooter()`
+endsnippet
