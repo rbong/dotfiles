@@ -183,7 +183,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'SirVer/ultisnips'
     " extra snippets
     Plug 'honza/vim-snippets'
-    let g:UltiSnipsSnippetDirectories=['/home/dork/UltiSnips', 'UltiSnips']
+    let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
     let g:UltiSnipsExpandTrigger =  '<c-e>'
 
     " edit registers as buffers
