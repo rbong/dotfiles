@@ -35,10 +35,7 @@ augroup END
 """ Commands
 
 
-function! DelAllBufs()
-    silent! bufdo bd
-endfunction
-command! -nargs=0 DelAllBufs :call DelAllBufs()
+" sorry nothing
 
 
 """ Keys
