@@ -1,0 +1,6 @@
+*.diff.orig
+*.diff.rej
+pkg/
+src/
+dwm/
+*.pkg.tar.xz
