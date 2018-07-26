@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo moving dotfiles
 cp .zshrc .vimrc ~
 mkdir -p ~/.vifm/colors
