@@ -3,7 +3,7 @@
 set -e
 
 echo moving dotfiles
-cp .zshrc .vimrc ~
+cp .zshrc .vimrc Xresources .xinitrc ~
 mkdir -p ~/.vifm/colors
 cp vifmrc ~/.vifm/vifmrc
 cp dracula.vifm ~/.vifm/colors
