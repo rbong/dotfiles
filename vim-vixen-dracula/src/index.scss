@@ -1,0 +1,157 @@
+// font settings
+
+$font-family:          'Inconsolata for Powerline', 'Inconsolata', monospace;
+$font-size:            12.5px;
+$console-line-height:  16.5px;
+
+@mixin strong-font {
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+
+@mixin normal-font {
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+
+// color settings
+
+$dracula-bg:       #282a36;
+$dracula-line:     #44475a;
+$dracula-sel:      #44475a;
+$dracula-fg:       #f8f8f2;
+$dracula-comment:  #6272a4;
+$dracula-cyan:     #8be9fd;
+$dracula-green:    #50fa7b;
+$dracula-orange:   #ffb86c;
+$dracula-pink:     #ff79c6;
+$dracula-purple:   #bd93f9;
+$dracula-red:      #ff5555;
+$dracula-yellow:   #f1fa8c;
+
+$hint-bg:      $dracula-cyan;
+$hint-fg:      $dracula-bg;
+$hint-border:  1px solid $dracula-cyan;
+
+$console-border: none;
+
+$completion-bg:       $dracula-bg;
+$completion-fg:       $dracula-comment;
+$completion-item-bg:  $dracula-sel;
+$completion-url-fg:   $dracula-cyan;
+
+$title-bg: $dracula-line;
+$title-fg: $dracula-purple;
+
+$message-border-top: 1px solid $dracula-line;
+
+$error-bg: $dracula-red;
+$error-fg: $dracula-bg;
+
+$info-bg: $dracula-bg;
+$info-fg: $dracula-cyan;
+
+$command-bg:          $dracula-line;
+$command-fg:          $dracula-fg;
+$command-border-top:  1px solid $dracula-line;
+
+// concatenated copy of the orignal style source files
+
+// settings/form CSS has been removed
+
+// positioning CSS has been removed
+
+// !important has been added
+
+// styles have been replaced with variables and mixins
+
+.vimvixen-hint {
+  background-color: $hint-bg !important;
+  border: $hint-border !important;
+  font-size: $font-size !important;
+  color: $hint-fg !important;
+  @include strong-font;
+}
+
+.vimvixen-console-frame {
+  border: $console-border !important;
+  background-color: unset;
+}
+
+.vimvixen-console {
+  // sic.
+  @mixin consoole-font {
+    font-family: $font-family !important;
+    font-size: $font-size !important;
+    line-height: $console-line-height !important;
+    @include normal-font;
+  }
+
+  &-completion {
+    background-color: $completion-bg !important;
+    color: $completion-fg !important;
+
+    @include consoole-font;
+
+    &-title {
+      background-color: $title-bg !important;
+      color: $title-fg !important;
+      @include strong-font;
+    }
+
+    &-item {
+      &.vimvixen-completion-selected {
+        background-color: $completion-item-bg !important;
+      }
+
+      &-url {
+        color: $completion-url-fg !important;
+      }
+    }
+  }
+
+  &-message {
+    @include consoole-font;
+
+    border-top: $message-border-top !important;
+  }
+
+  &-error {
+    background-color: $error-bg !important;
+    color: $error-fg !important;
+    @include strong-font;
+  }
+
+  &-info {
+    background-color: $info-bg !important;
+    color: $info-fg !important;
+    @include normal-font;
+  }
+
+  &-command-wrapper {
+    border-top: $command-border-top !important;
+  }
+
+  &-command {
+    background-color: $command-bg !important;
+    color: $command-fg !important;
+
+    &-prompt {
+      background-color: $command-bg !important;
+      color: $command-fg !important;
+    }
+
+    &-input {
+      background-color: $command-bg !important;
+      color: $command-fg !important;
+    }
+
+    &-prompt:before {
+      @include consoole-font;
+    }
+
+    &-input {
+      @include consoole-font;
+    }
+  }
+}

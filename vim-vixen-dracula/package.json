@@ -1,0 +1,15 @@
+{
+  "name": "vim-vixen-dracula",
+  "version": "1.0.0",
+  "description": "Dracula theme with Inconsolata for vim-vixen",
+  "repository": "https://github.com/rbong/vim-vixen-dracula",
+  "author": "rbong",
+  "license": "MIT",
+  "main": "build/index.css",
+  "devDependencies": {
+    "node-sass": "^4.9.2"
+  },
+  "scripts": {
+    "build": "node-sass src -o build"
+  }
+}
