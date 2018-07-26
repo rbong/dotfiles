@@ -6,7 +6,7 @@ echo installing arch dependencies
 mkdir -p ~/src
 
 echo installing prerequisites
-sudo pacman -S base-devel
+sudo pacman -S base-devel --noconfirm
 
 echo installing AUR helper
 curl -fLo /tmp/trizen.tar.gz https://aur.archlinux.org/cgit/aur.git/snapshot/trizen.tar.gz
@@ -24,7 +24,8 @@ trizen -S \
   vifm \
   zsh \
   zsh-autosuggestions \
-  zsh-completions 
+  zsh-completions \
+  --noconfirm
 
 
 if [[ "$GUI" != "false" ]]; then
@@ -34,7 +35,12 @@ if [[ "$GUI" != "false" ]]; then
     powerline-fonts-git \
     rambox-bin \
     scrot \
-    slock
-fi
+    slock \
+    --noconfirm
 
-echo installing dwm
+  echo installing dwm
+  cd dwm-git && makepkg -sfi
+
+  echo installing firefox theme
+  cd ../vim-vixen-dracula && ./install.sh
+fi
