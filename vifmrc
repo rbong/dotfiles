@@ -32,7 +32,7 @@ set norunexec
 set noiec
 
 " directory for root mounts
-set fusehome="/home/dork/vifm/fuse/"
+set fusehome="~/vifm/fuse/"
 
 " mounting options that are too slow
 set slowfs=curlftpfs
