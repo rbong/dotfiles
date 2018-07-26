@@ -39,8 +39,13 @@ if [[ "$GUI" != "false" ]]; then
     --noconfirm
 
   echo installing dwm
-  cd dwm-git && makepkg -sfi
+  cd dwm-git && makepkg -sfi && cd ..
 
-  echo installing firefox theme
-  cd ../vim-vixen-dracula && ./install.sh
+  echo building firefox theme
+  if [[ ! -d ~/.mozilla/firefox ]]; then
+    echo firefox must have been run in order to install the theme
+    echo run "cd vim-vixen-dracula && FIREFOX_PROFILE=<profile> ./install.sh" after running firefox
+  else
+    cd ./vim-vixen-dracula && ./install.sh && cd ..
+  fi
 fi
