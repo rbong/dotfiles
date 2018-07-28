@@ -41,6 +41,7 @@ if [[ -f "$USER_CONTENT_PATH" && ! -w "$USER_CONTENT_PATH" ]]; then
   exit 1
 fi
 
+npm install
 npm run build
 
 if [[ ! -f "$BUILD_FILE" ]]; then
