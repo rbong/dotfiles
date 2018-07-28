@@ -1,6 +1,6 @@
 URxvt*scrollBar: false
-URxvt*font:                 xft:Inconsolata for Powerline:pixelsize=25:minspace=False, xft:DejaVu Sans:pixelsize=15
-URxvt*boldFont:             xft:Inconsolata for Powerline:pixelsize=25:minspace=False, xft:DejaVu Sans:pixelsize=15
+URxvt*font:                 xft:Inconsolata for Powerline:pixelsize=16:minspace=False, xft:DejaVu Sans:pixelsize=11
+URxvt*boldFont:             xft:Inconsolata for Powerline:pixelsize=16:minspace=False, xft:DejaVu Sans:pixelsize=11
 URxvt*letterSpace: 0
 
 ! Dracula Xresources palette

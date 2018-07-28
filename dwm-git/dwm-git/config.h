@@ -4,7 +4,7 @@
 #include <X11/XF86keysym.h>
 
 /* helper macros */
-#define FONT "Inconsolata for Powerline:pixelsize=18:minspace=False"
+#define FONT "Inconsolata for Powerline:pixelsize=16:minspace=False"
 
 #define BLACK   "#282A36"
 #define WHITE   "#F8F8F2"
