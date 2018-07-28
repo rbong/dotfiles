@@ -3,17 +3,17 @@
 set -e
 
 echo moving dotfiles
-cp .zshrc .vimrc Xresources .xinitrc ~
+cp .zshrc .vimrc Xresources .xinitrc .conkyrc ~
 mkdir -p ~/.vifm/colors
 cp vifmrc ~/.vifm/vifmrc
 cp dracula.vifm ~/.vifm/colors
 echo done moving dotfiles
 
 echo creating ~/.vim
-mkdir -p ~/.vim
+mkdir -p ~/.vim/swap
 
 echo copying snippets to ~/.vim/UltiSnips
-cp -R UltiSnips ~/.vim/UltiSnips
+cp -R UltiSnips ~/.vim
 
 echo setting up dependencies
 
