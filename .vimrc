@@ -195,12 +195,17 @@ call plug#begin('~/.vim/plugged')
     Plug 'rbong/neovim-vifm'
     " live directory switching
     let g:vifmLiveCwd=1
+    " width
+    let g:vifmSplitWidth=30
     " shortcuts
     nno <leader>fm :Vifm .<CR>
 
     " smooth terminal
     Plug 'rbong/vim-butter'
-    let g:butter_fixes_color_ale = 1
+    " fix ALE/'term' bug where the cursor changes color
+    let g:butter_fixes_color_ale=1
+    " terminal height
+    let g:butter_popup_options="++rows=15"
     " butter keybindings
     nno <leader>zz :ButterPopup<cr>
     nno <leader>zv :ButterSplit<cr>
