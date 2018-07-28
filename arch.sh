@@ -33,6 +33,9 @@ if [[ "$GUI" != "false" ]]; then
   trizen -S \
     firefox \
     powerline-fonts-git \
+    ttf-dejavu \
+    rxvt-unicode \
+    dmenu \
     rambox-bin \
     scrot \
     slock \
