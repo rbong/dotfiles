@@ -68,6 +68,7 @@ $command-border-top:  1px solid $dracula-line;
 .vimvixen-hint {
   background-color: $hint-bg !important;
   border: $hint-border !important;
+  font-family: $font-family !important;
   font-size: $font-size !important;
   color: $hint-fg !important;
   @include strong-font;
