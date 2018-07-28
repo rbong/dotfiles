@@ -7,4 +7,4 @@ conky.config = {
     use_spacer = 'none'
 }
 
-conky.text = [[c ${cpu cpu1}% / ${cpu cpu2}% m $memperc% :: t ${acpitemp}c :: w ${wireless_essid wlp4s0} ${wireless_link_qual_perc wlp4s0}% :: v ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f6} :: b ${battery} :: t ${time %a %b %d %I:%M%P}]]
+conky.text = [[c ${cpu cpu1}% / ${cpu cpu2}% m $memperc% :: t ${acpitemp}c :: w ${wireless_essid wlp2s0} ${wireless_link_qual_perc wlp2s0}% :: v ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f6,8} :: b ${battery} :: t ${time %a %b %d %I:%M%P}]]
