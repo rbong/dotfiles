@@ -37,6 +37,7 @@ $console-border: none;
 
 $completion-bg:       $dracula-bg;
 $completion-fg:       $dracula-comment;
+$completion-opacity:  0.95;
 $completion-item-bg:  $dracula-sel;
 $completion-url-fg:   $dracula-cyan;
 
@@ -89,6 +90,7 @@ $command-border-top:  1px solid $dracula-line;
   }
 
   &-completion {
+    opacity: $completion-opacity;
     background-color: $completion-bg !important;
     color: $completion-fg !important;
 
