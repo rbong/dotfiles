@@ -5,9 +5,10 @@
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 
-# use vim for everything
+# program settings
 export EDITOR=vim
 export VISUAL=vim
+export BROWSER=firefox
 
 
 ### Commands
