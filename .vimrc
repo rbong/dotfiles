@@ -26,6 +26,9 @@ set number
 " highlight searches
 set hlsearch
 
+" ignore version control directories
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+
 augroup MyFileSettings
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
