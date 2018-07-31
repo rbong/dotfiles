@@ -11,6 +11,7 @@ echo done moving dotfiles
 
 echo creating ~/.vim
 mkdir -p ~/.vim/swap
+mkdir -p ~/.vim/undo
 
 echo copying snippets to ~/.vim/UltiSnips
 cp -R UltiSnips ~/.vim
