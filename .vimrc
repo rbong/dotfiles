@@ -32,6 +32,9 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 augroup MyFileSettings
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
+
+    " do not persist password files
+    au BufNewFile,BufRead */pass.*/* setlocal noswapfile noundofile
 augroup END
 
 
