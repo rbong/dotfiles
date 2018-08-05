@@ -81,10 +81,12 @@ nno <leader>d2 :diffget //2<cr>
 " escape clears search
 nno <esc><esc> :nohlsearch<cr>
 
-" quick pasting of the main register in the terminal
-tmap <c-w>p <c-w>""
-" use <c-r> like in insert mode in the terminal
-tmap <c-w><c-r> <c-w>"
+if has('terminal')
+    " quick pasting of the main register in the terminal
+    tmap <c-w>p <c-w>""
+    " use <c-r> like in insert mode in the terminal
+    tmap <c-w><c-r> <c-w>"
+endif
 
 
 """ Plugins
@@ -136,7 +138,9 @@ call plug#begin('~/.vim/plugged')
     nno <leader>ghp :Git stash pop
     nno <leader>ghs :Git stash save ""<left>
     nno <leader>ghk :Git stash save -k ""<left>
-    nno <leader>gk :tabe \| term ++curwin ++close tig
+    if has('terminal')
+        nno <leader>gk :tabe \| term ++curwin ++close tig
+    endif
     nno <leader>gl :Glog 
     nno <leader>gm :Gmerge 
     nno <leader>go :Git checkout 
@@ -206,15 +210,17 @@ call plug#begin('~/.vim/plugged')
     " shortcuts
     nno <leader>fm :Vifm .<CR>
 
-    " smooth terminal
-    Plug 'rbong/vim-butter'
-    " fix ALE/'term' bug where the cursor changes color
-    let g:butter_fixes_color_ale=1
-    " terminal height
-    let g:butter_popup_options="++rows=15"
-    " butter keybindings
-    nno <leader>zz :ButterPopup<cr>
-    nno <leader>zv :ButterSplit<cr>
+    if has('terminal')
+        " smooth terminal
+        Plug 'rbong/vim-butter'
+        " fix ALE/'term' bug where the cursor changes color
+        let g:butter_fixes_color_ale=1
+        " terminal height
+        let g:butter_popup_options="++rows=15"
+        " butter keybindings
+        nno <leader>zz :ButterPopup<cr>
+        nno <leader>zv :ButterSplit<cr>
+    endif
 
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
