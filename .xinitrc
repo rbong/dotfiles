@@ -1,5 +1,5 @@
 # load terminal emulator settings
-xrdb ~/Xresources
+xrdb ~/.Xresources
 
 # fix certain programs which require wmname detection
 wmname LG3D
