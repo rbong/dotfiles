@@ -180,9 +180,6 @@ call plug#begin('~/.vim/plugged')
     " open file view quicker
     nno <c-f> :CtrlPMRUFiles<cr>
 
-    " filter quickfix list
-    Plug 'sk1418/QFGrep'
-
     " async linting
     Plug 'w0rp/ale'
 
