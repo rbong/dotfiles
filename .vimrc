@@ -203,7 +203,7 @@ call plug#begin('~/.vim/plugged')
     " live directory switching
     let g:vifmLiveCwd=1
     " width
-    let g:vifmSplitWidth=30
+    let g:vifmSplitWidth=40
     " shortcuts
     nno <leader>fm :Vifm .<CR>
 
