@@ -12,7 +12,7 @@ set undodir=~/.vim/undo
 set directory=~/.vim/swap
 
 " indentation behaviour (see :help)
-set nocindent nosmartindent autoindent
+set shiftwidth=2 tabstop=2 expandtab nocindent nosmartindent autoindent
 filetype plugin indent on
 
 " ignore search case in search unless if uppercase letters are included
