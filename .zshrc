@@ -10,6 +10,9 @@ export EDITOR=vim
 export VISUAL=vim
 export BROWSER=firefox
 
+# path settings
+export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
+
 
 ### Commands
 
@@ -18,6 +21,7 @@ export BROWSER=firefox
 function dronezone() {
   mplayer http://ice1.somafm.com/dronezone-128-mp3
 }
+
 
 # shortcut for gulp
 alias gulp='yarn gulp'
@@ -48,3 +52,6 @@ bindkey -v
 
 # add AWS completion
 source /usr/bin/aws_zsh_completer.sh
+
+# start ruby version manager
+source $HOME/.rvm/scripts/rvm
