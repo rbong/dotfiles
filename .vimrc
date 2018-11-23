@@ -195,8 +195,8 @@ call plug#begin('~/.vim/plugged')
 
     " edit registers as buffers
     Plug 'rbong/vim-buffest'
-    nno c,q :Qflistsplit filename lnum vcol type valid text<cr>
-    nno c,l :Loclistsplit filename lnum vcol type valid text<cr>
+    nno c,q :Qflistsplit filename lnum col type valid text<cr>
+    nno c,l :Loclistsplit filename lnum col type valid text<cr>
 
     " vi file manager inside vim
     Plug 'rbong/neovim-vifm'
