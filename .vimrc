@@ -138,9 +138,7 @@ call plug#begin('~/.vim/plugged')
     nno <leader>ghp :Git stash pop
     nno <leader>ghs :Git stash save ""<left>
     nno <leader>ghk :Git stash save -k ""<left>
-    if has('terminal')
-        nno <leader>gk :tabe \| term ++curwin ++close tig
-    endif
+    nno <leader>gk :Flog<cr>
     nno <leader>gl :Glog 
     nno <leader>gm :Gmerge 
     nno <leader>go :Git checkout 
@@ -155,6 +153,9 @@ call plug#begin('~/.vim/plugged')
     nno <leader>gu :Gpush -u origin<space>
     nno <leader>gw :Gbrowse 
     nno <leader>gz :Gcd 
+
+    " fugitive-based branch viewer
+    Plug 'rbong/vim-flog'
 
     " align text
     Plug 'godlygeek/tabular'
