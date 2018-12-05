@@ -138,7 +138,7 @@ call plug#begin('~/.vim/plugged')
     nno <leader>ghp :Git stash pop
     nno <leader>ghs :Git stash save ""<left>
     nno <leader>ghk :Git stash save -k ""<left>
-    nno <leader>gk :Flog<cr>
+    nno <leader>gk :Flog
     nno <leader>gl :Glog 
     nno <leader>gm :Gmerge 
     nno <leader>go :Git checkout 
@@ -229,7 +229,6 @@ call plug#begin('~/.vim/plugged')
 
     " lots of new text objects for vim
     Plug 'wellle/targets.vim'
-
 call plug#end()
 
 
