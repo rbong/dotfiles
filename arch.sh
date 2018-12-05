@@ -2,6 +2,8 @@
 
 set -e
 
+SRCDIR=`pwd`
+
 echo installing arch dependencies
 mkdir -p ~/src
 
@@ -42,13 +44,13 @@ if [[ "$GUI" != "false" ]]; then
     --noconfirm
 
   echo installing dwm
-  cd dwm-git && makepkg -sfi && cd ..
+  cd "$SRCIR/dwm-git" && makepkg -sfi && cd ..
 
   echo building firefox theme
   if [[ ! -d ~/.mozilla/firefox || "$FIREFOX_PROFILE" == "" ]]; then
     echo firefox must have been run in order to install the theme
     echo run "cd vim-vixen-dracula && FIREFOX_PROFILE=<profile> ./install.sh" after running firefox
   else
-    cd ./vim-vixen-dracula && ./install.sh && cd ..
+    cd "$SRCDIR/vim-vixen-dracula" && ./install.sh && cd ..
   fi
 fi
