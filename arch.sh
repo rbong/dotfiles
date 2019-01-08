@@ -41,6 +41,7 @@ if [[ "$GUI" != "false" ]]; then
     rambox-bin \
     scrot \
     slock \
+    imv \
     --noconfirm
 
   echo installing dwm

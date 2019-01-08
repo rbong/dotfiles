@@ -80,11 +80,12 @@ colorscheme dracula
 mark b /usr/local/bin/
 mark d ~/Downloads
 " mnemonic: files
-mark f ~/doc
+mark f ~/docs
 mark F ~/.vifm
 mark p ~/prog
 mark i ~/img
 mark m ~/music
+mark t ~/.local/share/vifm/Trash
 mark v ~/.vim
 mark V ~/Videos
 " mnemonic: home
@@ -128,7 +129,7 @@ nmap ~ :cd ~<cr>
 filetype *.pdf apvlv %f &> /dev/null &
 
 " audio
-filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a ffmpeg %f
+filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a mplayer %f
 fileviewer *.mp3 mp3info
 
 " video
@@ -141,13 +142,7 @@ fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.w
 filetype *.html,*.htm links,mozilla,firefox %f %i &
 
 " image
-filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-        \ {View in sxiv}
-        \ iv %c &> /dev/null &,
-        \ {View in gpicview}
-        \ gpicview %c,
-        \ {View in feh}
-        \ feh
+filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm imv -s none %f
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm convert -identify %f -verbose /dev/null
 
 " office files
