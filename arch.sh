@@ -45,5 +45,5 @@ if [[ "$GUI" != "false" ]]; then
     --noconfirm
 
   echo installing dwm
-  cd "$SRCIR/dwm-git" && makepkg -sfi && cd ..
+  cd "$SRCDIR/dwm-git" && makepkg -sfi && cd ..
 fi
