@@ -8,7 +8,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 # program settings
 export EDITOR=vim
 export VISUAL=vim
-export BROWSER=firefox
+export BROWSER=brave
 
 # path settings
 export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin

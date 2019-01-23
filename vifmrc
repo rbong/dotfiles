@@ -139,7 +139,7 @@ fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.w
          \ ffprobe -show_files -pretty %f 2> /dev/null
 
 " web
-filetype *.html,*.htm links,mozilla,firefox %f %i &
+filetype *.html,*.htm links,mozilla,brave %f %i &
 
 " image
 filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm imv -s none %f

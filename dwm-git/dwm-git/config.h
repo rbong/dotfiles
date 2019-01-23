@@ -16,7 +16,7 @@
 #define SHELL_OPT "-c"
 #define FILE_MNG "vifm"
 #define EDITOR   "vim"
-#define BROWSER  "firefox"
+#define BROWSER  "brave"
 #define LOCKER  "slock"
 
 
