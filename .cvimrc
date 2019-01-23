@@ -72,7 +72,6 @@ map ;f createMultiHint
 " by default I is mapped to :history
 unmap I
 " relies on cvim_server.py running
-" TODO: run server
 map I createEditHint
 
 " by default ;* is mapped to setMark

@@ -46,4 +46,11 @@ if [[ "$GUI" != "false" ]]; then
 
   echo installing dwm
   cd "$SRCDIR/dwm-git" && makepkg -sfi && cd ..
+
+  echo building cvim server
+  sudo cp "$SRCDIR/cvim_server/cvim_server.py" /usr/local/bin
+  sudo cp "$SRCDIR/cvim_server/cvim_server.service" /etc/systemd/system
+  sudo systemctl daemon-reload
+  sudo systemctl enable cvim_server
+  sudo systemctl start cvim_server
 fi
