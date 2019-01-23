@@ -1,0 +1,21 @@
+# snippets for assembly language
+snippet masm
+.model ${1:small}
+
+.data ; {{{
+
+; }}}
+
+.stack
+
+.code ; {{{
+
+main: ; {{{
+	${0}
+	.exit 0
+; }}}
+
+end main ; }}}
+
+; vim: ft=masm fdm=marker
+endsnippet
