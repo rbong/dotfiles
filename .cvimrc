@@ -15,7 +15,7 @@ set completeonopen
 let searchlimit = 20
 let scrollstep = 70
 let barposition = 'bottom'
-let hintcharacters = 'sdfjklagh'
+let hintcharacters = 'sdfjklaghweruioty'
 let mapleader = '<Space>'
 
 let blacklists = ['https://mail.google.com/*', '*://mail.google.com/*', '@https://mail.google.com/mail/*']
