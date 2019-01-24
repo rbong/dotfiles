@@ -25,12 +25,17 @@ let blacklists = ['https://mail.google.com/*', '*://mail.google.com/*', '@https:
 
 
 let defaultengine = 'startpage'
+
 let searchengine startpage = ['http://www.startpage.com', 'https://www.startpage.com/do/dsearch?cat=web&pl=opensearch&query=']
+let searchengine archwiki = ['https://wiki.archlinux.org', 'https://wiki.archlinux.org/index.php?title=Special%3ASearch&go=Go&search=']
+let searchengine aur = ['https://aur.archlinux.org', 'https://aur.archlinux.org/packages/?O=0&K=']
 
 let completionengines = ['startpage', 'wikipedia', 'youtube']
 
 let searchalias w = 'wikipedia'
 let searchalias sp = 'startpage'
+let searchalias aw = 'archwiki'
+let searchalias aur = 'aur'
 let searchalias g = 'google'
 let searchalias y = 'youtube'
 
