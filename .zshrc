@@ -63,4 +63,6 @@ bindkey -v
 source /usr/bin/aws_zsh_completer.sh
 
 # start ruby version manager
-source $HOME/.rvm/scripts/rvm
+if [ -f "$HOME/.rvm/scripts/rvm" ]; then
+  source "$HOME/.rvm/scripts/rvm"
+fi
