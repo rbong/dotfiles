@@ -16,10 +16,19 @@ export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
 
 ### Commands
 
+# soma fm channel
+function somafm() {
+  mplayer "http://ice1.somafm.com/${1}-${2:-128}-mp3"
+}
 
 # drone radio
 function dronezone() {
-  mplayer http://ice1.somafm.com/dronezone-128-mp3
+  somafm dronezone
+}
+
+# hacker radio
+function defconradio() {
+  somafm defcon
 }
 
 
