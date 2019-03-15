@@ -153,9 +153,12 @@ call plug#begin('~/.vim/plugged')
     nno <leader>gu :Gpush -u origin<space>
     nno <leader>gw :Gbrowse 
     nno <leader>gz :Gcd 
+    " fugitive github support
+    Plug 'tpope/vim-rhubarb'
 
     " fugitive-based branch viewer
     Plug 'rbong/vim-flog'
+    let g:flog_default_date_format = 'short'
 
     " align text
     Plug 'godlygeek/tabular'
@@ -194,6 +197,9 @@ call plug#begin('~/.vim/plugged')
     let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
     let g:UltiSnipsExpandTrigger =  '<c-e>'
 
+    " automatic tags
+    Plug 'ludovicchabant/vim-gutentags'
+
     " edit registers as buffers
     Plug 'rbong/vim-buffest'
     nno c,q :Qflistsplit filename lnum col type valid text<cr>
@@ -214,7 +220,7 @@ call plug#begin('~/.vim/plugged')
         " fix ALE/'term' bug where the cursor changes color
         let g:butter_fixes_color_ale=1
         " terminal height
-        let g:butter_popup_options="++rows=15"
+        let g:butter_popup_options='++rows=15'
         " butter keybindings
         nno <leader>zz :ButterPopup<cr>
         nno <leader>zv :ButterSplit<cr>
