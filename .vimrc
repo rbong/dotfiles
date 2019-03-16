@@ -51,8 +51,8 @@ let g:mapleader = ' '
 
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
-" copy the path of the current directory
-nno <leader>cf :let @" = expand('%:h:p')<cr>
+" copy the path of the current file
+nno <leader>cf :let @" = expand('%:h')<cr>
 " go up in the directory structure
 nno <leader>cc :cd ..<cr>
 
@@ -68,15 +68,6 @@ nno <c-l> <c-w>l
 " put searches in the jump list
 nno / m`/
 nno ? m`?
-
-" allow quick diff operations
-nno <leader>du :diffupdate<cr>
-nno <leader>dg :diffget<cr>
-nno <leader>dp :diffput<cr>
-" get ours
-nno <leader>d3 :diffget //3<cr>
-" get theirs
-nno <leader>d2 :diffget //2<cr>
 
 " escape clears search
 nno <esc><esc> :nohlsearch<cr>
@@ -123,36 +114,19 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>ga :Gcommit --amend --no-edit
-    nno <leader>gA :Gcommit --amend
-    nno <leader>gb :Gblame<cr>
-    nno <leader>gc :Gcommit<cr>
-    nno <leader>gC :Gcommit --no-edit<cr>
-    nno <leader>gd :Gdiff<cr>
-    nno <leader>ge :Gedit 
-    nno <leader>gf :Gfetch 
-    nno <leader>gg :Git! 
     nno <leader>ghh :Git! stash show -p stash@{
     nno <leader>ghl :Git! stash list<cr>
     nno <leader>gha :Git stash apply stash@{
     nno <leader>ghp :Git stash pop
-    nno <leader>ghs :Git stash save ""<left>
-    nno <leader>ghk :Git stash save -k ""<left>
-    nno <leader>gk :Flog
-    nno <leader>gl :Glog 
-    nno <leader>gm :Gmerge 
-    nno <leader>go :Git checkout 
-    nno <leader>goo :Git checkout 
-    nno <leader>gob :Git checkout -b 
+    nno <leader>ghs :Git stash push<space>
+    nno <leader>go :Git checkout<space>
+    nno <leader>goo :Git checkout<space>
+    nno <leader>gob :Git checkout -b<space>
     nno <leader>got :Git checkout -t origin/
-    nno <leader>gp :Gpush<cr>
-    nno <leader>gq :Gpull<cr>
-    nno <leader>gr :Ggrep 
+    nno <leader>gr :Ggrep ""<left>
     nno <leader>g/ :Ggrep "<c-r>/"<cr>
     nno <leader>gs :Gstatus<cr>
     nno <leader>gu :Gpush -u origin<space>
-    nno <leader>gw :Gbrowse 
-    nno <leader>gz :Gcd 
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
 
