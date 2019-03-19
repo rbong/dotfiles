@@ -84,9 +84,9 @@ endif
 
 
 call plug#begin('~/.vim/plugged')
-
     " visual undo trees
     Plug 'simnalamburt/vim-mundo'
+    nno <leader>mm :MundoToggle<CR>
 
     " sensible default settings
     Plug 'tpope/vim-sensible'
