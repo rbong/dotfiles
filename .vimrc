@@ -169,7 +169,8 @@ call plug#begin('~/.vim/plugged')
     " extra snippets
     Plug 'honza/vim-snippets'
     let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
-    let g:UltiSnipsExpandTrigger =  '<c-e>'
+    let g:UltiSnipsExpandTrigger = '<c-e>'
+    let g:UltiSnipsListSnippets = '<s-tab>'
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
