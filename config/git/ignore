@@ -1,0 +1,10 @@
+# vim tag files
+
+gutentags_project_root
+tags
+tags.lock
+tags.temp
+
+# vim configuration files
+
+.vimrc

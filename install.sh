@@ -16,6 +16,10 @@ mkdir -p ~/.vim/undo
 echo copying snippets to ~/.vim/UltiSnips
 cp -R UltiSnips ~/.vim
 
+echo moving config files
+cp -R config/* ~/.config
+echo done moving config files
+
 echo setting up dependencies
 
 # https://github.com/junegunn/vim-plug

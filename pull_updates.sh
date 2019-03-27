@@ -12,6 +12,13 @@ else
   echo skipping ~/.vifm/vifmrc
 fi
 
+if [[ -d ~/.config/git ]]; then
+  echo pulling git config
+  cp -R ~/.config/git config
+else
+  echo skipping ~/.config/git
+fi
+
 if [[ -d ~/.vim/UltiSnips ]]; then
   echo pulling UltiSnips
   cp -R ~/.vim/UltiSnips .
