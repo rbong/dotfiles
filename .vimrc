@@ -11,6 +11,9 @@ set undodir=~/.vim/undo
 " store swapfiles somewhere else
 set directory=~/.vim/swap
 
+" allow project-specific .vimrc files
+set exrc
+
 " indentation behaviour (see :help)
 set shiftwidth=2 tabstop=2 expandtab nocindent nosmartindent autoindent
 filetype plugin indent on
@@ -223,3 +226,10 @@ augroup MyBugFixes
     " this also seems to fail if done outside of VimEnter
     autocmd VimEnter * silent! AirlineTheme dracula
 augroup END
+
+
+""" Security
+
+" prevent strange .vimrc files from running unsafe commands
+" must be placed at the end of this file
+set secure
