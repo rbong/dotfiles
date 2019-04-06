@@ -13,7 +13,7 @@
 #define TERM_EMU "urxvt"
 #define TERM_OPT "-e"
 #define SHELL "zsh"
-#define SHELL_OPT "-c"
+#define SHELL_OPT "-ic"
 #define FILE_MNG "vifm"
 #define EDITOR   "vim"
 #define BROWSER  "brave"
