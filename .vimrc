@@ -150,7 +150,7 @@ call plug#begin('~/.vim/plugged')
     " fuzzy finding
     Plug 'ctrlpvim/ctrlp.vim'
     " ignore git
-    let g:ctrlp_custom_ignore = '\.git$'
+    let g:ctrlp_custom_ignore = '\.git$\|^cvim-'
     " jump to buffers in the current window or tab
     let g:ctrlp_switch_buffer = 'et'
     " open buffer view quicker
