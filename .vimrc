@@ -160,6 +160,7 @@ call plug#begin('~/.vim/plugged')
 
     " async linting
     Plug 'w0rp/ale'
+    let g:ale_completion_enabled = 1
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
@@ -174,6 +175,15 @@ call plug#begin('~/.vim/plugged')
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
+
+    " completion
+    Plug 'Shougo/deoplete.nvim'
+    " dependencies
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    " language syntax completion
+    Plug 'Shougo/neco-syntax'
+    let g:deoplete#enable_at_startup = 1
 
     " edit registers as buffers
     Plug 'rbong/vim-buffest'

@@ -22,6 +22,8 @@ trizen -S \
   grml-zsh-config \
   vim-runtime-git \
   gvim-git \
+  python-neovim \
+  python-greenlet \
   ctags \
   python-pip \
   vifm \
