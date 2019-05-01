@@ -84,32 +84,13 @@ endif
 
 
 call plug#begin('~/.vim/plugged')
-    " visual undo trees
-    Plug 'simnalamburt/vim-mundo'
-    nno <leader>mm :MundoToggle<CR>
-
-    " sensible default settings
-    Plug 'tpope/vim-sensible'
-
-    " surrounding keybindings
-    Plug 'tpope/vim-surround'
-    " SR surrounds in regex group
-    let g:surround_82 = "\\(\r\\)"
-
-    " commenting toggling
-    Plug 'tpope/vim-commentary'
-
-    " more next and previous commands
-    Plug 'tpope/vim-unimpaired'
+    " tpope plugins
 
     " better replacement
     Plug 'tpope/vim-abolish'
 
-    " more repeating motions for tpope plugins
-    Plug 'tpope/vim-repeat'
-
-    " automatic indent detection
-    Plug 'tpope/vim-sleuth'
+    " commenting toggling
+    Plug 'tpope/vim-commentary'
 
     " git integration
     Plug 'tpope/vim-fugitive'
@@ -130,74 +111,29 @@ call plug#begin('~/.vim/plugged')
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
 
-    " fugitive-based branch viewer
-    Plug 'rbong/vim-flog'
-    let g:flog_default_date_format = 'short'
+    " more repeating motions for tpope plugins
+    Plug 'tpope/vim-repeat'
 
-    " align text
-    Plug 'godlygeek/tabular'
-    nno ga :Tabular /
+    " sensible default settings
+    Plug 'tpope/vim-sensible'
 
-    " light status line
-    Plug 'vim-airline/vim-airline'
-    " enable special fonts
-    let g:airline_powerline_fonts = 1
-    " enable tabline
-    let g:airline#extensions#tabline#enabled = 1
-    " airline colors
-    Plug 'vim-airline/vim-airline-themes'
+    " automatic indent detection
+    Plug 'tpope/vim-sleuth'
 
-    " fuzzy finding
-    Plug 'ctrlpvim/ctrlp.vim'
-    " ignore git
-    let g:ctrlp_custom_ignore = '\.git$\|^cvim-'
-    " jump to buffers in the current window or tab
-    let g:ctrlp_switch_buffer = 'et'
-    " open buffer view quicker
-    nno <c-b> :CtrlPBuffer<cr>
-    " open file view quicker
-    nno <c-f> :CtrlPMRUFiles<cr>
+    " surrounding keybindings
+    Plug 'tpope/vim-surround'
+    " SR surrounds in regex group
+    let g:surround_82 = "\\(\r\\)"
 
-    " async linting
-    Plug 'w0rp/ale'
-    let g:ale_completion_enabled = 1
+    " more next and previous commands
+    Plug 'tpope/vim-unimpaired'
 
-    " personal wiki
-    Plug 'vimwiki/vimwiki'
-
-    " snippet capabilities
-    Plug 'SirVer/ultisnips'
-    " extra snippets
-    Plug 'honza/vim-snippets'
-    let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
-    let g:UltiSnipsExpandTrigger = '<c-e>'
-    let g:UltiSnipsListSnippets = '<s-tab>'
-
-    " automatic tags
-    Plug 'ludovicchabant/vim-gutentags'
-
-    " completion
-    Plug 'Shougo/deoplete.nvim'
-    " dependencies
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    " language syntax completion
-    Plug 'Shougo/neco-syntax'
-    let g:deoplete#enable_at_startup = 1
+    " my plugins
 
     " edit registers as buffers
     Plug 'rbong/vim-buffest'
     nno c,q :Qflistsplit filename lnum col type valid text<cr>
     nno c,l :Loclistsplit filename lnum col type valid text<cr>
-
-    " vi file manager inside vim
-    Plug 'rbong/neovim-vifm'
-    " live directory switching
-    let g:vifmLiveCwd=1
-    " width
-    let g:vifmSplitWidth=40
-    " shortcuts
-    nno <leader>fm :Vifm .<CR>
 
     if has('terminal')
         " smooth terminal
@@ -211,16 +147,86 @@ call plug#begin('~/.vim/plugged')
         nno <leader>zv :ButterSplit<cr>
     endif
 
+    " fugitive-based branch viewer
+    Plug 'rbong/vim-flog'
+    let g:flog_default_date_format = 'short'
+
+    " vi file manager inside vim
+    Plug 'rbong/neovim-vifm'
+    " live directory switching
+    let g:vifmLiveCwd=1
+    " width
+    let g:vifmSplitWidth=40
+    " shortcuts
+    nno <leader>fm :Vifm .<CR>
+
+    " misc. plugins
+
+    " light status line
+    Plug 'vim-airline/vim-airline'
+    " enable special fonts
+    let g:airline_powerline_fonts = 1
+    " enable tabline
+    let g:airline#extensions#tabline#enabled = 1
+    " airline colors
+    Plug 'vim-airline/vim-airline-themes'
+
+    " async linting
+    Plug 'w0rp/ale'
+    let g:ale_completion_enabled = 1
+
+    " fuzzy finding
+    Plug 'ctrlpvim/ctrlp.vim'
+    " ignore git
+    let g:ctrlp_custom_ignore = '\.git$\|^cvim-'
+    " jump to buffers in the current window or tab
+    let g:ctrlp_switch_buffer = 'et'
+    " open buffer view quicker
+    nno <c-b> :CtrlPBuffer<cr>
+    " open file view quicker
+    nno <c-f> :CtrlPMRUFiles<cr>
+
+    " completion
+    Plug 'Shougo/deoplete.nvim'
+    " dependencies
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    " language syntax completion
+    Plug 'Shougo/neco-syntax'
+    let g:deoplete#enable_at_startup = 1
+
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
     let g:dracula_colorterm=0
 
-    " automatically handle language plugins
+    " automatic tags
+    Plug 'ludovicchabant/vim-gutentags'
+
+    " visual undo trees
+    Plug 'simnalamburt/vim-mundo'
+    nno <leader>mm :MundoToggle<CR>
+
+    " language plugins
     Plug 'sheerun/vim-polyglot'
+
+    " align text
+    Plug 'godlygeek/tabular'
+    nno ga :Tabular /
 
     " lots of new text objects for vim
     Plug 'wellle/targets.vim'
-call plug#end()
+
+    " snippet capabilities
+    Plug 'SirVer/ultisnips'
+    " extra snippets
+    Plug 'honza/vim-snippets'
+    let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
+    let g:UltiSnipsExpandTrigger = '<c-e>'
+    let g:UltiSnipsListSnippets = '<s-tab>'
+
+    " personal wiki
+    Plug 'vimwiki/vimwiki'
+    call plug#end()
 
 
 """ Bugfixes
