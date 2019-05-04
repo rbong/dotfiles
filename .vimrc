@@ -33,6 +33,9 @@ augroup MyFileSettings
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
 
+    " xml syntax highlighting for ROS
+    au BufNewFile,BufRead *.launch set filetype=xml
+
     " do not persist password files
     au BufNewFile,BufRead */pass.*/* setlocal noswapfile noundofile
 augroup END
