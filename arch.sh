@@ -37,7 +37,7 @@ if [[ "$GUI" != "false" ]]; then
   echo installing GUI dependencies
   trizen -S \
     brave-bin \
-    powerline-fonts-git \
+    ttf-inconsolata \
     ttf-dejavu \
     rxvt-unicode \
     dmenu \

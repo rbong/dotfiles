@@ -23,6 +23,9 @@ set relativenumber
 " show the actual number for the current line
 set number
 
+" always show the tabline
+set showtabline=2
+
 " highlight searches
 set hlsearch
 
@@ -43,8 +46,19 @@ augroup END
 
 """ Commands
 
+function! LightlineTabMode() abort
+    if tabpagenr('$') == 1
+        return 'BUFFERS'
+    endif
+    return 'TABS'
+endfunction
 
-" sorry nothing
+function! DeopleteToggle() abort
+    call deoplete#toggle()
+    echo deoplete#is_enabled() ? 'Deoplete is enabled' : 'Deoplete is disabled'
+endfunction
+
+command! -nargs=0 DeopleteToggle call DeopleteToggle()
 
 
 """ Keys
@@ -169,11 +183,22 @@ call plug#begin('~/.vim/plugged')
 
     " lighter status line
     Plug 'itchyny/lightline.vim'
-    let g:lightline = {
-                \ 'colorscheme': 'default',
-                \ 'active': { 'left': [['mode', 'paste'], [ 'gitbranch', 'readonly', 'filename', 'modified' ]] },
-                \ 'component_function': { 'gitbranch': 'fugitive#head' },
-                \ }
+    " bufferline for lightline
+    Plug 'mengelbrecht/lightline-bufferline'
+    " config
+    let g:lightline = { 'colorscheme': 'darcula' }
+    " config bufferline
+    let g:lightline#bufferline#shorten_path = 1
+    let g:lightline#bufferline#unnamed = '[No Name]'
+    " config components
+    let g:lightline.component_function = { 'gitbranch': 'fugitive#head', 'tabmode': 'LightlineTabMode' }
+    let g:lightline.component_expand = { 'buffers': 'lightline#bufferline#buffers' }
+    let g:lightline.component_type = { 'buffers': 'tabsel' }
+    " config statusline
+    let g:lightline.active = { 'left': [['mode', 'paste'], [ 'gitbranch', 'readonly', 'filename', 'modified' ]] }
+    " config tabline
+    let g:lightline.tabline = { 'left': [['buffers']], 'right': [['tabmode']] }
+
 
     " async linting
     Plug 'w0rp/ale'
@@ -197,7 +222,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
     " language syntax completion
     Plug 'Shougo/neco-syntax'
-    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_at_startup = 0
 
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
@@ -216,6 +241,7 @@ call plug#begin('~/.vim/plugged')
     " align text
     Plug 'godlygeek/tabular'
     nno ga :Tabular /
+    vno ga :Tabular /
 
     " lots of new text objects for vim
     Plug 'wellle/targets.vim'
