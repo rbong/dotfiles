@@ -16,9 +16,6 @@ export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
 # allow using the c-q key
 stty -ixon
 
-# do not perform brace expansion
-setopt IGNORE_BRACES
-
 
 ### Commands
 
