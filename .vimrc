@@ -149,7 +149,9 @@ call plug#begin('~/.vim/plugged')
 
     " fugitive-based branch viewer
     Plug 'rbong/vim-flog'
-    let g:flog_default_date_format = 'short'
+    let g:flog_default_arguments = {
+                \ 'date': 'short',
+                \ }
 
     " vi file manager inside vim
     Plug 'rbong/neovim-vifm'
@@ -162,14 +164,13 @@ call plug#begin('~/.vim/plugged')
 
     " misc. plugins
 
-    " light status line
-    Plug 'vim-airline/vim-airline'
-    " enable special fonts
-    let g:airline_powerline_fonts = 1
-    " enable tabline
-    let g:airline#extensions#tabline#enabled = 1
-    " airline colors
-    Plug 'vim-airline/vim-airline-themes'
+    " lighter status line
+    Plug 'itchyny/lightline.vim'
+    let g:lightline = {
+                \ 'colorscheme': 'default',
+                \ 'active': { 'left': [['mode', 'paste'], [ 'gitbranch', 'readonly', 'filename', 'modified' ]] },
+                \ 'component_function': { 'gitbranch': 'fugitive#head' },
+                \ }
 
     " async linting
     Plug 'w0rp/ale'
@@ -226,16 +227,9 @@ call plug#begin('~/.vim/plugged')
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
-    call plug#end()
+call plug#end()
 
+" Post-load plugin configuration
 
-""" Bugfixes
-
-
-augroup MyBugFixes
-    " on startup setting the scheme causes errors so do it in a hook instead
-    " no way to check if we can actually do this, so silence errors
-    autocmd VimEnter * silent! colorscheme dracula
-    " this also seems to fail if done outside of VimEnter
-    autocmd VimEnter * silent! AirlineTheme dracula
-augroup END
+" dracula
+colorscheme dracula
