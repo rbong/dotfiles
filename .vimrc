@@ -192,6 +192,11 @@ call plug#begin('~/.vim/plugged')
     " config
     let g:deoplete#enable_at_startup = 1
 
+    " cross-system clipboard support
+    if !has('clipboard')
+        Plug 'kana/vim-fakeclip'
+    endif
+
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
     let g:dracula_colorterm=0
