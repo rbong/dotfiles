@@ -54,6 +54,9 @@ augroup END
 
 let g:mapleader = ' '
 
+" list all leader mappings
+nno <leader>? :nno <lt>leader><CR>
+
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
 " copy the path of the current file
