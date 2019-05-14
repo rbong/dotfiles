@@ -64,11 +64,19 @@ nno <leader>cc :cd ..<cr>
 " select the last pasted command
 nno gp `[v`]
 
+" easy clipboard access
+nm "" "+
+nm "' "_
+
 " allow switching window without pressing <c-w>
 nno <c-j> <c-w>j
 nno <c-k> <c-w>k
 nno <c-h> <c-w>h
 nno <c-l> <c-w>l
+
+" swap ' and `
+no ' `
+no ` '
 
 " put searches in the jump list
 nno / m`/
