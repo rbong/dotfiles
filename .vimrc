@@ -145,8 +145,8 @@ call plug#begin('~/.vim/plugged')
 
     " edit registers as buffers
     Plug 'rbong/vim-buffest'
-    nno c,q :Qflistsplit filename lnum col type valid text<cr>
-    nno c,l :Loclistsplit filename lnum col type valid text<cr>
+    nno c\q :Qflistsplit filename lnum col type valid text<cr>
+    nno c\l :Loclistsplit filename lnum col type valid text<cr>
 
     if has('terminal')
         " smooth terminal
