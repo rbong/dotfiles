@@ -46,19 +46,7 @@ augroup END
 
 """ Commands
 
-function! LightlineTabMode() abort
-    if tabpagenr('$') == 1
-        return 'BUFFERS'
-    endif
-    return 'TABS'
-endfunction
-
-function! DeopleteToggle() abort
-    call deoplete#toggle()
-    echo deoplete#is_enabled() ? 'Deoplete is enabled' : 'Deoplete is disabled'
-endfunction
-
-command! -nargs=0 DeopleteToggle call DeopleteToggle()
+" sorry nothing
 
 
 """ Keys
@@ -181,25 +169,6 @@ call plug#begin('~/.vim/plugged')
 
     " misc. plugins
 
-    " lighter status line
-    Plug 'itchyny/lightline.vim'
-    " bufferline for lightline
-    Plug 'mengelbrecht/lightline-bufferline'
-    " config
-    let g:lightline = { 'colorscheme': 'darcula' }
-    " config bufferline
-    let g:lightline#bufferline#shorten_path = 1
-    let g:lightline#bufferline#unnamed = '[No Name]'
-    " config components
-    let g:lightline.component_function = { 'gitbranch': 'fugitive#head', 'tabmode': 'LightlineTabMode' }
-    let g:lightline.component_expand = { 'buffers': 'lightline#bufferline#buffers' }
-    let g:lightline.component_type = { 'buffers': 'tabsel' }
-    " config statusline
-    let g:lightline.active = { 'left': [['mode', 'paste'], [ 'gitbranch', 'readonly', 'filename', 'modified' ]] }
-    " config tabline
-    let g:lightline.tabline = { 'left': [['buffers']], 'right': [['tabmode']] }
-
-
     " async linting
     Plug 'w0rp/ale'
     let g:ale_completion_enabled = 1
@@ -220,9 +189,8 @@ call plug#begin('~/.vim/plugged')
     " dependencies
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-    " language syntax completion
-    Plug 'Shougo/neco-syntax'
-    let g:deoplete#enable_at_startup = 0
+    " config
+    let g:deoplete#enable_at_startup = 1
 
     " dracula color scheme
     Plug 'dracula/vim', {'as':'dracula'}
@@ -230,6 +198,28 @@ call plug#begin('~/.vim/plugged')
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
+
+    " lighter status line
+    Plug 'itchyny/lightline.vim'
+    " bufferline for lightline
+    Plug 'mengelbrecht/lightline-bufferline'
+    "" config
+    let g:lightline = { 'colorscheme': 'darcula' }
+    " bufferline settings
+    let g:lightline#bufferline#show_number = 1
+    let g:lightline#bufferline#shorten_path = 1
+    let g:lightline#bufferline#unnamed = '[No Name]'
+    " functions
+    let g:LightlineBufftabs = { -> tabpagenr('$') == 1 ? lightline#bufferline#buffers() : lightline#tabs() }
+    " components
+    let g:lightline.component = { 'tabmode': '%{tabpagenr("$") == 1 ? "BUFFERS" : "TABS"}' }
+    let g:lightline.component_function = { 'gitbranch': 'fugitive#head' }
+    let g:lightline.component_expand = { 'bufftabs': 'g:LightlineBufftabs' }
+    let g:lightline.component_type = { 'bufftabs': 'tabsel' }
+    " statusline / tabline
+    let g:lightline.active = { 'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']] }
+    let g:lightline.tabline = { 'left': [['bufftabs']], 'right': [['tabmode']] }
+
 
     " visual undo trees
     Plug 'simnalamburt/vim-mundo'
