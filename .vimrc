@@ -179,6 +179,18 @@ call plug#begin('~/.vim/plugged')
 
     " async linting
     Plug 'w0rp/ale'
+    let g:ale_linters = {
+                \ 'python': ['pylint', 'yapf', 'pyls'],
+                \ }
+    nno <leader>aG :ALEGoToDefinition
+    nno <leader>ag :ALEGoToDefinition<CR>
+    nno <leader>ah :ALEHover<CR>
+    nno <leader>ar :ALEFindReferences<CR>
+    nno <leader>aR :ALEFindReferences -relative<CR>
+    nno <leader>as :ALESymbolSearch<space>
+    nno <leader>aS :ALESymbolSearch -relative<space>
+    nno <leader>aT :ALEGoToTypeDefinition
+    nno <leader>at :ALEGoToTypeDefinition<CR>
 
     " fuzzy finding
     Plug 'ctrlpvim/ctrlp.vim'
