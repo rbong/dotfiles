@@ -179,7 +179,6 @@ call plug#begin('~/.vim/plugged')
 
     " async linting
     Plug 'w0rp/ale'
-    let g:ale_completion_enabled = 1
 
     " fuzzy finding
     Plug 'ctrlpvim/ctrlp.vim'
@@ -223,11 +222,13 @@ call plug#begin('~/.vim/plugged')
     let g:lightline#bufferline#shorten_path = 1
     let g:lightline#bufferline#unnamed = '[No Name]'
     " functions
-    let g:LightlineBufftabs = { -> tabpagenr('$') == 1 ? lightline#bufferline#buffers() : lightline#tabs() }
+    function! LightlineBufftabs()
+        return tabpagenr('$') == 1 ? lightline#bufferline#buffers() : lightline#tabs()
+    endfunction
     " components
     let g:lightline.component = { 'tabmode': '%{tabpagenr("$") == 1 ? "BUFFERS" : "TABS"}' }
     let g:lightline.component_function = { 'gitbranch': 'fugitive#head' }
-    let g:lightline.component_expand = { 'bufftabs': 'g:LightlineBufftabs' }
+    let g:lightline.component_expand = { 'bufftabs': 'LightlineBufftabs' }
     let g:lightline.component_type = { 'bufftabs': 'tabsel' }
     " statusline / tabline
     let g:lightline.active = { 'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']] }
