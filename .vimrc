@@ -65,8 +65,8 @@ nno <leader>cc :cd ..<cr>
 nno gp `[v`]
 
 " easy clipboard access
-nm "" "+
-nm "' "_
+map "" "+
+map "' "_
 
 " allow switching window without pressing <c-w>
 nno <c-j> <c-w>j
