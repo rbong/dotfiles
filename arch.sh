@@ -5,6 +5,8 @@ set -e
 SRCDIR=`pwd`
 
 echo installing arch dependencies
+
+echo creating folder structure
 mkdir -p ~/src
 
 echo installing prerequisites
