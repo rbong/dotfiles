@@ -243,13 +243,19 @@ call plug#begin('~/.vim/plugged')
     function! LightlineBufftabs()
         return tabpagenr('$') == 1 ? lightline#bufferline#buffers() : lightline#tabs()
     endfunction
+    function! LightlineAle()
+        return get(b:, 'ale_enabled', g:ale_enabled) ? 'ALE' : ''
+    endfunction
+    function! LightlineDeoplete()
+        return deoplete#is_enabled() ? 'DEO' : ''
+    endfunction
     " components
     let g:lightline.component = { 'tabmode': '%{tabpagenr("$") == 1 ? "BUFFERS" : "TABS"}' }
-    let g:lightline.component_function = { 'gitbranch': 'fugitive#head' }
+    let g:lightline.component_function = { 'gitbranch': 'fugitive#head', 'ale': 'LightlineAle', 'deoplete': 'LightlineDeoplete' }
     let g:lightline.component_expand = { 'bufftabs': 'LightlineBufftabs' }
     let g:lightline.component_type = { 'bufftabs': 'tabsel' }
     " statusline / tabline
-    let g:lightline.active = { 'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']] }
+    let g:lightline.active = { 'left': [['mode', 'paste'], ['gitbranch', 'ale', 'deoplete', 'readonly', 'filename', 'modified']] }
     let g:lightline.tabline = { 'left': [['bufftabs']], 'right': [['tabmode']] }
 
 
