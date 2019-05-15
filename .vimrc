@@ -185,6 +185,7 @@ call plug#begin('~/.vim/plugged')
     let g:ale_linters = {
                 \ 'python': ['pylint', 'yapf', 'pyls'],
                 \ }
+    nno <leader>aa :ALEToggle<CR>
     nno <leader>aG :ALEGoToDefinition
     nno <leader>ag :ALEGoToDefinition<CR>
     nno <leader>ah :ALEHover<CR>
@@ -212,7 +213,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
     " config
-    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_at_startup = 0
+    " bindings
+    nno <leader>dd :call deoplete#toggle()<CR>
 
     " cross-system clipboard support
     if !has('clipboard')
