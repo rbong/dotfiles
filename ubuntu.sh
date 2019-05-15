@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+set -e
+
+SRCDIR=`pwd`
+
+echo installing ubuntu dependencies
+
+echo creating folder structure
+mkdir -p ~/src
+
+echo installing programs
+sudo apt-get install -y \
+  zsh \
+  git \
+  python \
+  python3
+
+echo configuring zsh
+sudo wget -O /etc/zsh/zshrc "https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc"
+if [[ ! -d ~/src/zsh-autosuggestions ]]; then
+  git clone "https://github.com/zsh-users/zsh-autosuggestions" ~/src/zsh-autosuggestions
+fi
+cd ~/zsh_autosuggestions
+make
+sudo make install
+
+echo installing common dependencies
+sudo apt-get install -y \
+  libncurses5w-dev
+
+echo removing old vim installation
+sudo apt-get remove -y vim vim-runtime gvim
+
+echo installing vim dependencies
+sudo apt-get install -y \
+  ctags \
+  libgnome2-dev \
+  libnomeui-dev \
+  libgtk2.0-dev \
+  libatk1.0-dev \
+  libbonoboui2-dev \
+  libcairo2-dev \
+  libx11-dev \
+  libxpm-dev \
+  libxt-dev \
+  python-dev \
+  python3-dev \
+  python3-neovim \
+  ruby-dev \
+  lua5.1 \
+  liblua5.1-dev \
+  libperl-dev
+
+echo building vim
+if [[ ! -d ~/src/vim ]]; then
+  git clone "https://github.com/vim/vim" ~/src/vim
+fi
+cd ~/src/vim
+./configure \
+  --with-features=huge \
+  --enable-multibyte \
+  --enable-rubyinterp=yes \
+  --enable-pythoninterp=yes \
+  --enable-python3interp=yes \
+  --with-python3-config-dir=/usr/lib/python3.6/config \
+  --enable-perlinterp=yes \
+  --enable-luainterp=yes \
+  --enable-gui=gtk2 \
+  --enable-cscope \
+  --prefix=/usr/local
+make VIMRUNTIMEDIR=/usr/local/share/vim/vim81
+sudo make install
+
+echo building vifm
+if [[ ! -d ~/src/vifm ]]; then
+  git clone "https://github.com/vifm/vifm" ~/src/vifm
+fi
+cd ~/src/vifm
+./configure
+make
+sudo make install
+
+if [[ "$GUI" != "false" ]]; then
+  echo installing GUI dependencies
+  echo not implemented on Ubuntu
+fi
