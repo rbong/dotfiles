@@ -9,6 +9,9 @@ echo installing ubuntu dependencies
 echo creating folder structure
 mkdir -p ~/src
 
+echo updating sources
+sudo apt-get update
+
 echo installing programs
 sudo apt-get install -y \
   zsh \
@@ -16,27 +19,32 @@ sudo apt-get install -y \
   python \
   python3
 
+echo installing common dependencies
+sudo apt-get install -y \
+  libncursesw5-dev \
+  build-essential
+
 echo configuring zsh
 sudo wget -O /etc/zsh/zshrc "https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc"
 if [[ ! -d ~/src/zsh-autosuggestions ]]; then
   git clone "https://github.com/zsh-users/zsh-autosuggestions" ~/src/zsh-autosuggestions
 fi
-cd ~/zsh_autosuggestions
-make
-sudo make install
+if [[ ! -d /usr/share/zsh/plugins/zsh-autosuggestions ]]; then
+  sudo mkdir -p /usr/share/zsh/plugins
+  sudo cp -r ~/src/zsh-autosuggestions /usr/share/zsh/plugins/zsh-autosuggestions
+fi
 
-echo installing common dependencies
-sudo apt-get install -y \
-  libncurses5w-dev
+echo setting shell to zsh
+chsh -s `which zsh`
 
 echo removing old vim installation
-sudo apt-get remove -y vim vim-runtime gvim
+sudo apt-get remove -y vim vim-runtime gvim neovim neovim-runtime
 
 echo installing vim dependencies
 sudo apt-get install -y \
   ctags \
   libgnome2-dev \
-  libnomeui-dev \
+  libgnomeui-dev \
   libgtk2.0-dev \
   libatk1.0-dev \
   libbonoboui2-dev \
