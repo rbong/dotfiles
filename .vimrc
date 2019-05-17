@@ -46,6 +46,7 @@ augroup END
 
 """ Commands
 
+
 " sorry nothing
 
 
@@ -169,6 +170,24 @@ call plug#begin('~/.vim/plugged')
                 \ 'date': 'short',
                 \ }
 
+    Plug 'rbong/vim-crystalline'
+    let g:statusline_settings = '%#TabLineSel# %{&paste?"PASTE ":""}'
+                \ . '%{&spell?"SPELL ":""}'
+                \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
+                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
+                \ . '%#CrystallineMode#'
+    function! StatusLine(current) abort
+        call crystalline#color()
+        return (a:current ? crystalline#mode() : '')
+                    \ . '%#TabLineSel# %f%h%w%m%r '
+                    \ . (a:current ? '%#TabLineFill# %{fugitive#head()} ' : '')
+                    \ . '%=' . (a:current ? g:statusline_settings : '')
+                    \ . ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+    endfunction
+    let g:crystalline_enable_bufferline = 1
+    let g:crystalline_set_statusline_fn = 'StatusLine'
+    let g:crystalline_theme = 'dracula'
+
     " vi file manager inside vim
     Plug 'rbong/neovim-vifm'
     " live directory switching
@@ -229,36 +248,6 @@ call plug#begin('~/.vim/plugged')
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
 
-    " lighter status line
-    Plug 'itchyny/lightline.vim'
-    " bufferline for lightline
-    Plug 'mengelbrecht/lightline-bufferline'
-    "" config
-    let g:lightline = { 'colorscheme': 'darcula' }
-    " bufferline settings
-    let g:lightline#bufferline#show_number = 1
-    let g:lightline#bufferline#shorten_path = 1
-    let g:lightline#bufferline#unnamed = '[No Name]'
-    " functions
-    function! LightlineBufftabs()
-        return tabpagenr('$') == 1 ? lightline#bufferline#buffers() : lightline#tabs()
-    endfunction
-    function! LightlineAle()
-        return get(b:, 'ale_enabled', g:ale_enabled) ? 'ALE' : ''
-    endfunction
-    function! LightlineDeoplete()
-        return deoplete#is_enabled() ? 'DEO' : ''
-    endfunction
-    " components
-    let g:lightline.component = { 'tabmode': '%{tabpagenr("$") == 1 ? "BUFFERS" : "TABS"}' }
-    let g:lightline.component_function = { 'gitbranch': 'fugitive#head', 'ale': 'LightlineAle', 'deoplete': 'LightlineDeoplete' }
-    let g:lightline.component_expand = { 'bufftabs': 'LightlineBufftabs' }
-    let g:lightline.component_type = { 'bufftabs': 'tabsel' }
-    " statusline / tabline
-    let g:lightline.active = { 'left': [['mode', 'paste'], ['gitbranch', 'ale', 'deoplete', 'readonly', 'filename', 'modified']] }
-    let g:lightline.tabline = { 'left': [['bufftabs']], 'right': [['tabmode']] }
-
-
     " visual undo trees
     Plug 'simnalamburt/vim-mundo'
     nno <leader>mm :MundoToggle<CR>
@@ -286,7 +275,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vimwiki/vimwiki'
 call plug#end()
 
-" Post-load plugin configuration
+" post-load plugin configuration
 
 " dracula
-colorscheme dracula
+silent! colorscheme dracula
