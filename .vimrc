@@ -171,21 +171,28 @@ call plug#begin('~/.vim/plugged')
                 \ }
 
     Plug 'rbong/vim-crystalline'
-    let g:statusline_settings = '%#TabLineSel# %{&paste?"PASTE ":""}'
+    let g:statusline_settings = '%#Crystalline# %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
                 \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
-                \ . '%#CrystallineMode#'
-    function! StatusLine(current) abort
-        call crystalline#color()
-        return (a:current ? crystalline#mode() : '')
-                    \ . '%#TabLineSel# %f%h%w%m%r '
-                    \ . (a:current ? '%#TabLineFill# %{fugitive#head()} ' : '')
-                    \ . '%=' . (a:current ? g:statusline_settings : '')
-                    \ . ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+    function! StatusLineFile() abort
+        let l:name = pathshorten(bufname(bufnr('%')))
+        return l:name ==# '' ? '[No Name]' : l:name
     endfunction
-    let g:crystalline_enable_bufferline = 1
-    let g:crystalline_set_statusline_fn = 'StatusLine'
+    function! StatusLine(current) abort
+        let l:s = ''
+        let l:s .= (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
+        let l:s .= ' %-.20(%{StatusLineFile()}%h%w%m%r%) '
+        let l:s .= (a:current ? '%#CrystallineFill# %{fugitive#head()} ' : '')
+        let l:s .= '%=' . (a:current ? g:statusline_settings . crystalline#mode_color() : '')
+        let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+        return l:s
+    endfunction
+    function! TabLine() abort
+        return crystalline#bufferline(0, 0, 1)
+    endfunction
+    let g:crystalline_statusline_fn = 'StatusLine'
+    let g:crystalline_tabline_fn = 'TabLine'
     let g:crystalline_theme = 'dracula'
 
     " vi file manager inside vim
