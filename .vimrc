@@ -179,13 +179,13 @@ call plug#begin('~/.vim/plugged')
         let l:name = pathshorten(bufname(bufnr('%')))
         return l:name ==# '' ? '[No Name]' : l:name
     endfunction
-    function! StatusLine(current) abort
+    function! StatusLine(current, width) abort
         let l:s = ''
         let l:s .= (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
-        let l:s .= ' %-.20(%{StatusLineFile()}%h%w%m%r%) '
+        let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
         let l:s .= (a:current ? '%#CrystallineFill# %{fugitive#head()} ' : '')
         let l:s .= '%=' . (a:current ? g:statusline_settings . crystalline#mode_color() : '')
-        let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+        let l:s .= (a:width > 80 ? ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P ' : ' ')
         return l:s
     endfunction
     function! TabLine() abort
