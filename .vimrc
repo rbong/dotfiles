@@ -32,6 +32,11 @@ set hlsearch
 " ignore version control directories
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
+augroup MyVimEnterSettings
+    " disable undercurl, causes cursor to change color on rxvt
+    au VimEnter * set t_Cs=
+augroup END
+
 augroup MyFileSettings
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
@@ -170,7 +175,7 @@ call plug#begin('~/.vim/plugged')
                 \ 'date': 'short',
                 \ }
 
-    Plug 'rbong/vim-crystalline'
+    Plug 'rbong/vim-crystalline', { 'branch': 'dev' }
     let g:statusline_settings = '%#Crystalline# %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
@@ -181,16 +186,29 @@ call plug#begin('~/.vim/plugged')
     endfunction
     function! StatusLine(current, width) abort
         let l:s = ''
-        let l:s .= (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
+        if a:current
+            let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+        else
+            let l:s .= '%#CrystallineInactive#'
+        endif
         let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
-        let l:s .= (a:current ? '%#CrystallineFill# %{fugitive#head()} ' : '')
-        let l:s .= '%=' . (a:current ? g:statusline_settings . crystalline#mode_color() : '')
-        let l:s .= (a:width > 80 ? ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P ' : ' ')
+        if a:current
+            let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()} '
+            let l:s .= '%=' . crystalline#left_sep('', 'Fill') . g:statusline_settings . crystalline#left_mode_sep('')
+        else
+            let l:s .= '%='
+        endif
+        if a:width > 80
+            let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %3(%c%V%) %P '
+        else
+            let l:s .= ' '
+        endif
         return l:s
     endfunction
     function! TabLine() abort
         return crystalline#bufferline(0, 0, 1)
     endfunction
+    let g:crystalline_enable_sep = 1
     let g:crystalline_statusline_fn = 'StatusLine'
     let g:crystalline_tabline_fn = 'TabLine'
     let g:crystalline_theme = 'dracula'
