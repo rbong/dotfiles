@@ -176,34 +176,39 @@ call plug#begin('~/.vim/plugged')
                 \ }
 
     Plug 'rbong/vim-crystalline', { 'branch': 'dev' }
-    let g:statusline_settings = '%#Crystalline# %{&paste?"PASTE ":""}'
+    let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
-                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
+                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""} '
     function! StatusLineFile() abort
         let l:name = pathshorten(bufname(bufnr('%')))
         return l:name ==# '' ? '[No Name]' : l:name
     endfunction
-    function! StatusLine(current, width) abort
-        let l:s = ''
-        if a:current
-            let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
-        else
-            let l:s .= '%#CrystallineInactive#'
-        endif
-        let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
-        if a:current
-            let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()} '
-            let l:s .= '%=' . crystalline#left_sep('', 'Fill') . g:statusline_settings . crystalline#left_mode_sep('')
-        else
-            let l:s .= '%='
-        endif
-        if a:width > 80
-            let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %3(%c%V%) %P '
-        else
-            let l:s .= ' '
-        endif
-        return l:s
+    function! StatusLine(current, width)
+      let l:s = ''
+
+      if a:current
+        let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+      else
+        let l:s .= '%#CrystallineInactive#'
+      endif
+      let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
+      if a:current
+        let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()}'
+      endif
+
+      let l:s .= '%='
+      if a:current
+        let l:s .= crystalline#left_sep('', 'Fill') . g:statusline_settings
+        let l:s .= crystalline#left_mode_sep('')
+      endif
+      if a:width > 80
+        let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+      else
+        let l:s .= ' '
+      endif
+
+      return l:s
     endfunction
     function! TabLine() abort
         return crystalline#bufferline(0, 0, 1)
