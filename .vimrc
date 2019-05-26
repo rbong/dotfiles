@@ -218,15 +218,6 @@ call plug#begin('~/.vim/plugged')
     let g:crystalline_tabline_fn = 'TabLine'
     let g:crystalline_theme = 'dracula'
 
-    " vi file manager inside vim
-    Plug 'rbong/neovim-vifm'
-    " live directory switching
-    let g:vifmLiveCwd=1
-    " width
-    let g:vifmSplitWidth=40
-    " shortcuts
-    nno <leader>fm :Vifm .<CR>
-
     " misc. plugins
 
     " async linting
@@ -300,6 +291,14 @@ call plug#begin('~/.vim/plugged')
     let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
     let g:UltiSnipsExpandTrigger = '<c-e>'
     let g:UltiSnipsListSnippets = '<s-tab>'
+
+    " file manager
+    Plug 'vifm/vifm.vim'
+    let g:vifm_embed_term = 1
+    let g:vifm_embed_split = 1
+    let g:vifm_embed_cwd = 1
+    let g:vifm_replace_netrw = 1
+    nno <leader>fm :vertical 40Vifm<CR>
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
