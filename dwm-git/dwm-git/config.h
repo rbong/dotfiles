@@ -6,9 +6,9 @@
 /* helper macros */
 #define FONT "Inconsolata:pixelsize=16:minspace=False"
 
-#define BLACK   "#282A36"
-#define WHITE   "#F8F8F2"
-#define BLUE    "#8BE9FD"
+#define BLACK   "#282828"
+#define WHITE   "#ebdbb2"
+#define BLUE    "#83a598"
 
 #define TERM_EMU "urxvt"
 #define TERM_OPT "-e"

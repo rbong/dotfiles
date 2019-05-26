@@ -46,6 +46,9 @@ augroup MyFileSettings
 
     " do not persist password files
     au BufNewFile,BufRead */pass.*/* setlocal noswapfile noundofile
+
+    " Xresources syntax highlighting
+    au BufNewFile,BufRead *.Xresources* set filetype=xdefaults
 augroup END
 
 
@@ -179,7 +182,7 @@ call plug#begin('~/.vim/plugged')
     let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
-                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""} '
+                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
     function! StatusLineFile() abort
         let l:name = pathshorten(bufname(bufnr('%')))
         return l:name ==# '' ? '[No Name]' : l:name

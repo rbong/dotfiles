@@ -1,5 +1,9 @@
 # load terminal emulator settings
-xrdb ~/.Xresources
+if [[ "${BG_LIGHT:-0}" == "0" ]]; then
+  xrdb ~/.Xresources
+else
+  xrdb ~/.Xresources-light
+fi
 
 # fix certain programs which require wmname detection
 wmname LG3D
