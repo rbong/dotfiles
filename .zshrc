@@ -1,5 +1,9 @@
 ### Settings
 
+# colors
+if [[ -f ~/.vim/plugged/gruvbox/gruvbox_256palette.sh ]]; then
+  source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
+fi
 
 # autocompletions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -63,7 +67,9 @@ bindkey -v
 
 
 # add AWS completion
-source /usr/bin/aws_zsh_completer.sh
+if [[ -f /usr/bin/aws_zsh_completer.sh ]]; then
+  source /usr/bin/aws_zsh_completer.sh
+fi
 
 # start ruby version manager
 if [ -f "$HOME/.rvm/scripts/rvm" ]; then
