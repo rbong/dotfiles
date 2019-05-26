@@ -3,22 +3,22 @@ URxvt*font:                 xft:Inconsolata for Powerline:pixelsize=16:minspace=
 URxvt*boldFont:             xft:Inconsolata for Powerline:pixelsize=16:minspace=False, xft:DejaVu Sans:pixelsize=11
 URxvt*letterSpace: 0
 
-! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-*.color0:     #000000
-*.color1:     #FF5555
-*.color2:     #50FA7B
-*.color3:     #F1FA8C
-*.color4:     #BD93F9
-*.color5:     #FF79C6
-*.color6:     #8BE9FD
-*.color7:     #BFBFBF
-*.color8:     #4D4D4D
-*.color9:     #FF6E67
-*.color10:    #5AF78E
-*.color11:    #F4F99D
-*.color12:    #CAA9FA
-*.color13:    #FF92D0
-*.color14:    #9AEDFE
-*.color15:    #E6E6E6
+! Gruvbox color palette
+*background: #282828
+*foreground: #ebdbb2
+*color0:     #282828
+*color8:     #928374
+*color1:     #cc241d
+*color9:     #fb4934
+*color2:     #98971a
+*color10:    #b8bb26
+*color3:     #d79921
+*color11:    #fabd2f
+*color4:     #458588
+*color12:    #83a598
+*color5:     #b16286
+*color13:    #d3869b
+*color6:     #689d6a
+*color14:    #8ec07c
+*color7:     #a89984
+*color15:    #ebdbb2

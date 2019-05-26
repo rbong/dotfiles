@@ -71,7 +71,7 @@ set cpoptions-=t
 " automatically hide filenames on entering a directory
 autocmd DirEnter * :filter
 
-colorscheme dracula
+colorscheme gruvbox
 
 
 """ Bookmarks

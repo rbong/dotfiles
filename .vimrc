@@ -216,7 +216,7 @@ call plug#begin('~/.vim/plugged')
     let g:crystalline_enable_sep = 1
     let g:crystalline_statusline_fn = 'StatusLine'
     let g:crystalline_tabline_fn = 'TabLine'
-    let g:crystalline_theme = 'dracula'
+    let g:crystalline_theme = 'gruvbox'
 
     " misc. plugins
 
@@ -262,9 +262,8 @@ call plug#begin('~/.vim/plugged')
         Plug 'kana/vim-fakeclip'
     endif
 
-    " dracula color scheme
-    Plug 'dracula/vim', {'as':'dracula'}
-    let g:dracula_colorterm=0
+    " gruvbox color scheme
+    Plug 'morhetz/gruvbox'
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
@@ -306,5 +305,4 @@ call plug#end()
 
 " post-load plugin configuration
 
-" dracula
-silent! colorscheme dracula
+silent! colorscheme gruvbox
