@@ -3,7 +3,7 @@
 set -e
 
 echo pulling dotfiles
-cp -f ~/.zshrc ~/.vimrc ~/.Xresources* ~/.xinitrc ~/.conkyrc ~/.cvimrc .
+cp -f ~/.zshrc ~/.vimrc ~/.Xresources* ~/.xinitrc ~/.conkyrc .
 
 if [[ -f ~/.vifm/vifmrc ]]; then
   echo pulling vfmrc
