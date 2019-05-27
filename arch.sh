@@ -38,7 +38,7 @@ trizen -S \
 if [[ "$GUI" != "false" ]]; then
   echo installing GUI dependencies
   trizen -S \
-    brave-bin \
+    qutebrowser \
     powerline-fonts-git \
     ttf-dejavu \
     rxvt-unicode \

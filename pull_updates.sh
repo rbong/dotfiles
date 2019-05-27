@@ -19,6 +19,13 @@ else
   echo skipping ~/.config/git
 fi
 
+if [[ -d ~/.config/qutebrowser ]]; then
+  echo pulling qutebrowser config
+  cp -R ~/.config/qutebrowser config
+else
+  echo skipping ~/.config/qutebrowser
+fi
+
 if [[ -d ~/.vim/UltiSnips ]]; then
   echo pulling UltiSnips
   cp -R ~/.vim/UltiSnips .
