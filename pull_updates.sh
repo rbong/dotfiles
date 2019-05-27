@@ -3,7 +3,7 @@
 set -e
 
 echo pulling dotfiles
-cp -f ~/.zshrc ~/.vimrc ~/.Xresources* ~/.xinitrc ~/.conkyrc .
+cp -f ~/.zshrc ~/.vimrc ~/.xinitrc ~/.conkyrc .
 
 if [[ -f ~/.vifm/vifmrc ]]; then
   echo pulling vfmrc
@@ -24,6 +24,13 @@ if [[ -d ~/.config/qutebrowser ]]; then
   cp -R ~/.config/qutebrowser config
 else
   echo skipping ~/.config/qutebrowser
+fi
+
+if [[ -d ~/.config/alacritty ]]; then
+  echo pulling alacritty config
+  cp -R ~/.config/alacritty config
+else
+  echo skipping ~/.config/alacritty
 fi
 
 if [[ -d ~/.vim/UltiSnips ]]; then

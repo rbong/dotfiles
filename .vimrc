@@ -32,6 +32,12 @@ set hlsearch
 " ignore version control directories
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
+" use real colors
+set termguicolors
+
+" use dark background by default
+set bg=dark
+
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
     au VimEnter * set t_Cs=

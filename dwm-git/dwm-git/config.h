@@ -10,12 +10,12 @@
 #define WHITE   "#ebdbb2"
 #define BLUE    "#83a598"
 
-#define TERM_EMU "urxvt"
+#define TERM_EMU "alacritty"
 #define TERM_OPT "-e"
 #define SHELL "zsh"
-#define SHELL_OPT "-ic"
-#define FILE_MNG "vifm"
-#define EDITOR   "vim"
+#define SHELL_OPT "-c"
+#define FILE_MNG "stty -ixon; vifm"
+#define EDITOR   "stty -ixon; vim"
 #define BROWSER  "qutebrowser"
 #define LOCKER  "slock"
 

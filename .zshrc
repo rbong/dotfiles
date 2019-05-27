@@ -1,9 +1,5 @@
 ### Settings
 
-# colors
-if [[ -f ~/.vim/plugged/gruvbox/gruvbox_256palette.sh ]]; then
-  source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
-fi
 
 # autocompletions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -12,7 +8,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 # program settings
 export EDITOR=vim
 export VISUAL=vim
-export BROWSER=brave
+export BROWSER=qutebrowser
 
 # path settings
 export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
@@ -22,6 +18,7 @@ stty -ixon
 
 
 ### Commands
+
 
 # soma fm channel
 function somafm() {

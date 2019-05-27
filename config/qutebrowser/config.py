@@ -61,7 +61,7 @@ c.url.searchengines = {
 ## Misc.
 
 
-c.editor.command = ['urxvt', '-e', 'zsh', '-ic', 'vim {file}']
+c.editor.command = ['alacritty', '-e', 'zsh', '-c', 'stty -ixon; vim {file}']
 
 c.statusbar.padding = { 'top': 1, 'bottom': 2, 'left': 0, 'right': 0 }
 c.tabs.padding = { 'top': 2, 'bottom': 1, 'left': 0, 'right': 0 }
