@@ -21,7 +21,7 @@ colorschemes.gruvbox_dark.apply(c)
 ## Fonts
 
 
-monospace_font = '10pt monospace'
+monospace_font = '10.5pt monospace'
 
 c.fonts.monospace = 'Inconsolata for Powerline'
 
@@ -62,6 +62,3 @@ c.url.searchengines = {
 
 
 c.editor.command = ['alacritty', '-e', 'zsh', '-c', 'stty -ixon; vim {file}']
-
-c.statusbar.padding = { 'top': 1, 'bottom': 2, 'left': 0, 'right': 0 }
-c.tabs.padding = { 'top': 2, 'bottom': 1, 'left': 0, 'right': 0 }

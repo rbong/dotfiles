@@ -36,7 +36,7 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 set termguicolors
 
 " use dark background by default
-set bg=dark
+set background=dark
 
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
