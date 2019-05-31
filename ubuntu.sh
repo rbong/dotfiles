@@ -22,7 +22,8 @@ sudo apt-get install -y \
 echo installing common dependencies
 sudo apt-get install -y \
   libncursesw5-dev \
-  build-essential
+  build-essential \
+  golang
 
 echo configuring zsh
 sudo wget -O /etc/zsh/zshrc "https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc"
@@ -36,6 +37,15 @@ fi
 
 echo setting shell to zsh
 chsh -s `which zsh`
+
+echo installing fzf
+if [[ ! -d ~/src/fzf ]]; then
+  git clone --depth 1 "https://github.com/junegunn/fzf" ~/src/fzf
+fi
+cd ~/src/fzf
+make
+make install
+sudo cp bin/fzf /usr/local/bin/fzf
 
 echo removing old vim installation
 sudo apt-get remove -y vim vim-runtime gvim neovim neovim-runtime

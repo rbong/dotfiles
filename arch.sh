@@ -23,6 +23,7 @@ trizen -S \
   dunst \
   grml-zsh-config \
   vim-runtime-git \
+  fzf \
   gvim-git \
   python-neovim \
   python-greenlet \

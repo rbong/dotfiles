@@ -245,17 +245,6 @@ call plug#begin('~/.vim/plugged')
     nno <leader>aT :ALEGoToTypeDefinition
     nno <leader>at :ALEGoToTypeDefinition<CR>
 
-    " fuzzy finding
-    Plug 'ctrlpvim/ctrlp.vim'
-    " ignore git
-    let g:ctrlp_custom_ignore = '\.git$\|^qutebrowser-editor-'
-    " jump to buffers in the current window or tab
-    let g:ctrlp_switch_buffer = 'et'
-    " open buffer view quicker
-    nno <c-b> :CtrlPBuffer<cr>
-    " open file view quicker
-    nno <c-f> :CtrlPMRUFiles<cr>
-
     " completion
     Plug 'Shougo/deoplete.nvim'
     " dependencies
@@ -271,8 +260,16 @@ call plug#begin('~/.vim/plugged')
         Plug 'kana/vim-fakeclip'
     endif
 
+    " fuzzy finder
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    nno <c-p> :FZF<CR>
+    nno <c-f> :History<CR>
+    nno <c-b> :Buffers<CR>
+
     " gruvbox color scheme
-    Plug 'morhetz/gruvbox'
+    Plug 'gruvbox-community/gruvbox'
+    let g:gruvbox_guisp_fallback = 'bg'
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
@@ -306,7 +303,7 @@ call plug#begin('~/.vim/plugged')
     let g:vifm_embed_split = 1
     let g:vifm_embed_cwd = 1
     let g:vifm_replace_netrw = 1
-    nno <leader>fm :vertical 40Vifm<CR>
+    nno <leader>fm :vertical 40Vifm .<CR>
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
@@ -314,4 +311,4 @@ call plug#end()
 
 " post-load plugin configuration
 
-silent! colorscheme gruvbox
+colorscheme gruvbox
