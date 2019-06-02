@@ -1,6 +1,5 @@
 """ Settings
 
-
 " syntax highlighting
 syntax on
 
@@ -34,9 +33,6 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " use real colors
 set termguicolors
-
-" use dark background by default
-set background=dark
 
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
@@ -184,7 +180,7 @@ call plug#begin('~/.vim/plugged')
                 \ 'date': 'short',
                 \ }
 
-    Plug 'rbong/vim-crystalline', { 'branch': 'dev' }
+    Plug 'rbong/vim-crystalline'
     let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",g:ale_enabled)?"ALE ":""}'
