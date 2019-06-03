@@ -55,6 +55,7 @@ c.url.searchengines = {
   'w': 'https://en.wikipedia.org/w/index.php?search={}',
   'wa': 'https://www.wolframalpha.com/input/?i={}',
   'y': 'https://www.youtube.com/results?search_query={}',
+  'gh': 'https://github.com/search?q={}',
 }
 
 
