@@ -16,6 +16,9 @@ export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
 # allow using the c-q key
 stty -ixon
 
+# fzf
+export FZF_DEFAULT_OPTS="--history-size=10000"
+
 
 ### Commands
 

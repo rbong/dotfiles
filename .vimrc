@@ -262,6 +262,7 @@ call plug#begin('~/.vim/plugged')
     nno <c-p> :FZF<CR>
     nno <c-f> :History<CR>
     nno <c-b> :Buffers<CR>
+    let $FZF_DEFAULT_OPTS = '--history-size=10000'
 
     " gruvbox color scheme
     Plug 'gruvbox-community/gruvbox'
