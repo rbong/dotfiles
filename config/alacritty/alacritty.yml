@@ -43,7 +43,7 @@ debug:
 
 draw_bold_text_with_bright_colors: false
 
-# Colors (Gruvbox light)
+# # Colors (Gruvbox light)
 # colors:
 #   primary:
 #     background: '0xfbf1c7'
