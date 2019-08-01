@@ -22,8 +22,14 @@ sudo apt-get install -y \
 echo installing common dependencies
 sudo apt-get install -y \
   libncursesw5-dev \
-  build-essential \
-  golang
+  build-essential
+
+echo installing Go
+if [[ ! -d /usr/local/go ]] && [[ ! -d /tmp/go ]]; then
+  cd /tmp
+  wget "https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz"
+  sudo tzr -xvf "https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz"
+fi
 
 echo configuring zsh
 sudo wget -O /etc/zsh/zshrc "https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc"
@@ -43,6 +49,7 @@ if [[ ! -d ~/src/fzf ]]; then
   git clone --depth 1 "https://github.com/junegunn/fzf" ~/src/fzf
 fi
 cd ~/src/fzf
+export GO=/usr/local/go/bin/go
 make
 make install
 sudo cp bin/fzf /usr/local/bin/fzf
