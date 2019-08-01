@@ -30,6 +30,7 @@ trizen -S \
   ctags \
   python-pip \
   vifm \
+  zathura \
   zsh \
   zsh-autosuggestions \
   zsh-completions \
