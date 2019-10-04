@@ -208,7 +208,7 @@ call plug#begin('~/.vim/plugged')
         let l:s .= crystalline#left_mode_sep('')
       endif
       if a:width > 80
-        let l:s .= ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
       else
         let l:s .= ' '
       endif
