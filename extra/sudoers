@@ -1,0 +1,5 @@
+# Make these changes to the sudoers file using the "visudo" command
+# Add users to the sudo group with "usermod -a -G sudo (user)"
+root ALL=(ALL) ALL
+%sudo	ALL=(ALL) ALL
+ALL ALL=(ALL) NOPASSWD: /usr/bin/xbacklight

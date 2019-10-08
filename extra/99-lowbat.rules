@@ -1,0 +1,2 @@
+# /etc/udev/rules.d/99-lowbat.rules
+SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="/usr/bin/systemctl suspend"
