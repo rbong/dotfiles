@@ -10,7 +10,7 @@ echo creating folder structure
 mkdir -p ~/src
 
 echo installing prerequisites
-sudo pacman -S base-devel --noconfirm
+sudo pacman -S base-devel --noconfirm --needed
 
 echo installing AUR helper
 curl -fLo /tmp/trizen.tar.gz https://aur.archlinux.org/cgit/aur.git/snapshot/trizen.tar.gz
@@ -34,7 +34,8 @@ trizen -S \
   zsh \
   zsh-autosuggestions \
   zsh-completions \
-  --noconfirm
+  --noconfirm \
+  --needed
 
 
 if [[ "$GUI" != "false" ]]; then
@@ -49,7 +50,10 @@ if [[ "$GUI" != "false" ]]; then
     scrot \
     slock \
     imv \
-    --noconfirm
+    --noconfirm \
+    --needed
+
+  # oomox cli ?
 
   echo installing dwm
   cd "$SRCDIR/dwm-git" && makepkg -sfi && cd ..
