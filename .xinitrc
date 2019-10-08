@@ -1,4 +1,4 @@
-# load terminal emulator settings
+# load X settings
 xrdb ~/.Xresources
 
 # fix certain programs which require wmname detection
