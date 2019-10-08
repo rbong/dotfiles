@@ -5,6 +5,8 @@
 
 /* helper macros */
 #define FONT "Inconsolata for Powerline:pixelsize=16:minspace=False"
+// HiDPI:
+// #define FONT "Inconsolata for Powerline:pixelsize=32:minspace=False"
 
 #define BLACK   "#282828"
 #define WHITE   "#ebdbb2"

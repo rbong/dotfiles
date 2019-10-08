@@ -7,6 +7,10 @@ wmname LG3D
 # set GUI options
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+# HiDPI:
+# export QT_SCALE_FACTOR=2
+# export GDK_SCALE=2
+# export ELM_SCALE=2
 
 # load fonts
 xset +fp /usr/share/fonts

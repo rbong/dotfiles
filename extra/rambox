@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# /usr/local/bin/rambox
+
+# HiDPI only
+/usr/bin/rambox --force-device-scale-factor=2 $*
