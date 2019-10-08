@@ -40,9 +40,10 @@ trizen -S \
 if [[ "$GUI" != "false" ]]; then
   echo installing GUI dependencies
   trizen -S \
+    acpi \
+    acpilight \
     alacritty \
     alsa-utils \
-    acpi \
     conky \
     dunst \
     qutebrowser \
