@@ -17,6 +17,7 @@ echo copying snippets to ~/.vim/UltiSnips
 cp -R UltiSnips ~/.vim
 
 echo moving config files
+mkdir -p ~/.config
 cp -R config/* ~/.config
 echo done moving config files
 
