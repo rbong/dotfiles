@@ -19,18 +19,17 @@ cd ~/src/trizen && makepkg -si
 
 echo installing regular dependencies
 trizen -S \
-  conky \
-  dunst \
+  calc \
   grml-zsh-config \
   vim-runtime-git \
   fzf \
   gvim-git \
+  pass \
   python-neovim \
   python-greenlet \
   ctags \
   python-pip \
   vifm \
-  zathura \
   zsh \
   zsh-autosuggestions \
   zsh-completions \
@@ -41,15 +40,27 @@ trizen -S \
 if [[ "$GUI" != "false" ]]; then
   echo installing GUI dependencies
   trizen -S \
+    alacritty \
+    alsa-utils \
+    acpi \
+    conky \
+    dunst \
     qutebrowser \
     powerline-fonts-git \
     ttf-dejavu \
-    rxvt-unicode \
+    ttf-liberation \
     dmenu \
+    gimp \
     rambox-bin \
+    oomox \
     scrot \
     slock \
     imv \
+    mpv \
+    gufw \
+    xorg \
+    xorg-xinit \
+    zathura \
     --noconfirm \
     --needed
 
