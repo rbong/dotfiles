@@ -83,8 +83,8 @@ static const char *fmcmd[]   = { TERM_EMU, TERM_OPT, SHELL, SHELL_OPT, FILE_MNG,
 static const char *webcmd[]  = { BROWSER, NULL };
 static const char *lockcmd[]  = { LOCKER, NULL };
 
-static const char *bupcmd[] = { "sudo", "brightness", "+10", NULL };
-static const char *bdncmd[] = { "sudo", "brightness", "-10", NULL };
+static const char *bupcmd[] = { "sudo", "xbacklight", "-inc", "10", NULL };
+static const char *bdncmd[] = { "sudo", "xbacklight", "-dec", "10", NULL };
 static const char *vupcmd[] = { "amixer", "set", "Master", "5%+", NULL };
 static const char *vdncmd[] = { "amixer", "set", "Master", "5%-", NULL };
 static const char *vswcmd[] = { "amixer", "set", "Master", "toggle", NULL };
