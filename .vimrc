@@ -71,7 +71,7 @@ nno <leader>? :nno <lt>leader><CR>
 " cd to the current file directory
 nno <leader>cd :cd %:h<cr>
 " copy the path of the current file
-nno <leader>cf :let @" = expand('%:h')<cr>
+nno <leader>cf :let @" = expand('%:p')<cr>
 " go up in the directory structure
 nno <leader>cc :cd ..<cr>
 
