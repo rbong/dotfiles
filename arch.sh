@@ -10,7 +10,7 @@ echo creating folder structure
 mkdir -p ~/src
 
 echo installing prerequisites
-sudo pacman -S base-devel --noconfirm --needed
+sudo pacman -S base-devel --needed
 
 echo installing AUR helper
 curl -fLo /tmp/trizen.tar.gz https://aur.archlinux.org/cgit/aur.git/snapshot/trizen.tar.gz
@@ -33,7 +33,6 @@ trizen -S \
   zsh \
   zsh-autosuggestions \
   zsh-completions \
-  --noconfirm \
   --needed
 
 
@@ -53,7 +52,6 @@ if [[ "$GUI" != "false" ]]; then
     dmenu \
     gimp \
     rambox-bin \
-    oomox \
     scrot \
     slock \
     imv \
@@ -62,7 +60,6 @@ if [[ "$GUI" != "false" ]]; then
     xorg \
     xorg-xinit \
     zathura \
-    --noconfirm \
     --needed
 
   # oomox cli ?
