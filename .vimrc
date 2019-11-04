@@ -176,7 +176,7 @@ call plug#begin('~/.vim/plugged')
 
     " fugitive-based branch viewer
     Plug 'rbong/vim-flog'
-    let g:flog_default_arguments = {
+    let g:flog_permanent_default_arguments = {
                 \ 'date': 'short',
                 \ }
 
@@ -233,13 +233,15 @@ call plug#begin('~/.vim/plugged')
     nno <leader>aa :ALEToggle<CR>
     nno <leader>aG :ALEGoToDefinition
     nno <leader>ag :ALEGoToDefinition<CR>
+    nno <leader>af :ALEFix<CR>
     nno <leader>ah :ALEHover<CR>
-    nno <leader>ar :ALEFindReferences<CR>
-    nno <leader>aR :ALEFindReferences -relative<CR>
+    nno <leader>ar :ALERename<CR>
     nno <leader>as :ALESymbolSearch<space>
     nno <leader>aS :ALESymbolSearch -relative<space>
     nno <leader>aT :ALEGoToTypeDefinition
     nno <leader>at :ALEGoToTypeDefinition<CR>
+    nno <leader>a/ :ALEFindReferences<CR>
+    nno <leader>a\ :ALEFindReferences -relative<CR>
 
     " completion
     Plug 'Shougo/deoplete.nvim'
