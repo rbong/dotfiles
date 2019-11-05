@@ -229,6 +229,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'w0rp/ale'
     let g:ale_linters = {
                 \ 'python': ['pylint', 'yapf', 'pyls'],
+                \ 'javascript': ['eslint', 'tsserver'],
                 \ }
     nno <leader>aa :ALEToggle<CR>
     nno <leader>aG :ALEGoToDefinition
