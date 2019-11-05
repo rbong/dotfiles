@@ -3,3 +3,4 @@ __pycache__
 .ccls-cache/
 config/qutebrowser/qsettings/
 config/qutebrowser/bookmarks
+config/qutebrowser/autoconfig.yml
