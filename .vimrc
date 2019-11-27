@@ -122,9 +122,9 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>ghh :Git! stash show -p stash@{
+    nno <leader>ghh :Git! stash show -p stash
     nno <leader>ghl :Git! stash list<cr>
-    nno <leader>gha :Git stash apply stash@{
+    nno <leader>gha :Git stash apply stash
     nno <leader>ghp :Git stash pop
     nno <leader>ghs :Git stash push<space>
     nno <leader>go :Git checkout<space>
