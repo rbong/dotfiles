@@ -4,3 +4,4 @@ __pycache__
 config/qutebrowser/qsettings/
 config/qutebrowser/bookmarks
 config/qutebrowser/autoconfig.yml
+config/qutebrowser/jblock

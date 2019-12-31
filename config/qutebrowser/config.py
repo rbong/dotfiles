@@ -63,3 +63,13 @@ c.url.searchengines = {
 
 
 c.editor.command = ['alacritty', '-e', 'zsh', '-c', 'stty -ixon; vim {file}']
+
+
+## jblock
+
+import os, sys
+
+sys.path.append(os.path.join(sys.path[0], 'jblock'))
+config.source("jblock/jblock/integrations/qutebrowser.py")
+
+c.content.host_blocking.enabled = False
