@@ -129,12 +129,12 @@ nmap ~ :cd ~<cr>
 filetype *.pdf zathura %f &> /dev/null &
 
 " audio
-filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a mplayer %f
+filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a mpv %f
 fileviewer *.mp3 mp3info
 
 " video
 filextype *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.webm,*.mov
-        \ mplayer %f &> /dev/null &,
+        \ mpv %f &> /dev/null &,
 fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.web,*.mov
          \ ffprobe -show_files -pretty %f 2> /dev/null
 
