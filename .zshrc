@@ -11,7 +11,7 @@ export VISUAL=vim
 export BROWSER=qutebrowser
 
 # path settings
-export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin
+export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
 
 # allow using the c-q key
 stty -ixon
@@ -74,4 +74,9 @@ fi
 # start ruby version manager
 if [ -f "$HOME/.rvm/scripts/rvm" ]; then
   source "$HOME/.rvm/scripts/rvm"
+fi
+
+# start node version manager
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
+  source /usr/share/nvm/init-nvm.sh
 fi

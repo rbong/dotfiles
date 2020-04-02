@@ -23,7 +23,7 @@ colorschemes.gruvbox_dark.apply(c)
 
 monospace_font = '10.5pt monospace'
 
-c.fonts.monospace = 'Inconsolata for Powerline'
+c.fonts.default_family = 'Inconsolata for Powerline'
 
 c.fonts.completion.category = monospace_font
 c.fonts.completion.entry = monospace_font
@@ -34,7 +34,7 @@ c.fonts.keyhint = monospace_font
 c.fonts.messages.error = monospace_font
 c.fonts.messages.info = monospace_font
 c.fonts.messages.warning = monospace_font
-c.fonts.monospace = monospace_font
+c.fonts.default_family = monospace_font
 c.fonts.statusbar = monospace_font
 c.fonts.tabs = monospace_font
 
@@ -63,13 +63,3 @@ c.url.searchengines = {
 
 
 c.editor.command = ['alacritty', '-e', 'zsh', '-c', 'stty -ixon; vim {file}']
-
-
-## jblock
-
-import os, sys
-
-sys.path.append(os.path.join(sys.path[0], 'jblock'))
-config.source("jblock/jblock/integrations/qutebrowser.py")
-
-c.content.host_blocking.enabled = False
