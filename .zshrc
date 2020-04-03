@@ -11,7 +11,7 @@ export VISUAL=vim
 export BROWSER=qutebrowser
 
 # path settings
-export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin
+export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin
 
 # allow using the c-q key
 stty -ixon
