@@ -122,8 +122,8 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>ghh :Git! stash show -p stash@{
-    nno <leader>ghl :Git! stash list<cr>
+    nno <leader>ghh :Git -p stash show -p stash
+    nno <leader>ghl :Git -p stash list<cr>
     nno <leader>gha :Git stash apply stash@{
     nno <leader>ghp :Git stash pop
     nno <leader>ghs :Git stash push<space>
@@ -177,8 +177,10 @@ call plug#begin('~/.vim/plugged')
     " fugitive-based branch viewer
     Plug 'rbong/vim-flog'
     let g:flog_default_arguments = {
-                \ 'date': 'short',
                 \ 'max_count': 2000,
+                \ }
+    let g:flog_permanent_default_arguments = {
+                \ 'date': 'short',
                 \ }
     nno <leader>gk :Flog
 
@@ -232,23 +234,19 @@ call plug#begin('~/.vim/plugged')
     let g:ale_linters = {
                 \ 'python': ['pylint', 'yapf', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
-                \ 'javascriptreact': ['eslint', 'tsserver'],
-                \ }
-    let g:ale_fixers = {
-                \ 'javascript': ['eslint', 'prettier'],
-                \ 'javascriptreact': ['eslint', 'prettier'],
                 \ }
     nno <leader>aa :ALEToggle<CR>
     nno <leader>af :ALEFix<CR>
     nno <leader>aG :ALEGoToDefinition
     nno <leader>ag :ALEGoToDefinition<CR>
     nno <leader>ah :ALEHover<CR>
-    nno <leader>ar :ALEFindReferences<CR>
-    nno <leader>aR :ALEFindReferences -relative<CR>
+    nno <leader>ar :ALERename<CR>
     nno <leader>as :ALESymbolSearch<space>
     nno <leader>aS :ALESymbolSearch -relative<space>
     nno <leader>aT :ALEGoToTypeDefinition
     nno <leader>at :ALEGoToTypeDefinition<CR>
+    nno <leader>a/ :ALEFindReferences<CR>
+    nno <leader>a\ :ALEFindReferences -relative<CR>
 
     " completion
     Plug 'Shougo/deoplete.nvim'
