@@ -234,6 +234,11 @@ call plug#begin('~/.vim/plugged')
     let g:ale_linters = {
                 \ 'python': ['pylint', 'yapf', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
+                \ 'javascriptreact': ['eslint', 'tsserver'],
+                \ }
+    let g:ale_fixers = {
+                \ 'javascript': ['eslint', 'prettier'],
+                \ 'javascriptreact': ['eslint', 'prettier'],
                 \ }
     nno <leader>aa :ALEToggle<CR>
     nno <leader>af :ALEFix<CR>
