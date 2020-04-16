@@ -16,8 +16,6 @@ scrolling:
   history: 10000
   multiplier: 3
 
-tabspaces: 2
-
 font:
   normal:
     family: Inconsolata for Powerline
