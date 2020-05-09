@@ -59,6 +59,12 @@ c.url.searchengines = {
 }
 
 
+## Styling
+
+
+c.content.user_stylesheets = ['~/.config/qutebrowser/user.css']
+
+
 ## Misc.
 
 
