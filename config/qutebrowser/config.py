@@ -5,6 +5,8 @@ c.bindings.commands = {
   'normal': {
     'J': 'tab-prev',
     'K': 'tab-next',
+    ',m': 'spawn mpv {url}',
+    ',M': 'hint links spawn mpv {hint-url}',
   },
 }
 
