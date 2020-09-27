@@ -71,6 +71,11 @@ if [[ -f /usr/bin/aws_zsh_completer.sh ]]; then
   source /usr/bin/aws_zsh_completer.sh
 fi
 
+# add gcloud completion
+if [ -f /opt/google-cloud-sdk/completion.zsh.inc ]; then
+  source /opt/google-cloud-sdk/completion.zsh.inc
+fi
+
 # start ruby version manager
 if [ -f "$HOME/.rvm/scripts/rvm" ]; then
   source "$HOME/.rvm/scripts/rvm"
@@ -80,3 +85,8 @@ fi
 if [ -f /usr/share/nvm/init-nvm.sh ]; then
   source /usr/share/nvm/init-nvm.sh
 fi
+
+# terraform autocompletion
+complete -o nospace -C /usr/bin/terraform terraform
+
+autoload -U +X bashcompinit && bashcompinit
