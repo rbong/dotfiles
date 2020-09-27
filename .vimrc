@@ -46,6 +46,9 @@ augroup MyFileSettings
     " xml syntax highlighting for ROS
     au BufNewFile,BufRead *.launch set filetype=xml
 
+    " less syntax highlighting for semantic ui
+    au BufNewFile,BufRead */semantic-ui/theme.config,*/semantic-ui/*.variables,*/semantic-ui/*.overrides set filetype=less
+
     " do not persist password files
     au BufNewFile,BufRead */pass.*/* setlocal noswapfile noundofile
 
@@ -175,7 +178,7 @@ call plug#begin('~/.vim/plugged')
     endif
 
     " fugitive-based branch viewer
-    Plug 'rbong/vim-flog'
+    Plug 'rbong/vim-flog', { 'branch': 'dev' }
     let g:flog_default_arguments = {
                 \ 'max_count': 2000,
                 \ }
@@ -232,13 +235,18 @@ call plug#begin('~/.vim/plugged')
     " async linting
     Plug 'w0rp/ale'
     let g:ale_linters = {
-                \ 'python': ['pylint', 'yapf', 'pyls'],
+                \ 'python': ['flake8', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
                 \ 'javascriptreact': ['eslint', 'tsserver'],
+                \ 'scss': ['stylelint'],
+                \ 'less': ['stylelint'],
                 \ }
     let g:ale_fixers = {
+                \ 'python': ['autopep8'],
                 \ 'javascript': ['eslint', 'prettier'],
                 \ 'javascriptreact': ['eslint', 'prettier'],
+                \ 'scss': ['stylelint'],
+                \ 'less': ['stylelint'],
                 \ }
     nno <leader>aa :ALEToggle<CR>
     nno <leader>af :ALEFix<CR>
