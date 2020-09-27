@@ -1,3 +1,7 @@
 .video-ads {
-  display: none !important;
+  display: none;
+}
+
+.ad-interupting .video-ads {
+  display: block;
 }

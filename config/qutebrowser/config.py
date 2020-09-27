@@ -38,7 +38,7 @@ c.fonts.messages.info = monospace_font
 c.fonts.messages.warning = monospace_font
 c.fonts.default_family = monospace_font
 c.fonts.statusbar = monospace_font
-c.fonts.tabs = monospace_font
+# c.fonts.tabs = monospace_font
 
 
 ## URLs
