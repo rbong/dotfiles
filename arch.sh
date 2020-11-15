@@ -60,6 +60,7 @@ if [[ "$GUI" != "false" ]]; then
     xorg \
     xorg-xinit \
     zathura \
+    zathura-pdf-mupdf \
     --needed
 
   # oomox cli ?

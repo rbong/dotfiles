@@ -126,7 +126,7 @@ nmap ~ :cd ~<cr>
 
 
 " pdf
-filetype *.pdf zathura %f &> /dev/null &
+filetype *.pdf,*.epub zathura %f &> /dev/null &
 
 " audio
 filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a mpv %f
