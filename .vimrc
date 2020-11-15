@@ -168,10 +168,10 @@ call plug#begin('~/.vim/plugged')
     if has('terminal')
         " smooth terminal
         Plug 'rbong/vim-butter'
-        " fix ALE/'term' bug where the cursor changes color
-        let g:butter_fixes_color_ale=1
         " terminal height
-        let g:butter_popup_options='++rows=15'
+        let g:butter_popup_options = '++rows=15'
+        " disable color fixes, overwrites 'term'
+        let g:butter_fixes_color = 0
         " butter keybindings
         nno <leader>zz :ButterPopup<cr>
         nno <leader>zv :ButterSplit<cr>
