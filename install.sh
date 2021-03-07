@@ -21,6 +21,10 @@ mkdir -p ~/.config
 cp -R config/* ~/.config
 echo done moving config files
 
+echo installing binaries
+sudo cp bin/* /usr/local/bin
+echo done installing binaries
+
 echo setting up dependencies
 
 if [[ ! -d ~/.config/qutebrowser/jblock ]]; then
