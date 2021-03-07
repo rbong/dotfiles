@@ -17,7 +17,8 @@ sudo apt-get install -y \
   zsh \
   git \
   python \
-  python3
+  python3 \
+  golang
 
 echo installing common dependencies
 sudo apt-get install -y \
@@ -46,10 +47,9 @@ chsh -s `which zsh`
 
 echo installing fzf
 if [[ ! -d ~/src/fzf ]]; then
-  git clone --depth 1 "https://github.com/junegunn/fzf" ~/src/fzf
+  git clone --recursive "https://github.com/junegunn/fzf" ~/src/fzf
 fi
 cd ~/src/fzf
-export GO=/usr/local/go/bin/go
 make
 make install
 sudo cp bin/fzf /usr/local/bin/fzf
@@ -75,12 +75,14 @@ sudo apt-get install -y \
   ruby-dev \
   lua5.1 \
   liblua5.1-dev \
-  libperl-dev
+  libperl-dev \
+  automake-1.15
 
 echo building vim
 if [[ ! -d ~/src/vim ]]; then
   git clone "https://github.com/vim/vim" ~/src/vim
 fi
+
 cd ~/src/vim
 ./configure \
   --with-features=huge \
@@ -88,7 +90,7 @@ cd ~/src/vim
   --enable-rubyinterp=yes \
   --enable-pythoninterp=yes \
   --enable-python3interp=yes \
-  --with-python3-config-dir=/usr/lib/python3.6/config \
+  --with-python3-config-dir=/usr/lib/python3.8/config-3.8-x86_64-linux-gnu/ \
   --enable-perlinterp=yes \
   --enable-luainterp=yes \
   --enable-gui=gtk2 \
