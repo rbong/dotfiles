@@ -35,6 +35,10 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 " use real colors
 set termguicolors
 
+" Windows fixes
+set background=dark
+set t_u7=
+
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
     au VimEnter * set t_Cs=
@@ -186,6 +190,25 @@ call plug#begin('~/.vim/plugged')
     let g:flog_permanent_default_arguments = {
                 \ 'date': 'short',
                 \ }
+    function FlogBuildLog() abort
+        let l:state = flog#get_state()
+
+        if l:state.no_graph
+            return flog#build_log_command()
+        endif
+
+        let l:command = 'export GIT_DIR='
+        let l:command .= shellescape(flog#get_fugitive_git_dir())
+        let l:command .= '; '
+
+        let l:command .= 'git-forest '
+        let l:command .= substitute(flog#build_log_args(), ' --graph', '', '')
+        let l:command .= ' -- '
+        let l:command .= flog#build_log_paths()
+
+        return l:command
+    endfunction
+    let g:flog_build_log_command_fn = 'FlogBuildLog'
     nno <leader>gk :Flog
 
     Plug 'rbong/vim-crystalline'
