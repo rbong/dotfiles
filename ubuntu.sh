@@ -29,7 +29,8 @@ echo installing Go
 if [[ ! -d /usr/local/go ]] && [[ ! -d /tmp/go ]]; then
   cd /tmp
   wget "https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz"
-  sudo tzr -xvf "https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz"
+  sudo tar -xvf "go1.12.6.linux-amd64.tar.gz"
+  sudo cp -r go /usr/local
 fi
 
 echo configuring zsh
@@ -58,13 +59,13 @@ echo removing old vim installation
 sudo apt-get remove -y vim vim-runtime gvim neovim neovim-runtime
 
 echo installing vim dependencies
+  # libgnome2-dev \
+  # libgnomeui-dev \
+  # libbonoboui2-dev \
 sudo apt-get install -y \
   ctags \
-  libgnome2-dev \
-  libgnomeui-dev \
   libgtk2.0-dev \
   libatk1.0-dev \
-  libbonoboui2-dev \
   libcairo2-dev \
   libx11-dev \
   libxpm-dev \
@@ -81,6 +82,7 @@ sudo apt-get install -y \
 echo building vim
 if [[ ! -d ~/src/vim ]]; then
   git clone "https://github.com/vim/vim" ~/src/vim
+  git checkout v8.1.2424
 fi
 
 cd ~/src/vim
