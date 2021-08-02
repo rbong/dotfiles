@@ -45,6 +45,9 @@ augroup MyVimEnterSettings
 augroup END
 
 augroup MyFileSettings
+    " asm highlighting, broken for unknown reason
+    au BufNewFile,BufRead *.asm set filetype=asm
+
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
 
@@ -259,6 +262,7 @@ call plug#begin('~/.vim/plugged')
     " async linting
     Plug 'w0rp/ale'
     let g:ale_linters = {
+                \ 'asm': [],
                 \ 'python': ['flake8', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
                 \ 'javascriptreact': ['eslint', 'tsserver'],
@@ -266,12 +270,14 @@ call plug#begin('~/.vim/plugged')
                 \ 'less': ['stylelint'],
                 \ }
     let g:ale_fixers = {
+                \ 'asm': [],
                 \ 'python': ['autopep8'],
                 \ 'javascript': ['eslint', 'prettier'],
                 \ 'javascriptreact': ['eslint', 'prettier'],
                 \ 'scss': ['stylelint'],
                 \ 'less': ['stylelint'],
                 \ }
+
     nno <leader>aa :ALEToggle<CR>
     nno <leader>af :ALEFix<CR>
     nno <leader>aG :ALEGoToDefinition
