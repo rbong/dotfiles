@@ -11,13 +11,16 @@ export VISUAL=vim
 export BROWSER=qutebrowser
 
 # path settings
-export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin
+export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin:$HOME/.local/bin
 
 # allow using the c-q key
 stty -ixon
 
 # fzf
 export FZF_DEFAULT_OPTS="--history-size=10000"
+
+# fix certain Java programs
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 
 ### Commands
