@@ -350,6 +350,7 @@ call plug#begin('~/.vim/plugged')
     let g:vifm_embed_split = 1
     let g:vifm_embed_cwd = 1
     let g:vifm_replace_netrw = 1
+    let g:loaded_netrwPlugin = 0
     nno <leader>fm :vertical 40Vifm .<CR>
 
     " personal wiki
