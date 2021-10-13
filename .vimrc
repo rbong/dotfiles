@@ -38,6 +38,7 @@ set termguicolors
 " Windows fixes
 set background=dark
 set t_u7=
+set t_ut=
 
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
@@ -50,6 +51,9 @@ augroup MyFileSettings
 
     " vim syntax highlighting for vifm
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
+
+    " assembly files
+    au BufNewFile,BufRead *.asm set filetype=asm
 
     " xml syntax highlighting for ROS
     au BufNewFile,BufRead *.launch set filetype=xml
@@ -214,6 +218,8 @@ call plug#begin('~/.vim/plugged')
     let g:flog_build_log_command_fn = 'FlogBuildLog'
     nno <leader>gk :Flog
 
+    Plug 'rbong/vim-gb'
+
     Plug 'rbong/vim-crystalline'
     let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
@@ -256,6 +262,8 @@ call plug#begin('~/.vim/plugged')
     let g:crystalline_statusline_fn = 'StatusLine'
     let g:crystalline_tabline_fn = 'TabLine'
     let g:crystalline_theme = 'gruvbox'
+    let g:crystalline_separators = ["\uE0B8", "\uE0BA"]
+    let g:crystalline_tab_separator = "\uE0B9"
 
     " misc. plugins
 
@@ -317,6 +325,8 @@ call plug#begin('~/.vim/plugged')
     " gruvbox color scheme
     Plug 'gruvbox-community/gruvbox'
     let g:gruvbox_guisp_fallback = 'bg'
+    " Windows fix
+    " autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
 
     " automatic tags
     Plug 'ludovicchabant/vim-gutentags'
