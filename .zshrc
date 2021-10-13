@@ -11,7 +11,7 @@ export VISUAL=vim
 export BROWSER=qutebrowser
 
 # path settings
-export PATH=$PATH:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin:$HOME/.pyenv/bin:$HOME/.nvm/versions/node/v14.17.4/bin
 
 # allow using the c-q key
 stty -ixon
@@ -22,6 +22,9 @@ export FZF_DEFAULT_OPTS="--history-size=10000"
 # fix certain Java programs
 export _JAVA_AWT_WM_NONREPARENTING=1
 
+# Set up X server on Windows
+# export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+# export LIBGL_ALWAYS_INDIRECT=true
 
 ### Commands
 
@@ -85,8 +88,13 @@ if [ -f "$HOME/.rvm/scripts/rvm" ]; then
 fi
 
 # start node version manager
-if [ -f /usr/share/nvm/init-nvm.sh ]; then
-  source /usr/share/nvm/init-nvm.sh
+if [ -f "$HOME/.nvm/nvm.sh" ]; then
+  source "$HOME/.nvm/nvm.sh"
+fi
+
+# start pyenv
+if [ -d "$HOME/.pyenv" ]; then
+  eval "$(pyenv init -)"
 fi
 
 # terraform autocompletion
