@@ -1,6 +1,5 @@
 """ Settings
 
-
 " syntax highlighting
 syntax on
 
@@ -148,7 +147,7 @@ call plug#begin('~/.vim/plugged')
     nno <leader>got :Git checkout -t origin/
     nno <leader>gr :Ggrep ""<left>
     nno <leader>g/ :Ggrep "<c-r>/"<cr>
-    nno <leader>gs :Gstatus<cr>
+    nno <leader>gs :Git<cr>
     nno <leader>gu :Gpush -u origin<space>
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
@@ -197,25 +196,12 @@ call plug#begin('~/.vim/plugged')
     let g:flog_permanent_default_arguments = {
                 \ 'date': 'short',
                 \ }
-    function FlogBuildLog() abort
-        let l:state = flog#get_state()
-
-        if l:state.no_graph
-            return flog#build_log_command()
-        endif
-
-        let l:command = 'export GIT_DIR='
-        let l:command .= shellescape(flog#get_fugitive_git_dir())
-        let l:command .= '; '
-
-        let l:command .= 'git-forest '
-        let l:command .= substitute(flog#build_log_args(), ' --graph', '', '')
-        let l:command .= ' -- '
-        let l:command .= flog#build_log_paths()
-
-        return l:command
-    endfunction
-    let g:flog_build_log_command_fn = 'FlogBuildLog'
+    let g:flog_build_log_command_fn = 'flog#build_git_forest_log_command'
+    augroup MyFlogSettings
+        au FileType floggraph setlocal shellslash
+        au FileType floggraph nnoremap <buffer> <silent> <Tab> :<C-U>call flog#set_commit_mark_at_line('m', '.') \| call flog#run_command('vertical botright Gsplit %h:%p', 0, 0, 1)<CR>
+        au FileType floggraph nnoremap <buffer> <silent> df :<C-U>call flog#run_command("vertical botright Gsplit %(h'm):%p \| Gdiffsplit %h", 0, 0, 1)<CR>
+    augroup END
     nno <leader>gk :Flog
 
     Plug 'rbong/vim-gb'
@@ -285,6 +271,9 @@ call plug#begin('~/.vim/plugged')
                 \ 'scss': ['stylelint'],
                 \ 'less': ['stylelint'],
                 \ }
+
+    let g:ale_python_autopep8_executable = '/home/roger/.local/bin/autopep8'
+    let g:ale_python_autopep8_use_global = 1
 
     nno <leader>aa :ALEToggle<CR>
     nno <leader>af :ALEFix<CR>
