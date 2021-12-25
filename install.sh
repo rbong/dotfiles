@@ -27,16 +27,6 @@ echo done installing binaries
 
 echo setting up dependencies
 
-if [[ ! -d ~/.config/qutebrowser/jblock ]]; then
-  echo installing jblock
-  git clone https://gitlab.com/jgkamat/jblock.git ~/.config/qutebrowser/jblock
-  echo done installing jblock
-else
-  echo updating jblock
-  cd ~/.config/qutebrowser/jblock && git pull
-  echo done updating jblock
-fi
-
 # https://github.com/junegunn/vim-plug
 if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
   echo installing plugged
