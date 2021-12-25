@@ -248,8 +248,6 @@ call plug#begin('~/.vim/plugged')
     let g:crystalline_statusline_fn = 'StatusLine'
     let g:crystalline_tabline_fn = 'TabLine'
     let g:crystalline_theme = 'gruvbox'
-    let g:crystalline_separators = ["\uE0B8", "\uE0BA"]
-    let g:crystalline_tab_separator = "\uE0B9"
 
     " misc. plugins
 
