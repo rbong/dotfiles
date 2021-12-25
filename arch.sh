@@ -45,13 +45,11 @@ if [[ "$GUI" != "false" ]]; then
     alsa-utils \
     conky \
     dunst \
-    qutebrowser \
     powerline-fonts-git \
     ttf-dejavu \
     ttf-liberation \
     dmenu \
     gimp \
-    rambox-bin \
     scrot \
     slock \
     imv \
@@ -62,8 +60,6 @@ if [[ "$GUI" != "false" ]]; then
     zathura \
     zathura-pdf-mupdf \
     --needed
-
-  # oomox cli ?
 
   echo installing dwm
   cd "$SRCDIR/dwm-git" && makepkg -sfi && cd ..
