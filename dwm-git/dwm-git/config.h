@@ -18,7 +18,7 @@
 #define SHELL_OPT "-c"
 #define FILE_MNG "stty -ixon; vifm"
 #define EDITOR   "stty -ixon; vim"
-#define BROWSER  "qutebrowser"
+#define BROWSER  "brave"
 #define LOCKER  "slock"
 
 
@@ -48,8 +48,8 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	/* class              instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",             NULL,       NULL,       0,            1,           -1 },
 	{ "Chromium-browser", NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
@@ -57,6 +57,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
