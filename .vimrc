@@ -136,19 +136,19 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>ghh :Git -p stash show -p stash
-    nno <leader>ghl :Git -p stash list<cr>
-    nno <leader>gha :Git stash apply stash@{
-    nno <leader>ghp :Git stash pop
-    nno <leader>ghs :Git stash push<space>
-    nno <leader>go :Git checkout<space>
-    nno <leader>goo :Git checkout<space>
-    nno <leader>gob :Git checkout -b<space>
-    nno <leader>got :Git checkout -t origin/
+    nno <leader>ghh :Floggit -p stash show -p stash
+    nno <leader>ghl :Floggit -p stash list<cr>
+    nno <leader>gha :Floggit stash apply stash@{
+    nno <leader>ghp :Floggit stash pop
+    nno <leader>ghs :Floggit stash push<space>
+    nno <leader>go :Floggit checkout<space>
+    nno <leader>goo :Floggit checkout<space>
+    nno <leader>gob :Floggit checkout -b<space>
+    nno <leader>got :Floggit checkout -t origin/
     nno <leader>gr :Ggrep ""<left>
     nno <leader>g/ :Ggrep "<c-r>/"<cr>
-    nno <leader>gs :Git<cr>
-    nno <leader>gu :Gpush -u origin<space>
+    nno <leader>gs :Floggit<cr>
+    nno <leader>gu :Floggit push -u origin<space>
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
 
