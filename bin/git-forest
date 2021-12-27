@@ -99,8 +99,8 @@ sub get_line_block
 sub process
 {
 	my(@vine);
-	my $refs = &get_refs();
-	my($fh, $fhc) = $Repo->command_output_pipe("log", "--date-order",
+	# my $refs = &get_refs();
+	my($fh, $fhc) = $Repo->command_output_pipe("log", "--parents", "--date-order",
 	                "--pretty=format:<%H><%h><%P>$Pretty_fmt", @ARGV);
 
 	while (my($line, @next_sha) = get_line_block($fh, $Subvine_depth)) {
@@ -116,13 +116,13 @@ sub process
 		&vine_branch(\@vine, $sha);
 		my $ra = &vine_commit(\@vine, $sha, \@parents);
 
-		if (exists($refs->{$sha})) {
-			print &vis_post(&vis_commit($ra),
-			      $Color{at}."m".$Color{default});
-			&ref_print($refs->{$sha});
-		} else {
-			print &vis_post(&vis_commit($ra, " "));
-		}
+		# if (exists($refs->{$sha})) {
+		# 	print &vis_post(&vis_commit($ra),
+		# 	      $Color{at}."m".$Color{default});
+		# 	&ref_print($refs->{$sha});
+		# } else {
+		print &vis_post(&vis_commit($ra, " "));
+		# }
 		if ($With_sha) {
 			print $msg, $Color{at}, encode('UTF-8', "──("), $Color{sha}, $mini_sha,
 			      $Color{at}, ")", $Color{default}, "\n";
