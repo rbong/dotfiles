@@ -207,43 +207,50 @@ call plug#begin('~/.vim/plugged')
     Plug 'rbong/vim-gb'
 
     Plug 'rbong/vim-crystalline'
+
     let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",get(g:, "ale_enabled", 0))?"ALE ":""}'
                 \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
+
     function! StatusLineFile() abort
         let l:name = pathshorten(bufname(bufnr('%')))
         return l:name ==# '' ? '[No Name]' : l:name
     endfunction
+
     function! StatusLine(current, width)
-      let l:s = ''
+        let l:s = ''
 
-      if a:current
-        let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
-      else
-        let l:s .= '%#CrystallineInactive#'
-      endif
-      let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
-      if a:current
-        let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()}'
-      endif
+        if a:current
+            let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+        else
+            let l:s .= '%#CrystallineInactive#'
+        endif
+        let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
+        if a:current
+            let l:s .= crystalline#right_sep('', 'Fill')
+            let l:s .= '%{crystalline#left_pad(fugitive#head())}'
+            let l:s .= '%{crystalline#left_pad(buffest#get_reg_type_label(expand("%:p")))}'
+        endif
 
-      let l:s .= '%='
-      if a:current
-        let l:s .= crystalline#left_sep('', 'Fill') . g:statusline_settings
-        let l:s .= crystalline#left_mode_sep('')
-      endif
-      if a:width > 80
-        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
-      else
-        let l:s .= ' '
-      endif
+        let l:s .= '%='
+        if a:current
+            let l:s .= crystalline#left_sep('', 'Fill') . g:statusline_settings
+            let l:s .= crystalline#left_mode_sep('')
+        endif
+        if a:width > 80
+            let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+        else
+            let l:s .= ' '
+        endif
 
-      return l:s
+        return l:s
     endfunction
+
     function! TabLine() abort
         return crystalline#bufferline(0, 0, 1)
     endfunction
+
     let g:crystalline_enable_sep = 1
     let g:crystalline_statusline_fn = 'StatusLine'
     let g:crystalline_tabline_fn = 'TabLine'
