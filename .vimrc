@@ -199,8 +199,6 @@ call plug#begin('~/.vim/plugged')
     let g:flog_build_log_command_fn = 'flog#build_git_forest_log_command'
     augroup MyFlogSettings
         au FileType floggraph setlocal shellslash
-        au FileType floggraph nnoremap <buffer> <silent> <Tab> :<C-U>call flog#set_commit_mark_at_line('m', '.') \| call flog#run_command('vertical botright Gsplit %h:%p', 0, 0, 1)<CR>
-        au FileType floggraph nnoremap <buffer> <silent> df :<C-U>call flog#run_command("vertical botright Gsplit %(h'm):%p \| Gdiffsplit %h", 0, 0, 1)<CR>
     augroup END
     nno <leader>gk :Flog
 
