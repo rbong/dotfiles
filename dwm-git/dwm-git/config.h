@@ -4,9 +4,9 @@
 #include <X11/XF86keysym.h>
 
 /* helper macros */
-#define FONT "Inconsolata for Powerline:pixelsize=16:minspace=False"
+#define FONT "Iosevka Term SS01 Extended:pixelsize=17:minspace=False"
 // HiDPI:
-// #define FONT "Inconsolata for Powerline:pixelsize=32:minspace=False"
+// #define FONT "Iosevka Extended:pixelsize=34:minspace=False"
 
 #define BLACK   "#282828"
 #define WHITE   "#ebdbb2"
