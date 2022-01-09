@@ -4,9 +4,9 @@
 #include <X11/XF86keysym.h>
 
 /* helper macros */
-#define FONT "Iosevka Term SS01 Extended:pixelsize=17:minspace=False"
+#define FONT "Iosevka Term SS01 Extended:pixelsize=16"
 // HiDPI:
-// #define FONT "Iosevka Extended:pixelsize=34:minspace=False"
+// #define FONT "Iosevka Extended:pixelsize=32"
 
 #define BLACK   "#282828"
 #define WHITE   "#ebdbb2"
@@ -61,9 +61,9 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[T]",      tile },    /* first entry is default */
-	{ "[F]",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ " T ",      tile },    /* first entry is default */
+	{ " F ",      NULL },    /* no layout function means floating behavior */
+	{ " M ",      monocle },
 };
 
 /* key definitions */
