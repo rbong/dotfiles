@@ -19,19 +19,19 @@ scrolling:
 
 font:
   normal:
-    family: Inconsolata for Powerline
+    family: Hack
     style: Regular
   bold:
     style: Regular
   italic:
     style: Regular
-  size: 8
+  size: 7
   offset:
     x: 0
     y: 0
   glyph_offset:
     x: 0
-    y: 1
+    y: 0
   use_thin_strokes: true
 
 debug:
@@ -130,8 +130,7 @@ key_bindings:
   - { key: Insert,   mods: Shift,         action: PasteSelection   }
   - { key: Key0,     mods: Control,       action: ResetFontSize    }
   - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Add,      mods: Control,       action: IncreaseFontSize }
-  - { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
 
   # (macOS only)
