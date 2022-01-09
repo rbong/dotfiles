@@ -45,9 +45,7 @@ if [[ "$GUI" != "false" ]]; then
     alsa-utils \
     conky \
     dunst \
-    powerline-fonts-git \
-    ttf-dejavu \
-    ttf-liberation \
+    ttf-hack \
     dmenu \
     gimp \
     scrot \
