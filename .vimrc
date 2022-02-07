@@ -111,7 +111,7 @@ nno / m`/
 nno ? m`?
 
 " escape clears search
-nno <esc><esc> :nohlsearch<cr>
+nno <esc><esc> :silent! nohlsearch<cr>
 
 if has('terminal')
     " quick pasting of the main register in the terminal
@@ -136,11 +136,11 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>ghh :Floggit -p stash show -p stash
-    nno <leader>ghl :Floggit -p stash list<cr>
-    nno <leader>gha :Floggit stash apply stash@{
-    nno <leader>ghp :Floggit stash pop
-    nno <leader>ghs :Floggit stash push<space>
+    nno <leader>gzh :Floggit -p stash show -p stash
+    nno <leader>gzl :Floggit -p stash list<cr>
+    nno <leader>gza :Floggit stash apply stash@
+    nno <leader>gzp :Floggit stash pop
+    nno <leader>gzz :Floggit stash push<space>
     nno <leader>go :Floggit checkout<space>
     nno <leader>goo :Floggit checkout<space>
     nno <leader>gob :Floggit checkout -b<space>
@@ -189,14 +189,14 @@ call plug#begin('~/.vim/plugged')
     endif
 
     " fugitive-based branch viewer
-    Plug 'rbong/vim-flog'
-    let g:flog_default_arguments = {
+    Plug 'rbong/vim-flog', { 'branch': 'v2' }
+    let g:flog_default_opts = {
                 \ 'max_count': 2000,
                 \ }
-    let g:flog_permanent_default_arguments = {
-                \ 'date': 'short',
+    let g:flog_permanent_default_opts = {
+                \ 'date': 'format:%Y-%m-%d %H:%m',
                 \ }
-    let g:flog_build_log_command_fn = 'flog#build_git_forest_log_command'
+    let g:flog_use_internal_lua = 1
     augroup MyFlogSettings
         au FileType floggraph setlocal shellslash
     augroup END
