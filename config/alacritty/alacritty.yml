@@ -12,6 +12,8 @@ window:
   dynamic_padding: false
   decorations: none
   dynamic_title: true
+  opacity: 1.0
+
 
 scrolling:
   history: 10000
@@ -22,9 +24,9 @@ font:
     family: Iosevka Term SS01 Extended
     style: Regular
   bold:
-    style: Regular
+    style: Bold
   italic:
-    style: Regular
+    style: Italic
   size: 7
   offset:
     x: 0
@@ -96,8 +98,6 @@ bell:
   animation: EaseOutExpo
   duration: 0
   color: '0xffffff'
-
-background_opacity: 1.0
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
