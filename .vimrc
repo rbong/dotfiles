@@ -267,6 +267,7 @@ call plug#begin('~/.vim/plugged')
                 \ 'javascriptreact': ['eslint', 'tsserver'],
                 \ 'scss': ['stylelint'],
                 \ 'less': ['stylelint'],
+                \ 'lua': ['luacheck'],
                 \ }
     let g:ale_fixers = {
                 \ 'asm': [],
@@ -275,6 +276,7 @@ call plug#begin('~/.vim/plugged')
                 \ 'javascriptreact': ['eslint', 'prettier'],
                 \ 'scss': ['stylelint'],
                 \ 'less': ['stylelint'],
+                \ 'lua': ['stylua'],
                 \ }
 
     let g:ale_python_autopep8_executable = '/home/roger/.local/bin/autopep8'
@@ -354,6 +356,7 @@ call plug#begin('~/.vim/plugged')
     let g:vifm_embed_split = 1
     let g:vifm_embed_cwd = 1
     let g:vifm_replace_netrw = 1
+    let g:loaded_netrw = 0
     let g:loaded_netrwPlugin = 0
     nno <leader>fm :vertical 40Vifm .<CR>
 

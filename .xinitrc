@@ -13,7 +13,7 @@ export LC_ALL=en_US.UTF-8
 # export ELM_SCALE=2
 
 # load fonts
-xset +fp /usr/share/fonts
+xset +fp /usr/share/fonts/TTF
 xset fp rehash
 
 # setup touchpad

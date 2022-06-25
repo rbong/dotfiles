@@ -11,7 +11,7 @@ export VISUAL=vim
 export BROWSER=qutebrowser
 
 # path settings
-export PATH=$PATH:$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.gem/ruby/2.6.0/bin:$HOME/.pyenv/bin:$HOME/.nvm/versions/node/v14.17.4/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.rvm/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$HOME/.pyenv/bin:$HOME/.nvm/versions/node/v14.18.1/bin
 
 # allow using the c-q key
 stty -ixon
@@ -72,6 +72,9 @@ bindkey -v
 ### Third party
 
 
+# Enable completion
+autoload -U +X bashcompinit && bashcompinit
+
 # add AWS completion
 if [[ -f /usr/bin/aws_zsh_completer.sh ]]; then
   source /usr/bin/aws_zsh_completer.sh
@@ -88,8 +91,9 @@ if [ -f "$HOME/.rvm/scripts/rvm" ]; then
 fi
 
 # start node version manager
-if [ -f "$HOME/.nvm/nvm.sh" ]; then
-  source "$HOME/.nvm/nvm.sh"
+if [ -f "/usr/share/nvm/nvm.sh" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  source "/usr/share/nvm/nvm.sh"
 fi
 
 # start pyenv
@@ -99,5 +103,3 @@ fi
 
 # terraform autocompletion
 complete -o nospace -C /usr/bin/terraform terraform
-
-autoload -U +X bashcompinit && bashcompinit

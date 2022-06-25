@@ -142,7 +142,7 @@ fileviewer *.avi,*.mp4,*.m4v,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.w
 filetype *.html,*.htm links,mozilla,brave %f %i &
 
 " image
-filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm imv -s none %f
+filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp imv -s none %f
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm convert -identify %f -verbose /dev/null
 
 " office files
