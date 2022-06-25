@@ -227,7 +227,7 @@ call plug#begin('~/.vim/plugged')
         let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
         if a:current
             let l:s .= crystalline#right_sep('', 'Fill')
-            let l:s .= '%{crystalline#left_pad(fugitive#head())}'
+            let l:s .= '%{crystalline#left_pad(fugitive#Head())}'
             let l:s .= '%{crystalline#left_pad(buffest#get_reg_type_label(expand("%:p")))}'
         endif
 
