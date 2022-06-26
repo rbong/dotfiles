@@ -199,6 +199,10 @@ call plug#begin('~/.vim/plugged')
     let g:flog_use_internal_lua = 1
     augroup MyFlogSettings
         au FileType floggraph setlocal shellslash
+        " Use "show" instead of "diff" to fix diff links
+        au FileType floggraph nno <buffer> <silent> <Plug>(FlogVDiffSplitRight) :<C-U>call flog#ExecTmp('vertical belowright Git show HEAD %h', 0, 0)<CR>
+        au FileType floggraph vno <buffer> <silent> <Plug>(FlogVDiffSplitRight) :<C-U>call flog#ExecTmp("vertical belowright Git show %(h'>) %(h'<)", 0, 0)<CR>
+        au FileType floggraph nno <buffer> <silent> <Plug>(FlogVDiffSplitLastCommitRight) :<C-U> call flog#ExecTmp("vertical belowright Git show %(h'!) %H", 0, 0)<CR>
     augroup END
     nno <leader>gk :Flog
 
