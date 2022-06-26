@@ -366,6 +366,25 @@ call plug#begin('~/.vim/plugged')
 
     " personal wiki
     Plug 'vimwiki/vimwiki'
+    let g:vimwiki_global_ext = 0
+    let g:vimwiki_list = [{
+                \ 'auto_diary_index': 1,
+                \ 'auto_generate_links': 1,
+                \ 'auto_generate_tags': 1,
+                \ 'auto_tags': 1,
+                \ 'auto_toc': 1,
+                \ 'exclude_files': ['.git/**/*'],
+                \ 'ext': '.wiki',
+                \ 'name': 'My Wiki',
+                \ 'path': '~/vimwiki/',
+                \ 'syntax': 'markdown',
+                \ }]
+    let g:vimwiki_toc_header = 'TOC'
+    " Change map from '=' since that results in a delay
+    nmap + <Plug>VimwikiAddHeaderLevel
+    " Change map from '+' since it is now used for header level
+    nmap <leader>w<CR> <Plug>VimwikiNormalizeLink
+    vmap <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
 call plug#end()
 
 " post-load plugin configuration

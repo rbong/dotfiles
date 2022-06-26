@@ -4,9 +4,9 @@ def dayheader():
 	return datetime.datetime.strptime(snip.fn.split('.')[0], '%Y-%m-%d').strftime('%F')
 endglobal
 snippet day
-= `!p snip.rv = dayheader()` =
+# `!p snip.rv = dayheader()`
 
-== Goals ==
+## Goals
 
 	* [ ] Log hours
 	* [ ] Read at 9pm
@@ -14,7 +14,7 @@ snippet day
 	* [ ] No snacks
 endsnippet
 snippet retro
-== Retro ==
+## Retro
 
 	* Goals:
 		* Diary: /7
