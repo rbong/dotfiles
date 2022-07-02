@@ -380,8 +380,10 @@ call plug#begin('~/.vim/plugged')
                 \ 'syntax': 'markdown',
                 \ }]
     let g:vimwiki_toc_header = 'TOC'
-    " Change map from '=' since that results in a delay
-    nmap + <Plug>VimwikiAddHeaderLevel
+    augroup MyVimwikiSettings
+        " Change map from '=' since that results in a delay
+        au FileType vimwiki nmap + <Plug>VimwikiAddHeaderLevel
+    augroup END
     " Change map from '+' since it is now used for header level
     nmap <leader>w<CR> <Plug>VimwikiNormalizeLink
     vmap <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
