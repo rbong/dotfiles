@@ -139,7 +139,7 @@ call plug#begin('~/.vim/plugged')
     " fugitive bindings
     nno <leader>gzh :Floggit -p stash show -p stash
     nno <leader>gzl :Floggit -p stash list<cr>
-    nno <leader>gza :Floggit stash apply stash@
+    nno <leader>gza :Floggit stash apply<space>
     nno <leader>gzp :Floggit stash pop
     nno <leader>gzz :Floggit stash push<space>
     nno <leader>go :Floggit checkout<space>
