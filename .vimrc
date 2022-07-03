@@ -53,7 +53,7 @@ augroup MyFileSettings
     au BufNewFile,BufRead vifmrc,*.vifm set filetype=vim
 
     " assembly files
-    au BufNewFile,BufRead *.asm set filetype=asm
+    au BufNewFile,BufRead *.asm,*.inc set filetype=asm
 
     " xml syntax highlighting for ROS
     au BufNewFile,BufRead *.launch set filetype=xml
