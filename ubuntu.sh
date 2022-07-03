@@ -95,6 +95,7 @@ cd ~/src/vim
   --with-python3-config-dir=/usr/lib/python3.8/config-3.8-x86_64-linux-gnu/ \
   --enable-perlinterp=yes \
   --enable-luainterp=yes \
+  --with-luajit \
   --enable-gui=gtk2 \
   --enable-cscope \
   --prefix=/usr/local
