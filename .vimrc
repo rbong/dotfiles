@@ -142,14 +142,14 @@ call plug#begin('~/.vim/plugged')
     nno <leader>gza :Floggit stash apply<space>
     nno <leader>gzp :Floggit stash pop
     nno <leader>gzz :Floggit stash push<space>
-    nno <leader>go :Floggit checkout<space>
-    nno <leader>goo :Floggit checkout<space>
-    nno <leader>gob :Floggit checkout -b<space>
-    nno <leader>got :Floggit checkout -t origin/
+    nno <leader>go :Floggit -u checkout<space>
+    nno <leader>goo :Floggit -u checkout<space>
+    nno <leader>gob :Floggit -u checkout -b<space>
+    nno <leader>got :Floggit -u checkout -t origin/
     nno <leader>gr :Ggrep ""<left>
     nno <leader>g/ :Ggrep "<c-r>/"<cr>
-    nno <leader>gs :Floggit<cr>
-    nno <leader>gu :Floggit push -u origin<space>
+    nno <leader>gs :Floggit -f<cr>
+    nno <leader>gu :Floggit -u push -u origin<space>
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
 
@@ -200,10 +200,6 @@ call plug#begin('~/.vim/plugged')
     let g:flog_use_internal_lua = 1
     augroup MyFlogSettings
         au FileType floggraph setlocal shellslash
-        " Use "show" instead of "diff" to fix diff links
-        au FileType floggraph nno <buffer> <silent> <Plug>(FlogVDiffSplitRight) :<C-U>exec flog#Format('vertical belowright Floggit -t show HEAD %h')<CR>
-        au FileType floggraph vno <buffer> <silent> <Plug>(FlogVDiffSplitRight) :<C-U>exec flog#Format("vertical belowright Floggit -t show %(h'>) %(h'<)")<CR>
-        au FileType floggraph nno <buffer> <silent> <Plug>(FlogVDiffSplitLastCommitRight) :<C-U>exec flog#Format("vertical belowright Floggit -t show %(h'!) %H")<CR>
     augroup END
     nno <leader>gk :Flog
 
