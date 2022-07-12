@@ -329,7 +329,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'ludovicchabant/vim-gutentags'
 
     " visual undo trees
-    Plug 'simnalamburt/vim-mundo'
+    " Commit is a workaround for https://github.com/simnalamburt/vim-mundo/issues/123
+    Plug 'simnalamburt/vim-mundo', { 'commit': '4cc954f' }
     nno <leader>mm :MundoToggle<CR>
     let g:mundo_prefer_python3 = 1
 
