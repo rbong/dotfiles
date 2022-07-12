@@ -331,6 +331,7 @@ call plug#begin('~/.vim/plugged')
     " visual undo trees
     Plug 'simnalamburt/vim-mundo'
     nno <leader>mm :MundoToggle<CR>
+    let g:mundo_prefer_python3 = 1
 
     " language plugins
     Plug 'sheerun/vim-polyglot'
