@@ -351,6 +351,7 @@ call plug#begin('~/.vim/plugged')
     let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
     let g:UltiSnipsExpandTrigger = '<c-e>'
     let g:UltiSnipsListSnippets = '<s-tab>'
+    nno <leader>uu :UltiSnipsEdit<space>
 
     " file manager
     Plug 'vifm/vifm.vim'
