@@ -381,10 +381,10 @@ call plug#begin('~/.vim/plugged')
     augroup MyVimwikiSettings
         " Change map from '=' since that results in a delay
         au FileType vimwiki nmap + <Plug>VimwikiAddHeaderLevel
+        " Change map from '+' since it is now used for header level
+        au FileType vimwiki nmap <leader>w<CR> <Plug>VimwikiNormalizeLink
+        au FileType vimwiki vmap <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
     augroup END
-    " Change map from '+' since it is now used for header level
-    nmap <leader>w<CR> <Plug>VimwikiNormalizeLink
-    vmap <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
 call plug#end()
 
 " post-load plugin configuration
