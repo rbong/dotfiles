@@ -137,19 +137,19 @@ call plug#begin('~/.vim/plugged')
     " git integration
     Plug 'tpope/vim-fugitive'
     " fugitive bindings
-    nno <leader>gzh :Floggit -p stash show -p stash
-    nno <leader>gzl :Floggit -p stash list<cr>
-    nno <leader>gza :Floggit stash apply<space>
-    nno <leader>gzp :Floggit stash pop
-    nno <leader>gzz :Floggit stash push<space>
-    nno <leader>go :Floggit -u checkout<space>
-    nno <leader>goo :Floggit -u checkout<space>
-    nno <leader>gob :Floggit -u checkout -b<space>
-    nno <leader>got :Floggit -u checkout -t origin/
+    nno <leader>gzh :Floggit -s -p stash show -p stash
+    nno <leader>gzl :Floggit -s -p stash list<cr>
+    nno <leader>gza :Floggit -s stash apply<space>
+    nno <leader>gzp :Floggit -s stash pop
+    nno <leader>gzz :Floggit -s stash push<space>
+    nno <leader>go :Floggit checkout<space>
+    nno <leader>goo :Floggit checkout<space>
+    nno <leader>gob :Floggit checkout -b<space>
+    nno <leader>got :Floggit checkout -t origin/
     nno <leader>gr :Ggrep ""<left>
     nno <leader>g/ :Ggrep "<c-r>/"<cr>
-    nno <leader>gs :Floggit -f<cr>
-    nno <leader>gu :Floggit -u push -u origin<space>
+    nno <leader>gs :Floggit -f -s<cr>
+    nno <leader>gu :Floggit push -u origin<space>
     " fugitive github support
     Plug 'tpope/vim-rhubarb'
 
