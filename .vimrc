@@ -332,7 +332,7 @@ call plug#begin('~/.vim/plugged')
     " Commit is a workaround for https://github.com/simnalamburt/vim-mundo/issues/123
     Plug 'simnalamburt/vim-mundo', { 'commit': '4cc954f' }
     nno <leader>mm :MundoToggle<CR>
-    let g:mundo_prefer_python3 = 1
+    let g:mundo_prefer_python3 = v:true
 
     " language plugins
     Plug 'sheerun/vim-polyglot'
