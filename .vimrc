@@ -382,10 +382,10 @@ call plug#begin('~/.vim/plugged')
     let g:vimwiki_toc_header = 'TOC'
     augroup MyVimwikiSettings
         " Change map from '=' since that results in a delay
-        au FileType vimwiki nmap + <Plug>VimwikiAddHeaderLevel
+        au FileType vimwiki nmap <buffer> + <Plug>VimwikiAddHeaderLevel
         " Change map from '+' since it is now used for header level
-        au FileType vimwiki nmap <leader>w<CR> <Plug>VimwikiNormalizeLink
-        au FileType vimwiki vmap <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
+        au FileType vimwiki nmap <buffer> <leader>w<CR> <Plug>VimwikiNormalizeLink
+        au FileType vimwiki vmap <buffer> <leader>w<CR> <Plug>VimwikiNormalizeLinkVisual
     augroup END
 call plug#end()
 
