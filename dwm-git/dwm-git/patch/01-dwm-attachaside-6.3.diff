@@ -37,7 +37,7 @@ index 0362114..be7e7a6 100644
 +	if(!at) {
 +		attach(c);
 +		return;
-+ 	}
++	}
 +	c->next = at->next;
 +	at->next = c;
 +}
@@ -54,7 +54,7 @@ index 0362114..be7e7a6 100644
 +	attachaside(c);
  	attachstack(c);
  	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
- 	                (unsigned char *) &(c->win), 1);
+ 		(unsigned char *) &(c->win), 1);
 @@ -1210,6 +1224,16 @@ movemouse(const Arg *arg)
  }
  
