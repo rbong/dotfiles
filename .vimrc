@@ -190,7 +190,7 @@ call plug#begin('~/.vim/plugged')
     endif
 
     " fugitive-based branch viewer
-    Plug 'rbong/vim-flog', { 'branch': 'v2' }
+    Plug 'rbong/vim-flog'
     let g:flog_default_opts = {
                 \ 'max_count': 2000,
                 \ }
