@@ -267,7 +267,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'w0rp/ale'
     let g:ale_linters = {
                 \ 'asm': [],
-                \ 'python': ['flake8', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
                 \ 'javascriptreact': ['eslint', 'tsserver'],
                 \ 'go': ['gofmt'],
