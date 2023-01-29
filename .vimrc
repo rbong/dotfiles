@@ -42,7 +42,8 @@ set t_ut=
 
 augroup MyVimEnterSettings
     " disable undercurl, causes cursor to change color on rxvt
-    au VimEnter * set t_Cs=
+    " turn off conceal level
+    au VimEnter * set t_Cs= conceallevel=0
 augroup END
 
 augroup MyFileSettings
@@ -200,6 +201,9 @@ call plug#begin('~/.vim/plugged')
     let g:flog_use_internal_lua = 1
     augroup MyFlogSettings
         au FileType floggraph setlocal shellslash
+        au FileType floggraph hi link flogRef Include
+        au FileType floggraph nno <buffer> cuo :<C-U>exec flog#Format("Floggit branch --set-upstream-to origin %l")<CR>
+        au FileType floggraph nno <buffer> cu<Space> :<C-U>Floggit branch --set-upstream-to<Space>
     augroup END
     nno <leader>gk :Flog
 
@@ -266,21 +270,28 @@ call plug#begin('~/.vim/plugged')
                 \ 'python': ['flake8', 'pyls'],
                 \ 'javascript': ['eslint', 'tsserver'],
                 \ 'javascriptreact': ['eslint', 'tsserver'],
-                \ 'scss': ['stylelint'],
+                \ 'go': ['gofmt'],
                 \ 'less': ['stylelint'],
                 \ 'lua': ['luacheck'],
+                \ 'python': ['flake8', 'pyls'],
+                \ 'scss': ['stylelint'],
+                \ 'terraform': ['terraform'],
                 \ }
     let g:ale_fixers = {
                 \ 'asm': [],
-                \ 'python': ['autopep8'],
                 \ 'javascript': ['eslint', 'prettier'],
                 \ 'javascriptreact': ['eslint', 'prettier'],
-                \ 'scss': ['stylelint'],
+                \ 'go': ['gofmt'],
                 \ 'less': ['stylelint'],
                 \ 'lua': ['stylua'],
+                \ 'python': ['autopep8'],
+                \ 'scss': ['stylelint'],
+                \ 'terraform': ['terraform'],
                 \ }
 
-    let g:ale_python_autopep8_executable = '/home/roger/.local/bin/autopep8'
+    let g:ale_typescript_tsserver_executable = trim(system('which tsserver || true'))
+
+    let g:ale_python_autopep8_executable = trim(system('which autopep8 || true'))
     let g:ale_python_autopep8_use_global = 1
 
     nno <leader>aa :ALEToggle<CR>
