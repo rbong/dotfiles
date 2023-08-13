@@ -6,10 +6,10 @@ syntax on
 
 " persistence
 set undofile
-set undodir=~/.vim/undo
+set undodir=~/.local/share/nvim/undo
 
 " store swapfiles somewhere else
-set directory=~/.vim/swap
+set directory=~/.local/share/nvim/swap
 
 " indentation behaviour (see :help)
 set shiftwidth=2 tabstop=2 expandtab nocindent nosmartindent autoindent
@@ -116,17 +116,23 @@ nno ? m`?
 nno <esc><esc> :silent! nohlsearch<cr>
 
 if has('terminal')
-    " quick pasting of the main register in the terminal
+    " paste
     tmap <c-w>p <c-w>""
-    " use <c-r> like in insert mode in the terminal
+    " use <c-r>
     tmap <c-w><c-r> <c-w>"
+endif
+if has('nvim')
+    " paste
+    tmap <c-w>p <c-\><c-n>p
+    " use <c-r>
+    tmap <c-w><c-r> <c-\><c-n><c-r>
 endif
 
 
 """ Plugins
 
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/site/plugged')
     " tpope plugins
 
     " better replacement
@@ -178,13 +184,17 @@ call plug#begin('~/.vim/plugged')
     nno c\q :Qflistsplit filename lnum col type valid text<cr>
     nno c\l :Loclistsplit filename lnum col type valid text<cr>
 
-    if has('terminal')
+    if has('terminal') || has('nvim')
         " smooth terminal
         Plug 'rbong/vim-butter'
         " terminal height
-        let g:butter_popup_options = '++rows=15'
+        let g:butter_popup_height = 15
+        " command
+        let g:butter_popup_cmd = 'zsh'
         " disable color fixes, overwrites 'term'
         let g:butter_fixes_color = 0
+        " don't redraw on term open
+        let g:butter_fixes_redraw = !exists('nvim')
         " butter keybindings
         nno <leader>zz :ButterPopup<cr>
         nno <leader>zv :ButterSplit<cr>
@@ -204,6 +214,7 @@ call plug#begin('~/.vim/plugged')
         au FileType floggraph hi link flogRef Include
         au FileType floggraph nno <buffer> cuo :<C-U>exec flog#Format("Floggit branch --set-upstream-to origin %l")<CR>
         au FileType floggraph nno <buffer> cu<Space> :<C-U>Floggit branch --set-upstream-to<Space>
+        au filetype floggraph nmap <buffer> g<CR> <Plug>(FlogVSplitCommitPathsRight)
     augroup END
     nno <leader>gk :Flog
 
@@ -214,7 +225,6 @@ call plug#begin('~/.vim/plugged')
     let g:statusline_settings = ' %{&paste?"PASTE ":""}'
                 \ . '%{&spell?"SPELL ":""}'
                 \ . '%{get(b:,"ale_enabled",get(g:, "ale_enabled", 0))?"ALE ":""}'
-                \ . '%{deoplete#is_enabled()?"DEOPLETE ":""}'
 
     function! StatusLineFile() abort
         let l:name = pathshorten(bufname(bufnr('%')))
@@ -267,54 +277,54 @@ call plug#begin('~/.vim/plugged')
     Plug 'w0rp/ale'
     let g:ale_linters = {
                 \ 'asm': [],
-                \ 'javascript': ['eslint', 'tsserver'],
-                \ 'javascriptreact': ['eslint', 'tsserver'],
+                \ 'css': ['stylelint'],
+                \ 'javascript': ['eslint'],
+                \ 'javascriptreact': ['eslint'],
                 \ 'go': ['gofmt'],
                 \ 'less': ['stylelint'],
                 \ 'lua': ['luacheck'],
                 \ 'python': ['flake8', 'pyls'],
                 \ 'scss': ['stylelint'],
                 \ 'terraform': ['terraform'],
+                \ 'typescript': ['eslint'],
                 \ }
     let g:ale_fixers = {
                 \ 'asm': [],
+                \ 'css': ['stylelint', 'prettier'],
                 \ 'javascript': ['eslint', 'prettier'],
                 \ 'javascriptreact': ['eslint', 'prettier'],
                 \ 'go': ['gofmt'],
-                \ 'less': ['stylelint'],
+                \ 'graphql': ['prettier'],
+                \ 'html': ['prettier'],
+                \ 'json': ['prettier'],
+                \ 'less': ['stylelint', 'prettier'],
                 \ 'lua': ['stylua'],
+                \ 'markdown': ['prettier'],
+                \ 'openapi': ['prettier'],
                 \ 'python': ['autopep8'],
-                \ 'scss': ['stylelint'],
+                \ 'scss': ['stylelint', 'prettier'],
+                \ 'svelte': ['prettier'],
                 \ 'terraform': ['terraform'],
+                \ 'typescript': ['eslint', 'prettier'],
+                \ 'yaml': ['prettier'],
                 \ }
 
-    let g:ale_typescript_tsserver_executable = trim(system('which tsserver || true'))
+    let g:ale_disable_lsp = 1
+    let g:ale_use_neovim_diagnostics_api = 1
 
     let g:ale_python_autopep8_executable = trim(system('which autopep8 || true'))
     let g:ale_python_autopep8_use_global = 1
 
-    nno <leader>aa :ALEToggle<CR>
-    nno <leader>af :ALEFix<CR>
-    nno <leader>aG :ALEGoToDefinition
-    nno <leader>ag :ALEGoToDefinition<CR>
-    nno <leader>ah :ALEHover<CR>
-    nno <leader>ar :ALERename<CR>
-    nno <leader>as :ALESymbolSearch<space>
-    nno <leader>aS :ALESymbolSearch -relative<space>
-    nno <leader>aT :ALEGoToTypeDefinition
-    nno <leader>at :ALEGoToTypeDefinition<CR>
-    nno <leader>a/ :ALEFindReferences<CR>
-    nno <leader>a\ :ALEFindReferences -relative<CR>
+    nno <leader>ll :ALEToggle<CR>
+    nno <leader>lf :ALEFix<CR>
 
     " completion
-    Plug 'Shougo/deoplete.nvim'
-    " dependencies
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    " config
-    let g:deoplete#enable_at_startup = 0
-    " bindings
-    nno <leader>dd :call deoplete#toggle()<CR>
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
     " cross-system clipboard support
     if !has('clipboard')
@@ -334,9 +344,8 @@ call plug#begin('~/.vim/plugged')
     let g:gruvbox_guisp_fallback = 'bg'
     " Windows fix
     " autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
-
-    " automatic tags
-    Plug 'ludovicchabant/vim-gutentags'
+    hi! link DiagnosticError GruvboxRedUnderline
+    hi! link DiagnosticWarn GruvboxYellowUnderline
 
     " visual undo trees
     " Commit is a workaround for https://github.com/simnalamburt/vim-mundo/issues/123
@@ -344,8 +353,8 @@ call plug#begin('~/.vim/plugged')
     nno <leader>mm :MundoToggle<CR>
     let g:mundo_prefer_python3 = v:true
 
-    " language plugins
-    Plug 'sheerun/vim-polyglot'
+    " LSP
+    Plug 'neovim/nvim-lspconfig'
 
     " align text
     Plug 'godlygeek/tabular'
@@ -359,10 +368,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'SirVer/ultisnips'
     " extra snippets
     Plug 'honza/vim-snippets'
-    let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
+    let g:UltiSnipsSnippetDirectories=['~/.local/share/UltiSnips', 'UltiSnips']
     let g:UltiSnipsExpandTrigger = '<c-e>'
     let g:UltiSnipsListSnippets = '<s-tab>'
     nno <leader>uu :UltiSnipsEdit<space>
+
+    " treesitter
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
     " file manager
     Plug 'vifm/vifm.vim'
@@ -402,3 +414,90 @@ call plug#end()
 " post-load plugin configuration
 
 colorscheme gruvbox
+
+nmap <leader>s :call SynStack()<CR>
+function! SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" lua plugin configuration
+
+lua <<EOF
+
+-- configure nvim-cmp
+
+local cmp = require('cmp')
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body)
+        end,
+    },
+    window = {},
+    mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-q>'] = cmp.mapping.abort(),
+    }),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'ultisnips' },
+    }, {
+        { name = 'buffer' },
+    })
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- configure nvim-lspconfig
+
+local lspconfig = require('lspconfig')
+lspconfig.tsserver.setup {
+    capabilities = capabilities,
+}
+
+-- add diagnostic mappings
+vim.keymap.set('n', '<leader>ld', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('MyLspSettings', {}),
+    callback = function(args)
+        -- LSP buffer mappings
+        local opts = { buffer = args.buf }
+        vim.keymap.set('n', '<space>l/', vim.lsp.buf.references, opts)
+        vim.keymap.set({ 'n', 'v' }, '<space>la', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', '<space>lg', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', '<space>lG', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', '<space>lh', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', '<space>lr', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', '<space>ls', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<space>lt', vim.lsp.buf.type_definition, opts)
+    end,
+})
+
+-- configure nvim-treesitter
+
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = "all",
+    auto_install = true,
+
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+}
+
+EOF

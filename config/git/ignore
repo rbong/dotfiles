@@ -5,10 +5,6 @@ tags
 tags.lock
 tags.temp
 
-# vim configuration files
-
-.vimrc
-
 # caches
 
 .ccls-cache

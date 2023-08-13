@@ -20,16 +20,17 @@ cd ~/src/trizen && makepkg -si
 echo installing regular dependencies
 trizen -S \
   calc \
-  grml-zsh-config \
-  vim-runtime-git \
-  fzf \
-  gvim-git \
-  pass \
-  python-neovim \
-  python-greenlet \
   ctags \
+  fzf \
+  grml-zsh-config \
+  neovim-git \
+  pass \
+  python-greenlet \
+  python-neovim \
   python-pip \
+  typescript-language-server \
   vifm \
+  vim-runtime-git \
   zsh \
   zsh-autosuggestions \
   zsh-completions \
@@ -44,15 +45,15 @@ if [[ "$GUI" != "false" ]]; then
     alacritty \
     alsa-utils \
     conky \
-    dunst \
-    ttc-iosevka-ss01 \
     dmenu \
+    dunst \
     gimp \
-    scrot \
-    slock \
+    gufw \
     imv \
     mpv \
-    gufw \
+    scrot \
+    slock \
+    ttc-iosevka-ss01 \
     xorg \
     xorg-xinit \
     zathura \

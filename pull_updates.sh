@@ -3,7 +3,7 @@
 set -e
 
 echo pulling dotfiles
-cp -f ~/.zshrc ~/.vimrc ~/.xinitrc ~/.conkyrc .
+cp -f ~/.zshrc ~/.xinitrc ~/.conkyrc .
 
 if [[ -f ~/.vifm/vifmrc ]]; then
   echo pulling vfmrc
@@ -24,6 +24,13 @@ if [[ -d ~/.config/alacritty ]]; then
   cp -R ~/.config/alacritty config
 else
   echo skipping ~/.config/alacritty
+fi
+
+if [[ -d ~/.config/nvim ]]; then
+  echo pulling neovim config
+  cp -R ~/.config/nvim config
+else
+  echo skipping ~/.config/nvim
 fi
 
 if [[ -d ~/.local/share/UltiSnips ]]; then
