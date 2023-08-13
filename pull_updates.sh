@@ -19,13 +19,6 @@ else
   echo skipping ~/.config/git
 fi
 
-if [[ -d ~/.config/qutebrowser ]]; then
-  echo pulling qutebrowser config
-  cp -R ~/.config/qutebrowser config
-else
-  echo skipping ~/.config/qutebrowser
-fi
-
 if [[ -d ~/.config/alacritty ]]; then
   echo pulling alacritty config
   cp -R ~/.config/alacritty config
