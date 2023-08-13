@@ -13,8 +13,8 @@ echo creating ~/.vim
 mkdir -p ~/.vim/swap
 mkdir -p ~/.vim/undo
 
-echo copying snippets to ~/.vim/UltiSnips
-cp -R UltiSnips ~/.vim
+echo copying snippets to ~/.local/share/UltiSnips
+cp -R UltiSnips ~/.local/share
 
 echo moving config files
 mkdir -p ~/.config

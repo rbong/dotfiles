@@ -33,9 +33,9 @@ else
   echo skipping ~/.config/alacritty
 fi
 
-if [[ -d ~/.vim/UltiSnips ]]; then
+if [[ -d ~/.local/share/UltiSnips ]]; then
   echo pulling UltiSnips
-  cp -R ~/.vim/UltiSnips .
+  cp -R ~/.local/share/UltiSnips .
 else
-  echo skipping ~/.vim/UltiSnips
+  echo skipping ~/.local/share/UltiSnips
 fi
