@@ -448,14 +448,25 @@ cmp.setup({
         { name = 'ultisnips' },
     }, {
         { name = 'buffer' },
-    })
+    }),
 })
 
-cmp.setup.cmdline({ '/', '?' }, {
+-- commands with custom completion
+local custom_commands = {
+    Floggit = true,
+}
+
+-- setup : completion
+cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-        { name = 'buffer' }
-    }
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    }),
+    enabled = function()
+        return not custom_commands[vim.fn.getcmdline():match("%S+")]
+    end,
 })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -463,15 +474,18 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- configure nvim-lspconfig
 
 local lspconfig = require('lspconfig')
-lspconfig.tsserver.setup {
-    capabilities = capabilities,
-}
 
--- add diagnostic mappings
+-- configure typescript-language-server
+lspconfig.tsserver.setup({
+    capabilities = capabilities,
+})
+
+-- diagnostic mappings
 vim.keymap.set('n', '<leader>ld', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 
+-- LSP attach autocmd group
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('MyLspSettings', {}),
     callback = function(args)
@@ -490,7 +504,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- configure nvim-treesitter
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup({
     ensure_installed = "all",
     auto_install = true,
 
@@ -498,6 +512,6 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
         additional_vim_regex_highlighting = false,
     },
-}
+})
 
 EOF
