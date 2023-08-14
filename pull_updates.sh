@@ -29,6 +29,8 @@ fi
 if [[ -d ~/.config/nvim ]]; then
   echo pulling neovim config
   cp -R ~/.config/nvim config
+  # remove packer
+  rm -rf config/nvim/plugin
 else
   echo skipping ~/.config/nvim
 fi
