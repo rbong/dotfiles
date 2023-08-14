@@ -1,0 +1,64 @@
+snippet var
+variable "${1}" {
+	type        = ${2:string}
+	default     = ${3:null}
+	description = "${0}"
+}
+endsnippet
+snippet svar
+variable "${1}" {
+	type        = ${2:string}
+	sensitive   = true
+	default     = ${3:null}
+	description = "${0}"
+}
+endsnippet
+snippet Var
+variable "${1}" {
+	type        = ${2:string}
+	default     = ${3:null}
+	description = <<EOT
+		${0}
+		EOT
+}
+endsnippet
+snippet Svar
+variable "${1}" {
+	type        = ${2:string}
+	sensitive   = true
+	default     = ${3:null}
+	description = <<EOT
+		${0}
+		EOT
+}
+endsnippet
+snippet out
+output "${1}" {
+	description = "${0}"
+	value       = ${2:null}
+}
+endsnippet
+snippet sout
+output "${1}" {
+	description = "${0}"
+	value       = ${2:null}
+	sensitive   = true
+}
+endsnippet
+snippet Out
+output "${1}" {
+	description = <<EOT
+		${0}
+		EOT
+	value       = ${2:null}
+}
+endsnippet
+snippet Sout
+output "${1}" {
+	description = <<EOT
+		${0}
+		EOT
+	value       = ${2:null}
+	sensitive   = true
+}
+endsnippet
