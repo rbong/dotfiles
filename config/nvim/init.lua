@@ -47,7 +47,7 @@ vim.o.t_ut = ""
 -- vim enter settings
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("MyVimEnterSettings", {}),
-  callback = function(args)
+  callback = function(event)
     -- disable undercurl, causes problems in some termials
     vim.o.t_Cs = ""
     -- turn off conceal level, misleading
@@ -160,82 +160,6 @@ require("packer").startup(function(use)
   use("wbthomason/packer.nvim")
 
   ---
-  --- Completion Plugins
-  ---
-
-  use({
-    -- autocompletion
-    "hrsh7th/nvim-cmp",
-    requires = {
-      -- autocompletion helpers
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-path",
-      "quangnguyen30192/cmp-nvim-ultisnips",
-    },
-    config = function()
-      local cmp = require("cmp")
-
-      -- default completion settings
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body)
-          end,
-        },
-        window = {},
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-q>"] = cmp.mapping.abort(),
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "ultisnips" },
-        }, {
-          {
-            name = "buffer",
-            option = {
-              get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
-              end,
-            },
-          },
-        }),
-      })
-
-      -- cmdline mappings
-      local cmp_cmdline_mappings = cmp.mapping.preset.cmdline({
-        ["<C-q>"] = cmp.mapping.abort(),
-      })
-
-      -- / and ? completion settings
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp_cmdline_mappings,
-        sources = {
-          { name = "buffer" },
-        },
-      })
-
-      -- : completion settings
-      cmp.setup.cmdline(":", {
-        mapping = cmp_cmdline_mappings,
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-        enabled = function()
-          local custom_commands = {
-            Floggit = true,
-          }
-          return not custom_commands[vim.fn.getcmdline():match("%S+")]
-        end,
-      })
-    end,
-  })
-
-  ---
   --- Git Plugins
   ---
 
@@ -344,14 +268,8 @@ require("packer").startup(function(use)
   -- LSP helpers
   use({
     "neovim/nvim-lspconfig",
-    requires = {
-      "hrsh7th/cmp-nvim-lsp",
-    },
     config = function()
       local lspconfig = require("lspconfig")
-
-      -- setup LSP completion
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- configure typescript-language-server
       lspconfig.tsserver.setup({
@@ -389,8 +307,10 @@ require("packer").startup(function(use)
       -- LSP mappings
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("MyLspMappings", {}),
-        callback = function(args)
-          local opts = { buffer = args.buf }
+        callback = function(event)
+          local opts = { buffer = event.buf }
+          -- enable omnifunc completion
+          vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
           -- list all references for keyword
           vim.keymap.set("n", "<space>l/", vim.lsp.buf.references, opts)
           -- list code actions
@@ -411,77 +331,61 @@ require("packer").startup(function(use)
   })
 
   ---
-  --- Lualine
+  --- Statusline
   ---
 
-  -- statusline
-  use({
-    "nvim-lualine/lualine.nvim",
-    config = function()
-      require("lualine").setup({
-        options = {
-          theme = "gruvbox",
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = {
-            "branch",
-            "diff",
-            {
-              "diagnostics",
-              sections = { "error", "warn" },
-              symbols = { error = "E", warn = "W" },
-            },
-          },
-          lualine_c = { "filename" },
-          lualine_x = {
-            -- show if settings are enabled
-            function()
-              local settings = {}
+  use("rbong/vim-crystalline")
 
-              -- vim settings
-              if vim.o.paste then
-                table.insert(settings, "paste")
-              end
-              if vim.o.spell then
-                table.insert(settings, "spell")
-              end
+  vim.cmd([[
+    let g:statusline_settings = ' %{&paste?"PASTE ":""}'
+          \ . '%{&spell?"SPELL ":""}'
+          \ . '%{get(b:,"ale_enabled",get(g:, "ale_enabled", 0))?"ALE ":""}'
 
-              -- plugin settings
-              local ale_enabled = vim.g.ale_enabled
-              if not vim.b.ale_disabled and (ale_enabled == 1 or ale_enabled == true) then
-                table.insert(settings, "ALE")
-              end
+    function! StatusLineFile() abort
+      let l:name = pathshorten(bufname(bufnr('%')))
+      return l:name ==# '' ? '[No Name]' : l:name
+    endfunction
 
-              return table.concat(settings, " ")
-            end,
+    function! StatusLine(current, width)
+      let l:s = ''
 
-            "filetype",
-          },
-          lualine_y = {},
-          lualine_z = { "location" },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        tabline = {
-          lualine_a = { "mode" },
-          lualine_b = { "tabs" },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-      })
-    end,
-  })
+      if a:current
+        let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+      else
+        let l:s .= '%#CrystallineInactive#'
+      endif
+      let l:s .= ' %-.40(%{StatusLineFile()}%h%w%m%r%) '
+      if a:current
+        let l:s .= crystalline#right_sep('', 'Fill')
+        let l:s .= '%{crystalline#left_pad(fugitive#Head())}'
+        let l:s .= '%{crystalline#left_pad(buffest#get_reg_type_label(expand("%:p")))}'
+      endif
+
+      let l:s .= '%='
+      if a:current
+        let l:s .= crystalline#left_sep('', 'Fill') . g:statusline_settings
+        let l:s .= crystalline#left_mode_sep('')
+      endif
+      if a:width > 80
+        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+      else
+        let l:s .= ' '
+      endif
+
+      return l:s
+    endfunction
+
+    function! TabLine() abort
+      return crystalline#bufferline(0, 0, 1)
+    endfunction
+
+    let g:crystalline_enable_sep = 1
+    let g:crystalline_statusline_fn = 'StatusLine'
+    let g:crystalline_tabline_fn = 'TabLine'
+    let g:crystalline_theme = 'gruvbox'
+    let g:crystalline_separators = ["\uE0B8", "\uE0BA"]
+    let g:crystalline_tab_separator = "\uE0B9"
+  ]])
 
   ---
   -- Wiki
